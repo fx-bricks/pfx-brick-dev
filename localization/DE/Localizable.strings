@@ -1,0 +1,141 @@
+/* 
+  LocalizedStrings.strings
+  PFx Mobile
+
+  Created by Michael Gale on 2017-08-26.
+  Copyright © 2017 Fx Bricks. All rights reserved.
+*/
+
+"available" = "Verfügbar";
+"not_available" = "Nicht verfügbar";
+"dialog_ok" = "Ok";
+"dialog_cancel" = "Abbruch";
+"dialog_forget" = "Entfernen";
+"dialog_reset" = "Rücksetzung";
+
+"unpair" = "Entkopplung";
+"stop" = "Stop";
+"lights" = "Lichter";
+"dir" = "Drehrichtung";
+
+"tab_bricks" = "Bausteine";
+"tab_test" = "Test-Steuerung";
+"tab_speed_remote" = "Fernsteuerung";
+"tab_joystick_remote" = "Joystick";
+"test_control_title" = "Test-Steuerung";
+"no_files" = "Keine Audio-Dateien";
+"indexing_files" = "Indexiere Audio-Dateien...";
+
+"individual" = "Individuell";
+"grouped" = "Gruppiert";
+"disconnected_title" = "Getrennt";
+
+"connecting" = "Verbinde...";
+"disconnect" = "Trenne Verbindung";
+
+"ble_err_title" = "Bluetooth Alarm";
+"ble_err_unsupported" = "Dieses Gerät unterstützt keine Bluetooth Smart Funktechnik";
+"ble_err_unauthorized" = "Die PFx Mobile App ist nicht authorisiert, um Bluetooth Smart Funktechnik zu nutzen";
+"ble_err_power_off" = "Bluetooth muss aktiviert sein, um mit PFx Bausteinen kommunizieren zu können";
+"ble_dev_unnamed" = "Unbekannt";
+"dev_already_paired" = "Dieser PFx Baustein wurde bereits mit der PFx App gekoppelt";
+"dev_pair_success" = "PFx Baustein wurde erfolgreich gekoppelt";
+"pair_result_title" = "PFx Baustein-Kopplung";
+"pair_forget_title" = "Entferne diesen PFx Baustein?";
+"alert_disconnect" = "Verbindung zum PFx Baustein wurde unterbrochen";
+"reset_defaults_title" = "Rücksetzung des PFx Bausteins auf den Auslieferungszustand?";
+"timeout_title" = "Inkompatibles Gerät";
+"timeout_message" = "Dieses Gerät wurde nicht als PFx Baustein erkannt";
+
+"brick_selector_title" = "PFx Baustein";
+"brick_selector_my_paired" = "Meine gekoppelten PFx Bausteine";
+"brick_selector_other_dev" = "Andere Bluetooth Geräte";
+"brick_selector_no_paired" = "Keine gekoppelten PFx Bausteine gefunden";
+
+"dev_name" = "Name";
+"dev_model" = "Modell";
+"dev_hw_ver" = "Hardware Version";
+"dev_fw_ver" = "Firmware Version";
+"dev_serial_no" = "Serien-Nummer";
+"dev_bt" = "Bluetooth";
+"dev_usage" = "Verwendung";
+"dev_pair" = "Kopple diesen PFx Baustein";
+"dev_forget" = "Entferne diesen PFx Baustein";
+
+"settings_label" = "Einstellungen";
+"audio_label" = "Audio";
+"start_vol_label" = "Lautstärke beim Einschalten";
+"bass_label" = "Tiefen";
+"treble_label" = "Höhen";
+"motor_settings" = "Motor-Einstellungen";
+"reset" = "Zurücksetzen";
+"reset_defaults" = "Auf Auslieferungszustand zurücksetzen";
+
+"ir_sensor" = "Infrarot-Sensor";
+"status_led" = "Status LED";
+"power_saving" = "Stromspar-Funktion";
+"ir_lockout" = "IR Unterbrechung";
+"start_brightness" = "Helligkeit bei Start";
+"auto_drc" = "Automatische Dynamische Bereichssteuerung (DRC)";
+"vol_beep" = "Lautstärke-Änderungssignal";
+"motor_a" = "Motor Ausgang A";
+"motor_b" = "Motor Ausgang B";
+
+"normally_on" = "Normal Ein";
+"normally_off" = "Normal Aus";
+"status_led_help" = "Wähle die Betriebsart der Status-LED, wenn der PFx Baustein eingeschaltet wird. Die Status-LED blinkt in Abhängigkeit zur USB-, Infrarot- und Bluetooth Kommunikation.";
+
+"disabled" = "Deaktiviert";
+"off_30min" = "Ausschalten nach 30 Minuten";
+"off_60min" = "Ausschalten nach 60 Minuten";
+"off_3hr" = "Ausschalten nach 3 Stunden";
+"power_saving_help" = "Wähle die Stromspar-Funktion, um den PFx Baustein automatisch nach einer vorgebenen Zeit abzuschalten, wenn dieser nicht verwendet wird. D.h. wenn keine Kommunikation via USB, Infrarot oder Bluetooth erfolgt.";
+
+"never" = "Niemals";
+"auto_1min" = "Automatisch nach 1 Minute";
+"auto_5min" = "Automatisch nach 5 Minuten";
+"immediately" = "Sofort nach Start";
+
+"ir_lockout_help" = "Der PFx Baustein kann die Infrarot-Kommunikation automatisch nach einen definierten Zeitraum der Inaktivität oder sofort nach dem Starten unterbrechen. Im Unterbrechungs-Modus reagiert der PFx Baustein auf keine IR-Befehle - mit Ausnahme des Befehls zur Wiederaufnahme der Kommunikation.";
+
+"bt_continue" = "Betrieb fortsetzen";
+"bt_stop" = "Motoren stoppen";
+
+"bt_power_off" = "Stromspar-Funktion";
+"bt_loss_connect" = "Optionen für Verbindungstrennung";
+"bt_radio_power" = "Radio Power";
+
+"bt_power_help" = "Die Bluetooth Kommunikation kann automatisch nach einen definierten Zeitraum der Inaktivität oder sofort nach dem Starten deaktiviert werden, um die Batterie-Lebensdauer zu verlängern.";
+"bt_loss_help" = "Wenn der PFx Baustein die Verbindung zur mobilen App verliert, kann der sofortige Stopp oder der weitere Betrieb aller Motoren konfiguriert werden. Das Stoppen der Motoren kann eine Sicherheitsfunktion sein, um ein unkontrolliertes Verhalten und ggf. Beschädigungen des Modells zu verhindern.";
+"bt_radio_help" = "Eine geringere Kommunikationsleistung erhöht die Lebensdauer der Batterie, schränkt jedoch die Reichweite ein.";
+
+"global_brightness" = "Global Brightness";
+"ind_brightness" = "Individual Brightness";
+"motor_brightness" = "Motor Outputs with Lights";
+"test_brightness" = "Lichter einschalten (Vorschau)";
+
+"brightness_help" = "Wähle die Helligkeit für alle Licht-Ausgänge beim Einschalten. Alternativ kann für jeden Ausgang die Hellgkeit individuell eingestellt werden.";
+
+"motor" = "Motor";
+"motor_settings" = "Motor-Einstellungen";
+"motor_speed" = "Motorgeschwindigkeit";
+"motor_accel" = "Beschleunigung";
+"motor_decel" = "Verzögerung";
+"motor_invert" = "Richtung umkehren";
+"motor_torque" = "Drehmoment-Kompensation";
+"motor_pf" = "Power Functions Kompatibilität";
+"motor_curve" = "Drehzahlkurve";
+"motor_torque_help" = "Mit der Drehmoment-Kompensation kann eine automatische Pulsweiten-Modulation (PWM) zur Überwindung der Reibungskräfte bei sehr langsamer Drehzahl.";
+"motor_pf_help" = "Power Functions Kompatibilität betreibt den Motor mit der selben Pulsweiten-Modulations-Freqzenz (PWM) wie die LEGO® IR Empfänger (1 kHz). Empfohlene Einstellung für Power Functions M Motoren. Das Deaktivieren dieser Einstellung verwendet eine höhere Frequenz, um die Motorgeräusche zu reduzieren.";
+"motor_curve_help" = "Passe die Ausgangsgeschwindigkeit des Motors durch Änderung der Kurve über Minimum, Mittelwert und Maximum an. Die Ausgangsgeschwindigkeit (Motor) wird über die Vorgabegeschwindigkeit (Fernsteuerung) und die Kurvenparameter angepasst.";
+
+"motor_ch_a" = "Motor A";
+"motor_ch_b" = "Motor B";
+
+"output_speed" = "Ausgangsgeschwindigkeit";
+"min" = "Min";
+"mid" = "Mitte";
+"max" = "Max";
+"set_speed" = "Vorgabegeschwindigkeit";
+
+

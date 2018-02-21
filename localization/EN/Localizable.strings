@@ -1,0 +1,141 @@
+/* 
+  LocalizedStrings.strings
+  PFx Mobile
+
+  Created by Michael Gale on 2017-08-26.
+  Copyright © 2017 Fx Bricks. All rights reserved.
+*/
+
+"available" = "Available";
+"not_available" = "Not available";
+"dialog_ok" = "Ok";
+"dialog_cancel" = "Cancel";
+"dialog_forget" = "Forget";
+"dialog_reset" = "Reset";
+
+"unpair" = "Unpair";
+"stop" = "Stop";
+"lights" = "Lights";
+"dir" = "Dir";
+
+"tab_bricks" = "Bricks";
+"tab_test" = "Test Control";
+"tab_speed_remote" = "Dual Speed";
+"tab_joystick_remote" = "Joystick";
+"test_control_title" = "Test Control";
+"no_files" = "No audio files";
+"indexing_files" = "Indexing audio files...";
+
+"individual" = "Individual";
+"grouped" = "Grouped";
+"disconnected_title" = "Disconnected";
+
+"connecting" = "Connecting...";
+"disconnect" = "Disconnect";
+
+"ble_err_title" = "Bluetooth Alert";
+"ble_err_unsupported" = "This device does not support Bluetooth Low Energy";
+"ble_err_unauthorized" = "The PFx mobile app is not authorized to use Bluetooth Low Energy";
+"ble_err_power_off" = "Bluetooth must be enabled to communicate with your PFx Bricks";
+"ble_dev_unnamed" = "Unknown";
+"dev_already_paired" = "This PFx Brick has already been paired with the PFx App";
+"dev_pair_success" = "PFx Brick has been successfully paired";
+"pair_result_title" = "PFx Brick Pairing";
+"pair_forget_title" = "Forget this PFx Brick?";
+"alert_disconnect" = "Connection to PFx Brick has been lost";
+"reset_defaults_title" = "Reset PFx Brick to factory defaults?";
+"timeout_title" = "Incompatible Device";
+"timeout_message" = "This device is not recognized as a PFx Brick";
+
+"brick_selector_title" = "PFx Brick";
+"brick_selector_my_paired" = "My paired PFx Bricks";
+"brick_selector_other_dev" = "Other Bluetooth devices";
+"brick_selector_no_paired" = "No paired PFx Bricks found";
+
+"dev_name" = "Name";
+"dev_model" = "Model";
+"dev_hw_ver" = "Hardware Version";
+"dev_fw_ver" = "Firmware Version";
+"dev_serial_no" = "Serial Number";
+"dev_bt" = "Bluetooth";
+"dev_usage" = "Usage";
+"dev_pair" = "Pair this PFx Brick";
+"dev_forget" = "Forget this PFx Brick";
+
+"settings_label" = "Settings";
+"audio_label" = "Audio";
+"start_vol_label" = "Startup Volume";
+"bass_label" = "Bass";
+"treble_label" = "Treble";
+"motor_settings" = "Motor Settings";
+"reset" = "Reset";
+"reset_defaults" = "Reset to factory defaults";
+
+"ir_sensor" = "Infrared Sensor";
+"status_led" = "Status LED";
+"power_saving" = "Power Saving";
+"ir_lockout" = "IR Lockout";
+"start_brightness" = "Startup Brightness";
+"auto_drc" = "Automatic Dynamic Range";
+"vol_beep" = "Volume Change Beep";
+"motor_a" = "Motor Output A";
+"motor_b" = "Motor Output B";
+
+"normally_on" = "Normally ON";
+"normally_off" = "Normally OFF";
+"status_led_help" = "Choose which state the Status LED should normally appear when the PFx Brick is turned on. The Status LED always blinks with activity related to USB, Infrared, and Bluetooth communication.";
+
+"disabled" = "Disabled";
+"off_30min" = "Turn off after 30 minutes";
+"off_60min" = "Turn off after 60 minutes";
+"off_3hr" = "Turn off after 3 hours";
+"power_saving_help" = "Choose the Power Saving mode to automatically turn off the PFx Brick after a period of no activity. No activity means no communication is received from either USB, Infrared, or Bluetooth interfaces.";
+
+"never" = "Never";
+"auto_1min" = "Automatically after 1 minute";
+"auto_5min" = "Automatically after 5 minutes";
+"immediately" = "Immediately after Startup";
+
+"ir_lockout_help" = "The PFx Brick can switch to IR lockout mode automatically after a period of no activity or immediately after Startup. In lockout mode, the PFx Brick will not respond to any IR messages except for a message to exit from lockout mode.";
+
+"bt_continue" = "Continue operating";
+"bt_stop" = "Stop motors";
+
+"bt_power_off" = "Power Saving";
+"bt_loss_connect" = "Connection Loss Options";
+"bt_radio_power" = "Radio Power";
+
+"bt_power_help" = "The Bluetooth radio can be disabled automatically after a period of no activity or immediately after Startup to help extend battery life.";
+"bt_loss_help" = "When the PFx Brick loses connection with the mobile App, it can be configured to either continue operating or stop all motors. Stopping the motors can be a safe option to prevent models from running away without control.";
+"bt_radio_help" = "Lower values of radio power increase battery life, but decrease radio range. For maximum range performance, increase radio power.";
+
+"global_brightness" = "Global Brightness";
+"ind_brightness" = "Individual Brightness";
+"motor_brightness" = "Motor Outputs with Lights";
+"test_brightness" = "Turn on lights (preview)";
+
+"brightness_help" = "Choose the default brightness for all lighting channels after Startup. You can optionally adjust individual brightness settings for each lighting channel for even greater control.";
+
+"motor" = "Motor";
+"motor_settings" = "Motor Settings";
+"motor_speed" = "Motor Speed";
+"motor_accel" = "Acceleration";
+"motor_decel" = "Deceleration";
+"motor_invert" = "Invert Direction";
+"motor_torque" = "Torque Compensation";
+"motor_pf" = "Power Functions Compatibility";
+"motor_curve" = "Speed Curve";
+"motor_torque_help" = "Torque Compensation enables random low frequency modulation of the motor during startup to overcome initial starup friction.";
+"motor_pf_help" = "Power Functions Compatibility operates the motor with the same audible (1 kHz) Pulse Width Modulation (PWM) frequency as the LEGO® IR receiver.  Disable this setting to use quiet high frequency PWM. Strongly recommended for Power Functions M Motors.";
+"motor_curve_help" = "Adjust the output motor speed values for minimum, middle, and maximum set speed. Set speed is the speed demanded by operation, output speed corresponds to the actual output speed.";
+
+"motor_ch_a" = "Motor A";
+"motor_ch_b" = "Motor B";
+
+"output_speed" = "Output Speed";
+"min" = "Min";
+"mid" = "Mid";
+"max" = "Max";
+"set_speed" = "Set Speed";
+
+

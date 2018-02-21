@@ -1,0 +1,6 @@
+.DS_Store
+*.o
+*.o.d
+.Trashes
+Thumbs.db
+ehthumbs.db
