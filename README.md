@@ -12,4 +12,4 @@ The doc folder stores documentation, templates, etc. for publicly issued documen
 
 ## Issues
 
-The Issues facility of GitHub should be used to submit bug reports and feature requests for the PFx Brick firmware, the desktop and mobile PFx App and the PFx Brick API.  Issues should be clearly tagged to identify which software component it applies, as well as the type of issue, i.e. bug, feature, todo, etc. 
+The Issues facility of GitHub should be used to submit bug reports and feature requests for the PFx Brick firmware, the desktop and mobile PFx App and the PFx Brick API.  Issues should be clearly tagged to identify which software component it applies (PFx App, iOS, firmware, Windows, etc.), as well as the type of issue, i.e. bug, feature-request, todo, etc. 
