@@ -1,0 +1,15 @@
+Mobilappen PFx Brick låter dig justera och kontrollera en PFx kloss med hjälp av en Bluetooth Low Energy (BLE) anslutning från din iPhone eller iPad. Alla sofistikerade motorkontroller, bländande ljuseffekter och flerkanaliga ljudeffekter finns tillgängliga vid dina fingerspetsar med PFx Brick appen. Sömlös anslutning och kontroll av din(a) PFx kloss(ar) med ditt val av användarvänliga kontrollpaneler. Ställ in och justera din PFx kloss precis som du vill ha den! 
+
+Funktioner
+- Sök efter nya PFx klossar och "synkronisera" din favoritkloss för enkel tillgång
+- Konfigurera varje aspekt av PFx klossen inklusive dess namn, strömbesparingslägen, ljuskanaler, ljudinställningar och sofistikerade inställningar för motorkontroll
+- Kontrollera din PFx kloss direkt med användarvänliga reglage, rattar och knappar anordnade i en mängd olika kontrollpaneler
+- Omedelbart dra på skärmen till ditt val av kontrollpanel närsomhelst
+- Efterlikning av LEGO® Power Functions dual speed och dual joystick IR fjärrkontroller låter dig använda din PFx kloss på samma sätt med både IR och Bluetooth!
+
+Stöd för följande enheter
+- PFx Brick 4 MB
+- PFx Brick 8 MB
+- PFx Brick 16 MB
+
+LEGO® är ett varumärke som tillhör LEGO Group som varken sponsrar, godkänner eller stödjer detta program.
