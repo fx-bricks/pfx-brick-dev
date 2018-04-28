@@ -109,9 +109,9 @@
 "bt_loss_help" = "Wenn der PFx Baustein die Verbindung zur mobilen App verliert, kann der sofortige Stopp oder der weitere Betrieb aller Motoren konfiguriert werden. Das Stoppen der Motoren kann eine Sicherheitsfunktion sein, um ein unkontrolliertes Verhalten und ggf. Beschädigungen des Modells zu verhindern.";
 "bt_radio_help" = "Eine geringere Kommunikationsleistung erhöht die Lebensdauer der Batterie, schränkt jedoch die Reichweite ein.";
 
-"global_brightness" = "Global Brightness";
-"ind_brightness" = "Individual Brightness";
-"motor_brightness" = "Motor Outputs with Lights";
+"global_brightness" = "Globale Helligkeit";
+"ind_brightness" = "Individelle Helligkeit";
+"motor_brightness" = "Motor-Ausgänge mit Lichtern";
 "test_brightness" = "Lichter einschalten (Vorschau)";
 
 "brightness_help" = "Wähle die Helligkeit für alle Licht-Ausgänge beim Einschalten. Alternativ kann für jeden Ausgang die Hellgkeit individuell eingestellt werden.";
