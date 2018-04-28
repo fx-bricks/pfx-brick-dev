@@ -110,7 +110,7 @@
 "bt_radio_help" = "Eine geringere Kommunikationsleistung erhöht die Lebensdauer der Batterie, schränkt jedoch die Reichweite ein.";
 
 "global_brightness" = "Globale Helligkeit";
-"ind_brightness" = "Individelle Helligkeit";
+"ind_brightness" = "Individuelle Helligkeit";
 "motor_brightness" = "Motor-Ausgänge mit Lichtern";
 "test_brightness" = "Lichter einschalten (Vorschau)";
 
