@@ -6,137 +6,137 @@
   Copyright © 2017 Fx Bricks. All rights reserved.
 */
 
-"available" = "Verfügbar";
-"not_available" = "Nicht verfügbar";
+"available" = "Tillgänglig";
+"not_available" = "Ej tillgänglig";
 "dialog_ok" = "Ok";
-"dialog_cancel" = "Abbruch";
-"dialog_forget" = "Entfernen";
-"dialog_reset" = "Rücksetzung";
+"dialog_cancel" = "Avbryt";
+"dialog_forget" = "Ta bort";
+"dialog_reset" = "Återställ";
 
-"unpair" = "Entkopplung";
-"stop" = "Stop";
-"lights" = "Lichter";
-"dir" = "Drehrichtung";
+"unpair" = "Avsynkronisera";
+"stop" = "Stopp";
+"lights" = "Lampor";
+"dir" = "Rotationsriktning";
 
-"tab_bricks" = "Bausteine";
-"tab_test" = "Test-Steuerung";
-"tab_speed_remote" = "Fernsteuerung";
+"tab_bricks" = "Klossar";
+"tab_test" = "Testa Kontroll";
+"tab_speed_remote" = "Dual Speed";
 "tab_joystick_remote" = "Joystick";
-"test_control_title" = "Test-Steuerung";
-"no_files" = "Keine Audio-Dateien";
-"indexing_files" = "Indexiere Audio-Dateien...";
+"test_control_title" = "Testa Kontroll";
+"no_files" = "Inga ljudfiler";
+"indexing_files" = "Indexerar ljudfiler...";
 
 "individual" = "Individuell";
-"grouped" = "Gruppiert";
-"disconnected_title" = "Getrennt";
+"grouped" = "Grupperad";
+"disconnected_title" = "Frånkopplad";
 
-"connecting" = "Verbinde...";
-"disconnect" = "Trenne Verbindung";
+"connecting" = "Ansluter...";
+"disconnect" = "Koppla från";
 
-"ble_err_title" = "Bluetooth Alarm";
-"ble_err_unsupported" = "Dieses Gerät unterstützt keine Bluetooth Smart Funktechnik";
-"ble_err_unauthorized" = "Die PFx Mobile App ist nicht authorisiert, um Bluetooth Smart Funktechnik zu nutzen";
-"ble_err_power_off" = "Bluetooth muss aktiviert sein, um mit PFx Bausteinen kommunizieren zu können";
-"ble_dev_unnamed" = "Unbekannt";
-"dev_already_paired" = "Dieser PFx Baustein wurde bereits mit der PFx App gekoppelt";
-"dev_pair_success" = "PFx Baustein wurde erfolgreich gekoppelt";
-"pair_result_title" = "PFx Baustein-Kopplung";
-"pair_forget_title" = "Entferne diesen PFx Baustein?";
-"alert_disconnect" = "Verbindung zum PFx Baustein wurde unterbrochen";
-"reset_defaults_title" = "Rücksetzung des PFx Bausteins auf den Auslieferungszustand?";
-"timeout_title" = "Inkompatibles Gerät";
-"timeout_message" = "Dieses Gerät wurde nicht als PFx Baustein erkannt";
+"ble_err_title" = "Bluetooth varning";
+"ble_err_unsupported" = "Denna enhet har inte stöd för Bluetooth Low Energy";
+"ble_err_unauthorized" = "PFx mobilapp har inte tillåtelse att använda Bluetooth Low Energy";
+"ble_err_power_off" = "Bluetooth måste vara aktiverad för att kommunicera med dina PFx klossar";
+"ble_dev_unnamed" = "Okänd";
+"dev_already_paired" = "Denna PFx kloss har redan synkroniserats med PFx App";
+"dev_pair_success" = "PFx klossen är nu synkroniserad";
+"pair_result_title" = "PFx kloss synkronisering";
+"pair_forget_title" = "Ta bort denna PFx kloss?";
+"alert_disconnect" = "Tappat förbindelse till PFx kloss";
+"reset_defaults_title" = "Återställ PFx kloss till fabriksinställning?";
+"timeout_title" = "Inkompatibel enhet";
+"timeout_message" = "Denna enhet känns inte igen som en PFx kloss";
 
-"brick_selector_title" = "PFx Baustein";
-"brick_selector_my_paired" = "Meine gekoppelten PFx Bausteine";
-"brick_selector_other_dev" = "Andere Bluetooth Geräte";
-"brick_selector_no_paired" = "Keine gekoppelten PFx Bausteine gefunden";
+"brick_selector_title" = "PFx kloss";
+"brick_selector_my_paired" = "Mina synkroniserade PFx klossar";
+"brick_selector_other_dev" = "Andra Bluetooth enheter";
+"brick_selector_no_paired" = "Inga synkroniserade PFx klossar hittades";
 
-"dev_name" = "Name";
+"dev_name" = "Namn";
 "dev_model" = "Modell";
-"dev_hw_ver" = "Hardware Version";
-"dev_fw_ver" = "Firmware Version";
-"dev_serial_no" = "Serien-Nummer";
+"dev_hw_ver" = "Hårdvaru-version";
+"dev_fw_ver" = "Firmware-version";
+"dev_serial_no" = "Serienummer";
 "dev_bt" = "Bluetooth";
-"dev_usage" = "Verwendung";
-"dev_pair" = "Kopple diesen PFx Baustein";
-"dev_forget" = "Entferne diesen PFx Baustein";
+"dev_usage" = "Användning";
+"dev_pair" = "Synkronisera denna PFx kloss";
+"dev_forget" = "Ta bort denna PFx kloss";
 
-"settings_label" = "Einstellungen";
+"settings_label" = "Inställningar";
 "audio_label" = "Audio";
-"start_vol_label" = "Lautstärke beim Einschalten";
-"bass_label" = "Tiefen";
-"treble_label" = "Höhen";
-"motor_settings" = "Motor-Einstellungen";
-"reset" = "Zurücksetzen";
-"reset_defaults" = "Auf Auslieferungszustand zurücksetzen";
+"start_vol_label" = "Ljudvolym vid start";
+"bass_label" = "Bas";
+"treble_label" = "Diskant";
+"motor_settings" = "Motorinställningar";
+"reset" = "Återställ";
+"reset_defaults" = "Återställ till fabriksinställningar";
 
-"ir_sensor" = "Infrarot-Sensor";
+"ir_sensor" = "Infraröd sensor";
 "status_led" = "Status LED";
-"power_saving" = "Stromspar-Funktion";
-"ir_lockout" = "IR Unterbrechung";
-"start_brightness" = "Helligkeit bei Start";
-"auto_drc" = "Automatische Dynamische Bereichssteuerung (DRC)";
-"vol_beep" = "Lautstärke-Änderungssignal";
-"motor_a" = "Motor Ausgang A";
-"motor_b" = "Motor Ausgang B";
+"power_saving" = "Strömsparning";
+"ir_lockout" = "IR utlåsning";
+"start_brightness" = "Ljusstyrka vid start";
+"auto_drc" = "Automatiskt dynamiskt omfång";
+"vol_beep" = "Volymändringsljud";
+"motor_a" = "Motor utgång A";
+"motor_b" = "Motor utgång B";
 
-"normally_on" = "Normal Ein";
-"normally_off" = "Normal Aus";
-"status_led_help" = "Wähle die Betriebsart der Status-LED, wenn der PFx Baustein eingeschaltet wird. Die Status-LED blinkt in Abhängigkeit zur USB-, Infrarot- und Bluetooth Kommunikation.";
+"normally_on" = "Normalt PÅ";
+"normally_off" = "Normalt AV";
+"status_led_help" = "Välj vilket läge Status LED:n startar upp i. Status LED:n blinkar alltid vid kommunikation med USB, IR och Bluetooth.";
 
-"disabled" = "Deaktiviert";
-"off_30min" = "Ausschalten nach 30 Minuten";
-"off_60min" = "Ausschalten nach 60 Minuten";
-"off_3hr" = "Ausschalten nach 3 Stunden";
-"power_saving_help" = "Wähle die Stromspar-Funktion, um den PFx Baustein automatisch nach einer vorgebenen Zeit abzuschalten, wenn dieser nicht verwendet wird. D.h. wenn keine Kommunikation via USB, Infrarot oder Bluetooth erfolgt.";
+"disabled" = "Inaktiverad";
+"off_30min" = "Stäng av efter 30 minuter";
+"off_60min" = "Stäng av efter 60 minuter";
+"off_3hr" = "Stäng av efter 3 timmar";
+"power_saving_help" = "Välj vilket strömsparläge för när PFx klossen automatiskt stängs av efter en stunds inaktivitet. Inaktivitet innebär när ingen kommunikation sker från antingen USB, infraröd eller Bluetooth gränssnitten.";
 
-"never" = "Niemals";
-"auto_1min" = "Automatisch nach 1 Minute";
-"auto_5min" = "Automatisch nach 5 Minuten";
-"immediately" = "Sofort nach Start";
+"never" = "Aldrig";
+"auto_1min" = "Automatiskt efter 1 minut";
+"auto_5min" = "Automatiskt efter 5 minuter";
+"immediately" = "Direkt efter start";
 
-"ir_lockout_help" = "Der PFx Baustein kann die Infrarot-Kommunikation automatisch nach einen definierten Zeitraum der Inaktivität oder sofort nach dem Starten unterbrechen. Im Unterbrechungs-Modus reagiert der PFx Baustein auf keine IR-Befehle - mit Ausnahme des Befehls zur Wiederaufnahme der Kommunikation.";
+"ir_lockout_help" = "PFx klossen kan gå in i IR utlåsningsläge automatiskt efter en stund utan aktivitet eller direkt efter start. I utlåsningsläge svarar PFx klossen inte på några meddelanden förutom meddelande att lämna utlåsningsläge.";
 
-"bt_continue" = "Betrieb fortsetzen";
-"bt_stop" = "Motoren stoppen";
+"bt_continue" = "Fortsätt fungera";
+"bt_stop" = "Stoppa motorerna";
 
-"bt_power_off" = "Stromspar-Funktion";
-"bt_loss_connect" = "Optionen für Verbindungstrennung";
-"bt_radio_power" = "Radio Power";
+"bt_power_off" = "Strömbesparing";
+"bt_loss_connect" = "Inställningar vid tappad förbindelse";
+"bt_radio_power" = "Radioeffekt";
 
-"bt_power_help" = "Die Bluetooth Kommunikation kann automatisch nach einen definierten Zeitraum der Inaktivität oder sofort nach dem Starten deaktiviert werden, um die Batterie-Lebensdauer zu verlängern.";
-"bt_loss_help" = "Wenn der PFx Baustein die Verbindung zur mobilen App verliert, kann der sofortige Stopp oder der weitere Betrieb aller Motoren konfiguriert werden. Das Stoppen der Motoren kann eine Sicherheitsfunktion sein, um ein unkontrolliertes Verhalten und ggf. Beschädigungen des Modells zu verhindern.";
-"bt_radio_help" = "Eine geringere Kommunikationsleistung erhöht die Lebensdauer der Batterie, schränkt jedoch die Reichweite ein.";
+"bt_power_help" = "Bluetoothradion kan stängas av automatiskt efter en stund av inaktivitet eller direkt efter start för att förlänga batteriets livslängd.";
+"bt_loss_help" = "När PFx klossen tappar förbindelsen med mobilappen kan den konfigureras att antingen fortsätta fungera eller stoppa alla motorer. Att stoppa motorerna kan vara ett säkrare val för att förhindra modeller från att skena iväg utom kontroll.";
+"bt_radio_help" = "Lägre radioeffekt förlänger batteriets livslängd men minskar radions räckvidd. För maximal räckvidd, öka radioeffekten.";
 
-"global_brightness" = "Global Brightness";
-"ind_brightness" = "Individual Brightness";
-"motor_brightness" = "Motor Outputs with Lights";
-"test_brightness" = "Lichter einschalten (Vorschau)";
+"global_brightness" = "Global ljusstyrka";
+"ind_brightness" = "Individuell ljusstyrka";
+"motor_brightness" = "Motoreffekt med lampor";
+"test_brightness" = "Tänd ljus (förhandsvisning)";
 
-"brightness_help" = "Wähle die Helligkeit für alle Licht-Ausgänge beim Einschalten. Alternativ kann für jeden Ausgang die Hellgkeit individuell eingestellt werden.";
+"brightness_help" = "Välj ljusstyrka för alla ljusutgångar efter start. Alternativt kan du justera ljusstyrkan individuellt för varje ljusutgång för mer kontroll.";
 
 "motor" = "Motor";
-"motor_settings" = "Motor-Einstellungen";
-"motor_speed" = "Motorgeschwindigkeit";
-"motor_accel" = "Beschleunigung";
-"motor_decel" = "Verzögerung";
-"motor_invert" = "Richtung umkehren";
-"motor_torque" = "Drehmoment-Kompensation";
-"motor_pf" = "Power Functions Kompatibilität";
-"motor_curve" = "Drehzahlkurve";
-"motor_torque_help" = "Mit der Drehmoment-Kompensation kann eine automatische Pulsweiten-Modulation (PWM) zur Überwindung der Reibungskräfte bei sehr langsamer Drehzahl.";
-"motor_pf_help" = "Power Functions Kompatibilität betreibt den Motor mit der selben Pulsweiten-Modulations-Freqzenz (PWM) wie die LEGO® IR Empfänger (1 kHz). Empfohlene Einstellung für Power Functions M Motoren. Das Deaktivieren dieser Einstellung verwendet eine höhere Frequenz, um die Motorgeräusche zu reduzieren.";
-"motor_curve_help" = "Passe die Ausgangsgeschwindigkeit des Motors durch Änderung der Kurve über Minimum, Mittelwert und Maximum an. Die Ausgangsgeschwindigkeit (Motor) wird über die Vorgabegeschwindigkeit (Fernsteuerung) und die Kurvenparameter angepasst.";
+"motor_settings" = "Motorinställningar";
+"motor_speed" = "Motorhastighet";
+"motor_accel" = "Acceleration";
+"motor_decel" = "Deceleration";
+"motor_invert" = "Invertera riktning";
+"motor_torque" = "Vridmomentkompensation";
+"motor_pf" = "Power Functions kompatibilitet";
+"motor_curve" = "Hastighetskurva";
+"motor_torque_help" = "Vridmomentkompensation möjliggör slumpmässig lågfrekvensmodulering av motorn för att motverka friktion under start.";
+"motor_pf_help" = "Power Functions kompabilitet driver motorn med samma hörbara (1 kHz) pulsbreddsmodulering som LEGO® IR mottagare. Inaktivera denna inställning för att använda en tystare högfrekvensmodulering. Starkt rekommenderat för Power Functions M motorer.";
+"motor_curve_help" = "Justera utgångshastigheten för motorn genom att ändra kurvans minimum-, mellan- och maximum-värden. Inställd hastighet är vad som begärs av operationen. Utgångshastighet är den verkliga hastigheten vid motorn.";
 
 "motor_ch_a" = "Motor A";
 "motor_ch_b" = "Motor B";
 
-"output_speed" = "Ausgangsgeschwindigkeit";
+"output_speed" = "Utgångshastighet";
 "min" = "Min";
-"mid" = "Mitte";
+"mid" = "Mellan";
 "max" = "Max";
-"set_speed" = "Vorgabegeschwindigkeit";
+"set_speed" = "Inställd hastighet";
 
 "edit_action" = "Edit Action";
 "command" = "Special Command";
@@ -555,5 +555,4 @@
 "Fast" = "Fast";
 "None" = "None";
 "Light" = "Light";
-
 
