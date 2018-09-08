@@ -3,6 +3,8 @@
   PFx Mobile
 
   Created by Michael Gale on 2017-08-26.
+  Translated by Alexander Ehle on 2018-09-08
+  
   Copyright © 2017 Fx Bricks. All rights reserved.
 */
 
@@ -147,68 +149,68 @@
 "test_action" = "Teste diese Aktion";
 "clear" = "Löschen";
 
-"evtID8879TwoButtons"  = "Dual Speed Two Buttons";
-"evtID8879LeftButton"  = "Dual Speed Left Button";
-"evtID8879RightButton" = "Dual Speed Right Button";
-"evtID8879LeftInc"     = "Dual Speed Left Inc";
-"evtID8879LeftDec"     = "Dual Speed Left Dec";
-"evtID8879RightInc"    = "Dual Speed Right Inc";
-"evtID8879RightDec"    = "Dual Speed Right Dec";
-"evtID8885LeftFwd"     = "Joystick Left Fwd";
-"evtID8885LeftRev"     = "Joystick Left Rev";
-"evtID8885RightFwd"    = "Joystick Right Fwd";
-"evtID8885RightRev"    = "Joystick Right Rev";
-"evtID8885LeftCtrOff"  = "Joystick Left Centre Off";
-"evtID8885RightCtrOff" = "Joystick Right Centre Off";
-"evtIDEV3Beacon"       = "EV3 Beacon";
+"evtID8879TwoButtons"  = "Fernsteuerung Geschwindigkeit Zwei Tasten";
+"evtID8879LeftButton"  = "Fernsteuerung Geschwindigkeit Linke Taste";
+"evtID8879RightButton" = "Fernsteuerung Geschwindigkeit Rechte Taste";
+"evtID8879LeftInc"     = "Fernsteuerung Geschwindigkeit Links Erhöhen";
+"evtID8879LeftDec"     = "Fernsteuerung Geschwindigkeit Links Verringern";
+"evtID8879RightInc"    = "Fernsteuerung Geschwindigkeit Rechts Erhöhen";
+"evtID8879RightDec"    = "Fernsteuerung Geschwindigkeit Rechts Verringern";
+"evtID8885LeftFwd"     = "Fernbedienung Links Vorwärts";
+"evtID8885LeftRev"     = "Fernbedienung Links Rückwärts";
+"evtID8885RightFwd"    = "Fernbedienung Rechts Vorwärts";
+"evtID8885RightRev"    = "Fernbedienung Rechts Rückwärts";
+"evtID8885LeftCtrOff"  = "Fernbedienung Links Mitte Aus";
+"evtID8885RightCtrOff" = "Fernbedienung Rechts Mitte Aus";
+"evtIDEV3Beacon"       = "EV3 Fernbedienung";
 "evtIDTestEvent"       = "Teste Ereignis"; 
-"evtStartupEvent"      = "Start-Ereignis";
+"evtStartupEvent"      = "Einschalt-Ereignis";
 
 "None" = "Kein";
 "AllOff" = "Alles aus";
-"IRLockoutOn" = "IR Lockout On";
-"IRLockoutOff" = "IR Lockout Off";
-"IRLockToggle" = "IR Lockout Toggle";
+"IRLockoutOn" = "IR-Sperre Ein";
+"IRLockoutOff" = "IR-Sperre Aus";
+"IRLockToggle" = "IR-Sperre umschalten";
 "AllMotorsOff" = "Alle Motoren aus";
 "AllLightsOff" = "Alle Lichter aus";
-"AllAudioOff" = "All Audio Off";
-"Restart" = "Neustart PFx Brick";
+"AllAudioOff" = "Alle Audioausgaben aus";
+"Restart" = "PFx Brick neu starten";
 
 "MotorEStop"              = "Notfall Stop";
 "MotorStop"               = "Stop";
 "MotorIncSpd"             = "Erhöhe Geschwindigkeit";
 "MotorDecSpd"             = "Verringere Geschwindigkeit";
-"MotorIncSpdBi"           = "Erhöhe Geschwindigkeit (bi-dir)";
-"MotorDecSpdBi"           = "Verringere Geschwindigkeit (bi-dir)";
+"MotorIncSpdBi"           = "Erhöhe Geschwindigkeit (Bidirektional)";
+"MotorDecSpdBi"           = "Verringere Geschwindigkeit (Bidirektional)";
 "MotorChangeDir"          = "Ändere Richtung";
-"MotorSetSpd"             = "Set Speed";
-"MotorSetSpdTimed"        = "Set Speed, for duration";
+"MotorSetSpd"             = "Geschwindigkeit einstellen";
+"MotorSetSpdTimed"        = "Geschwindigkeit für eine bestimmte Dauer einstellen";
 "MotorOscillate"          = "Oszillieren";
-"MotorOscillateBidir"     = "Oszillieren (bi-dir)";
-"MotorOscillateBidirWait" = "Oszillieren (bi-dir) mit Wartezyklus";
+"MotorOscillateBidir"     = "Oszillieren (Bidirektional)";
+"MotorOscillateBidirWait" = "Oszillieren (Bidirektional) mit Wartezyklus";
 "MotorRandom"             = "Zufall";
-"MotorRandomBidir"        = "Zufall (bi-dir)";
-"MotorSoundModulated"     = "Sound Modulated";
+"MotorRandomBidir"        = "Zufall (Bidirektional)";
+"MotorSoundModulated"     = "Audio-Moduliert";
 
 "LightFxIndividual" = "Individuell";
 "LightFxCombo" = "Kombination";
 
 "LightFxNone"        = "Kein";
-"LightFxOnOffToggle" = "Ein/Aus Toggle";
+"LightFxOnOffToggle" = "Ein/Aus Umschalten";
 "LightFxIncBright"   = "Erhöhe Helligkeit";
 "LightFxDecBright"   = "Verringere Helligkeit";
 "LightFxSetBright"   = "Setze Helligkeit";
 "LightFxFlash50P"    = "50% Blinker (Positiv)";
 "LightFxFlash50N"    = "50% Blinker (Negativ)";
-"LightFxStrobeP"     = "Strobe Flasher (Positiv)";
-"LightFxStrobeN"     = "Strobe Flasher (Negativ)";
+"LightFxStrobeP"     = "Stroboskop (Positiv)";
+"LightFxStrobeN"     = "Stroboskop(Negativ)";
 "LightFxGyraliteP"   = "Gyralite (Positiv)";
 "LightFxGyraliteN"   = "Gyralite (Negativ)";
 "LightFxFlicker"     = "Flackern";
 "LightFxRandBlink"   = "Zufälliges Blinken";
 "LightFxPhotonTorp"  = "Photonen-Torpedo";
-"LightFxLaserPulse"  = "Laser Pulse";
-"LightFxEngineGlow"  = "Engine Glow";
+"LightFxLaserPulse"  = "Laser-Puls";
+"LightFxEngineGlow"  = "Triebwerk-Glühen";
 "LightFxLighthouse"  = "Leuchtturm";
 "LightFxBrokenLight" = "Defektes Licht";
 "LightFxStatusInd"   = "Status-Anzeige";
@@ -216,11 +218,11 @@
 "LightFxMotorMod"    = "Motor-Moduliert";
 
 "ComboFxNone"        = "Keine";
-"ComboFxLinSweep"    = "Linearer Sweep";
+"ComboFxLinSweep"    = "Linearer Durchlauf";
 "ComboFxBargraph"    = "Balkendiagramm";
 "ComboFxKnightrider" = "Knightrider";
-"ComboFxEmcyTwsonic" = "Emergency Twinsonic";
-"ComboFxEmcyWhelen"  = "Emergency Whelen";
+"ComboFxEmcyTwsonic" = "Notfall Twinsonic-Blitzer";
+"ComboFxEmcyWhelen"  = "Notfall Whelen";
 "ComboFxTimesSq"     = "Times Square";
 "ComboFxNoise"       = "Rauschen";
 "ComboFxTwinkleStar" = "Funkelnde Sterne";
@@ -234,8 +236,8 @@
 "motorStep"      = "Schrittweite";
 "motorSpeed"     = "Geschwindigkeit";
 "motorDuration"  = "Dauer";
-"motorOnPeriod"  = "On Period";
-"motorOffPeriod" = "Off Period";
+"motorOnPeriod"  = "Ein-Periode";
+"motorOffPeriod" = "Aus-Periode";
 
 "motorStep0"  = "1 Schritt (Kleinster)";
 "motorStep1"  = "1% (100 Geschwindigkeits-Schritte)";
@@ -303,20 +305,20 @@
 "lightChannel"        = "Licht Ausgang";
 "lightPFChannel"      = "PF Ausgang";
 "lightDirOption"      = "Richtungs-Optionen";
-"lightFadeTime"       = "Fade Time";
+"lightFadeTime"       = "Abschwächungszeit";
 "lightBrightness"     = "Helligkeit";
 "lightPeriod"         = "Periode";
 "lightPeriod2"        = "Periode";
-"lightFadeFactor"     = "Fade";
-"lightDutyCycle"      = "Duty Cycle";
-"lightFaultRate"      = "Fault Rate";
-"lightSource1"        = "Indicator Source";
+"lightFadeFactor"     = "Abschwächen";
+"lightDutyCycle"      = "Tastverhältnis";
+"lightFaultRate"      = "Fehlerrate";
+"lightSource1"        = "Anzeigequelle";
 "lightSource2"        = "Quelle 2";
-"lightFlickerOn"      = "Flicker On";
-"lightBurstCount"     = "Burst Count";
+"lightFlickerOn"      = "Flackern Ein";
+"lightBurstCount"     = "Anzahl der Impulse";
 "lightFaultIntensity" = "Intensität";
-"lightInvert"         = "Invert";
-"lightTransition"     = "Activation";
+"lightInvert"         = "Umkehren";
+"lightTransition"     = "Aktivierung";
 "lightTransitionTime" = "Ein für";
 
 "lightFadeTime0"  = "Kein";
@@ -442,56 +444,56 @@
 "dirOptionOddMotorCRev" = "1,3,5,7 Ein wenn Motor C Rückwärts, 2,4,6,8 wenn Vorwärts";
 "dirOptionOddMotorDRev" = "1,3,5,7 Ein wenn Motor D Rückwärts, 2,4,6,8 wenn Vorwärts";
 
-"lightSize"         = "Output Size";
-"lightSweepStyle"   = "Sweep Style";
-"lightTwinStyle"    = "Twinsonic Style";
-"lightWhelenStyle"  = "Whelen Style";
+"lightSize"         = "Ausgangsgröße";
+"lightSweepStyle"   = "Durchlauf-Stil";
+"lightTwinStyle"    = "Twinsonic Stil";
+"lightWhelenStyle"  = "Whelen Stil";
 "lightSeq"          = "Sequenz";
 "lightFlashRate"    = "Blinkrate";
 "lightTrafficStyle" = "Ampel-Stil";
 "lightSeqTime"      = "Sequenz Zeit";
-"lightBarStyle"     = "Bar Style";
+"lightBarStyle" 	= "Balken-Stil";
 
-"twinStyleSingle" = "Single";
-"twinStyleDual"   = "Dual";
+"twinStyleSingle" = "Einzeln";
+"twinStyleDual"   = "Doppelt";
 "twinStyleAero"   = "Aero";
-"twinStyleCombo"  = "Combo";
+"twinStyleCombo"  = "Kombiniert";
 
-"whelenStyleSigAlert"       = "Signal Alert";
-"whelenStyleSigAlertSteady" = "Signal Alert Steady";
-"whelenStyleCometFlash"     = "Comet Flash";
-"whelenStyleActionFlash50"  = "Action Flash 50";
-"whelenStyleActionFlash150" = "Action Flash 150";
-"whelenStyleModuFlash"      = "Modu Flash";
-"whelenStyleSingleFlash"    = "Single Flash";
-"whelenStyleDoubleFlash"    = "Double Flash";
-"whelenStyleTripleFlash"    = "Triple Flash";
-"whelenStyleWarning"        = "Warning Flash";
-"whelenStyleRandom"         = "Random Program";
+"whelenStyleSigAlert"       = "Alarmsignal";
+"whelenStyleSigAlertSteady" = "Alarmsignal Steady";
+"whelenStyleCometFlash"     = "Kometenblitz";
+"whelenStyleActionFlash50"  = "Aktionsblitz 50";
+"whelenStyleActionFlash150" = "Aktionsblitz 150";
+"whelenStyleModuFlash"      = "Modulierter Blitz";
+"whelenStyleSingleFlash"    = "Einzelner Blitz";
+"whelenStyleDoubleFlash"    = "Doppelter Blitz";
+"whelenStyleTripleFlash"    = "Dreifacher Blitz";
+"whelenStyleWarning"        = "Warnblitz";
+"whelenStyleRandom"         = "Zufälliges Programm";
 
 "trafficStandard"         = "Standard";
 "trafficStandardGreen"    = "Standard w/ blinkendem Grün";
 "trafficEuro"             = "Europäisch";
 "trafficFlashRedNS"       = "Blinkendes Rot (NS), Gelb (EW)";
 "trafficStandardPed"      = "Standard mit Fußgängersignal";
-"trafficStandardGreenPed" = "Standard ,it blinkendem Grün + Fußgängersignal";
+"trafficStandardGreenPed" = "Standard mit blinkendem Grün + Fußgängersignal";
 "trafficEuroPed"          = "Europäisch mit Fußgängersignal";
 "trafficFlashRedEW"       = "Blinkendes Red (EW), Gelb (NS)";
 "trafficEuro2"            = "Europäisch 2";
 "trafficEuro2Ped"         = "Europäisch 2 mit Fußgängersignal";
 
 "SoundFxNone"           = "Kein";
-"SoundFxSetVolume"      = "Setze Lautstärke";
+"SoundFxSetVolume"      = "Laustärke einstellen";
 "SoundFxIncVolume"      = "Erhöhe Lautstärke";
-"SoundFxDecVolume"     = "Verringere Lautstärke";
+"SoundFxDecVolume"      = "Verringere Lautstärke";
 "SoundFxPlayOnce"       = "Einmal abspielen";
 "SoundFxPlayContinuous" = "Kontinuierlich abspielen";
-"SoundFxPlayNTimes"     = "n x Abspielen";
-"SoundFxPlayDuration"   = "Play for Duration";
-"SoundFxGatedMotor"     = "Gated Motor";
-"SoundFxAMMotor"        = "Motor Amplitudenmodiliert";
+"SoundFxPlayNTimes"     = "n x abspielen";
+"SoundFxPlayDuration"   = "Für bestimmte Zeit abspielen";
+"SoundFxGatedMotor"     = "Gesteuerter Motor";
+"SoundFxAMMotor"        = "Amplitudenmodulierter Motor";
 "SoundFxStop"           = "Stop";
-"SoundFxPlayIdxMotor"   = "Indexed Motor Sounds";
+"SoundFxPlayIdxMotor"   = "Motorabhängige Audioausgabe";
 "SoundFxPlayRand"       = "Zufälliges Abspielen";
 
 "soundRelVolume0"  = "0 dB";
@@ -512,7 +514,7 @@
 "soundRelVolume15" = "-1 dB";
 
 "soundVolume"      = "Lautstärke";
-"soundRetrigger"   = "Erneut auslösen";
+"soundRetrigger"   = "Erneute Auslösung";
 "soundRelVolume"   = "Relative Lautstärke";
 "soundRepeatCount" = "Anzahl der Wiederholungen";
 "soundDuration"    = "Dauer";
@@ -522,38 +524,36 @@
 "soundProbability" = "Wahrscheinlichkeit";
 "soundFile"        = "Datei";
 
-"soundIdxOptStartOvr" = "Überschreibe Start-Sound";
-"soundIdxOptPlayStart" = "Spiele Start-/Abschalt-Sound";
+"soundIdxOptStartOvr" = "Überschreibe Geräusche beim Einschalten";
+"soundIdxOptPlayStart" = "Spiele Geräusche beim Ein- und Abschalten";
 "soundIdxOptVolMod" = "Lautstärken-Modulation";
 
-"startup_actions" = "Startup Aktionen";
-"edit_startup_actions" = "Bearbeite Startup Aktionen";
-"startup_action_1" = "Startup Aktion 1";
-"startup_action_2" = "Startup Aktion 2";
-"startup_action_3" = "Startup Aktion 3";
-"startup_action_4" = "Startup Aktion 4";
-"startup_action_5" = "Startup Aktion 5";
-"startup_action_6" = "Startup Aktion 6";
-"startup_action_7" = "Startup Aktion 7";
-"startup_action_8" = "Startup Aktion 8";
+"startup_actions" = "Einschalt-Aktionen";
+"edit_startup_actions" = "Bearbeite Einschalt-Aktionen";
+"startup_action_1" = "Einschalt-Aktion 1";
+"startup_action_2" = "Einschalt-Aktion 2";
+"startup_action_3" = "Einschalt-Aktion 3";
+"startup_action_4" = "Einschalt-Aktion 4";
+"startup_action_5" = "Einschalt-Aktion 5";
+"startup_action_6" = "Einschalt-Aktion 6";
+"startup_action_7" = "Einschalt-Aktion 7";
+"startup_action_8" = "Einschalt-Aktion 8";
 
 "Rare" = "Selten";
-"Med" = "Med";
+"Med" = "Mittel";
 "Often" = "Häufig";
-"Max" = "Max";
-"Subtle" = "Subtle";
-"Severe" = "Severe";
-"Toggle" = "Toggle";
+"Max" = "Maximal";
+"Subtle" = "Fein";
+"Severe" = "Schwer";
+"Toggle" = "Umschalten";
 "On" = "Ein";
 "Off" = "Aus";
-"Timed" = "Timed";
-"Solid" = "Solid";
+"Timed" = "Zeitgesteuert";
+"Solid" = "Kontinuierlich";
 "L-R" = "L-R";
 "R-L" = "R-L";
-"In-Out" = "In-Out";
+"In-Out" = "Eingang-Ausgang";
 "Slow" = "Langsam";
 "Fast" = "Schnell";
 "None" = "Kein";
 "Light" = "Licht";
-
-
