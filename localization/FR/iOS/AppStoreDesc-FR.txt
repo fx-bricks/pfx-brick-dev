@@ -1,15 +1,15 @@
-The PFx Brick mobile app gives you customization and control of your PFx Brick using a Bluetooth Low Energy (BLE) connection with your iPhone or iPad. All of the sophisticated motor control, dazzling lighting effects, and multi-channel sound effects of the PFx Brick are at your fingertips with the PFx Brick app. Seamlessly connect and control your PFx Brick(s) with your choice of easy to use control panels. Setup and customize your PFx Brick just the way you want it! 
+L'application mobile PFx Brick vous permet de personnaliser et de contrôler votre PFx Brick en utilisant une connexion Bluetooth Low Energy (BLE) avec votre iPhone ou iPad. Toutes les commandes sophistiquées du moteur, les effets d'éclairage éblouissants et les effets sonores multicanaux du PFx Brick sont à portée de main avec l'application PFx Brick. Connectez et contrôlez parfaitement vos briques PFx avec votre choix de panneaux de contrôle faciles à utiliser. Configurez et personnalisez votre brique PFx comme vous le souhaitez!
 
-Features
-- Scan for new PFx Bricks and "pair" your favourite PFx Bricks for easy access
-- Configure every aspect of the PFx Brick including its name, power saving features, lighting channels, audio defaults, and sophisticated motor control adjustments
-- Directly control your PFx Brick with easy to use sliders, knobs, and buttons arranged on a variety of control panels
+Caractéristiques
+- Recherchez les nouvelles briques PFx et "associez" vos briques PFx préférées pour un accès facile
+- Configurez tous les aspects du PFx Brick, y compris son nom, ses fonctions d'économie d'énergie, ses canaux d'éclairage, ses paramètres audio par défaut et ses réglages sophistiqués de contrôle du moteur
+- Contrôlez directement votre PFx Brick grâce à des curseurs, des boutons et des boutons faciles à utiliser disposés sur divers panneaux de contrôle
 - Instantly swipe to the control panel of your choice at any time
-- Emulation of LEGO® Power Functions dual speed and dual joystick IR remote controls let you operate your PFx Brick the same way using IR and Bluetooth!
+- Émulation des fonctions LEGO® Power à double vitesse et à double joystick Les télécommandes IR vous permettent de faire fonctionner votre PFx Brick de la même manière en utilisant IR et Bluetooth!
 
-Supported Devices
+Périphériques compatibles
 - PFx Brick 4 MB
 - PFx Brick 8 MB
 - PFx Brick 16 MB
 
-LEGO® is a trademark of the LEGO Group of companies which does not sponsor, authorize or endorse this application.
+LEGO® est une marque déposée du groupe LEGO qui ne sponsorise, n'autorise ou ne cautionne pas cette application.

@@ -1,8 +1,8 @@
-The PFx Brick App for iOS has many new features and enhancements as well as being available in serveral new languages.  These features include:
-- improved Bluetooth device scanning and filtering
-- edit Startup Actions directly from mobile App
-- edit any remote control action without desktop app
-- refresh audio file listing
-- improved layout metrics for iPhone 8, iPhone X
-- now available in German, Dutch, and Swedish
-- miscellaneous bug fixes and reliability enhancements
+L'application PFx Brick App pour iOS présente de nombreuses nouvelles fonctionnalités et améliorations, tout en étant disponible dans plusieurs nouveaux langages. Ces fonctionnalités incluent:
+- Amélioration de l'analyse et du filtrage des périphériques Bluetooth
+- modifier les actions de démarrage directement depuis l'application mobile
+- éditer toute action de contrôle à distance sans application de bureau
+- rafraîchir la liste des fichiers audio
+- Amélioration des métriques de présentation pour iPhone 8, iPhone X
+- maintenant disponible en allemand, néerlandais, français et suédois
+- divers correctifs de bogues et améliorations de la fiabilité
