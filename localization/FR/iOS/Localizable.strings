@@ -1,0 +1,557 @@
+/* 
+  LocalizedStrings.strings
+  PFx Mobile
+
+  Created by Michael Gale on 2017-08-26.
+  Copyright © 2017 Fx Bricks. All rights reserved.
+*/
+
+"available" = "Disponible";
+"not_available" = "Indisponible";
+"dialog_ok" = "Ok";
+"dialog_cancel" = "Annuler";
+"dialog_forget" = "Oublier";
+"dialog_reset" = "Réinitialiser";
+
+"unpair" = "Désunir";
+"stop" = "Arrêt";
+"lights" = "Lumières";
+"dir" = "Dir";
+
+"tab_bricks" = "Briques";
+"tab_test" = "Contrôle de Test";
+"tab_speed_remote" = "Double Vitesse";
+"tab_joystick_remote" = "Manette";
+"test_control_title" = "Contrôle de Test";
+"no_files" = "Aucun fichier audio";
+"indexing_files" = "Indexer des fichiers audio...";
+
+"individual" = "Individuel";
+"grouped" = "Groupé";
+"disconnected_title" = "Déconnecté";
+
+"connecting" = "De liaison...";
+"disconnect" = "Déconnecter";
+
+"ble_err_title" = "Alerte Bluetooth";
+"ble_err_unsupported" = "Cet appareil ne prend pas en charge Bluetooth Low Energy";
+"ble_err_unauthorized" = "L'application mobile PFx n'est pas autorisée à utiliser Bluetooth Low Energy";
+"ble_err_power_off" = "Bluetooth doit être activé pour communiquer avec vos briques PFx";
+"ble_dev_unnamed" = "Inconnu";
+"dev_already_paired" = "Cette brique PFx a déjà été associée à l'application PFx";
+"dev_pair_success" = "La brique PFx a été jumelée avec succès";
+"pair_result_title" = "Appariement de briques PFx";
+"pair_forget_title" = "Oubliez cette brique PFx?";
+"alert_disconnect" = "La connexion à la brique PFx a été perdue";
+"reset_defaults_title" = "Réinitialiser PFx Brick aux paramètres d'usine?";
+"timeout_title" = "Dispositif incompatible";
+"timeout_message" = "Cet appareil n'est pas reconnu comme une brique PFx";
+
+"brick_selector_title" = "Brique PFx";
+"brick_selector_my_paired" = "Mes briques PFx appariées";
+"brick_selector_other_dev" = "Autres périphériques Bluetooth";
+"brick_selector_no_paired" = "Pas de briques PFx jumelées trouvées";
+
+"dev_name" = "Nom";
+"dev_model" = "Modèle";
+"dev_hw_ver" = "Version matérielle";
+"dev_fw_ver" = "Version du firmware";
+"dev_serial_no" = "Numéro de série";
+"dev_bt" = "Bluetooth";
+"dev_usage" = "Usage";
+"dev_pair" = "Paire cette brique PFx";
+"dev_forget" = "Oubliez cette brique PFx";
+
+"settings_label" = "Préférences";
+"audio_label" = "Audio";
+"start_vol_label" = "Volume de Démarrage";
+"bass_label" = "Basse";
+"treble_label" = "Aigus";
+"motor_settings" = "Préférences Moteur";
+"reset" = "Réinitialiser";
+"reset_defaults" = "Réinitialiser aux paramètres d'usine";
+
+"ir_sensor" = "Capteur infrarouge";
+"status_led" = "LED d'état";
+"power_saving" = "Economie d'énergie";
+"ir_lockout" = "Verrouillage IR";
+"start_brightness" = "Luminosité au démarrage";
+"auto_drc" = "Gamme dynamique automatique";
+"vol_beep" = "Bip de changement de volume";
+"motor_a" = "Sortie moteur A";
+"motor_b" = "Sortie moteur B";
+
+"normally_on" = "Normalement actif";
+"normally_off" = "Normalement inactif";
+"status_led_help" = "Choisissez l'état dans lequel le voyant d'état doit normalement apparaître lorsque le brique PFx est activé. Le voyant d'état clignote toujours avec une activité liée aux communications USB, infrarouge et Bluetooth.";
+
+"disabled" = "Désactivé";
+"off_30min" = "Éteindre après 30 minutes";
+"off_60min" = "Éteindre après 60 minutes";
+"off_3hr" = "Éteindre après 3 heures";
+"power_saving_help" = "Choisissez le mode d'économie d'énergie pour désactiver automatiquement la brique PFx après une période d'inactivité. Aucune activité signifie qu'aucune communication n'est reçue des interfaces USB, infrarouge ou Bluetooth.";
+
+"never" = "Jamais";
+"auto_1min" = "Automatiquement après 1 minute";
+"auto_5min" = "Automatiquement après 5 minutes";
+"immediately" = "Immédiatement après le démarrage";
+
+"ir_lockout_help" = "Le PFx Brick peut basculer automatiquement en mode de verrouillage IR après une période sans activité ou immédiatement après le démarrage. En mode de verrouillage, le PFx Brick ne répondra à aucun message IR, sauf pour un message de sortie du mode de verrouillage.";
+
+"bt_continue" = "Continuer à opérer";
+"bt_stop" = "Arrêter les moteurs";
+
+"bt_power_off" = "Economie d'énergie";
+"bt_loss_connect" = "Options de perte de connexion";
+"bt_radio_power" = "Puissance radio";
+
+"bt_power_help" = "La radio Bluetooth peut être désactivée automatiquement après une période d'inactivité ou immédiatement après le démarrage pour prolonger la durée de vie de la batterie.";
+"bt_loss_help" = "Lorsque la brique PFx perd la connexion avec l'application mobile, elle peut être configurée pour continuer à fonctionner ou arrêter tous les moteurs. L'arrêt des moteurs peut être une option sûre pour empêcher les modèles de s'enfuir sans contrôle.";
+"bt_radio_help" = "Des valeurs de puissance radio plus faibles augmentent la durée de vie de la batterie, mais diminuent la portée radio. Pour une performance de portée maximale, augmentez la puissance radio.";
+
+"global_brightness" = "Luminosité Globale";
+"ind_brightness" = "Luminosité individuelle";
+"motor_brightness" = "Sorties de moteur avec lumières";
+"test_brightness" = "Allumer les lumières (aperçu)";
+
+"brightness_help" = "Choisissez la luminosité par défaut pour tous les canaux d'éclairage après le démarrage. Vous pouvez éventuellement ajuster les paramètres de luminosité individuels pour chaque canal d'éclairage pour un contrôle encore meilleur.";
+
+"motor" = "Moteur";
+"motor_settings" = "Préférences moteur";
+"motor_speed" = "Vitesse du moteur";
+"motor_accel" = "Accélération";
+"motor_decel" = "Ralentissement";
+"motor_invert" = "Inverser la direction";
+"motor_torque" = "Compensation de couple";
+"motor_pf" = "Compatibilité des fonctions d'alimentation";
+"motor_curve" = "Courbe de vitesse";
+"motor_torque_help" = "La compensation de couple permet une modulation aléatoire du moteur pendant le démarrage afin de surmonter les frictions de démarrage initiales.";
+"motor_pf_help" = "Fonctions de compatibilité La compatibilité fait fonctionner le moteur avec la même fréquence de modulation de largeur d'impulsion (PWM) audible (1 kHz) que le récepteur LEGO® IR. Désactivez ce paramètre pour utiliser le PWM silencieux à haute fréquence. Fortement recommandé pour Power Functions M Motors.";
+"motor_curve_help" = "Ajustez les valeurs de vitesse du moteur de sortie pour la vitesse minimale, moyenne et maximale. La vitesse de consigne est la vitesse requise par le fonctionnement, la vitesse de sortie correspond à la vitesse de sortie réelle.";
+
+"motor_ch_a" = "Moteur A";
+"motor_ch_b" = "Moteur B";
+
+"output_speed" = "Vitesse de sortie";
+"min" = "Min";
+"mid" = "Mid";
+"max" = "Max";
+"set_speed" = "Régler la vitesse";
+
+"edit_action" = "Modifier l'action";
+"command" = "Commande spéciale";
+"motor_actions" = "Actions du moteur";
+"light_actions" = "Actions légères";
+"sound_actions" = "Actions saines";
+"swipe_clear" = "Faites glisser pour effacer";
+"test_action" = "Tester cette action";
+"clear" = "Effacer";
+
+"evtID8879TwoButtons"  = "Double vitesse deux boutons";
+"evtID8879LeftButton"  = "Double vitesse bouton gauche";
+"evtID8879RightButton" = "Double vitesse bouton droit";
+"evtID8879LeftInc"     = "Double vitesse Incrément de gauche";
+"evtID8879LeftDec"     = "Double vitesse Décrémentation gauche";
+"evtID8879RightInc"    = "Double vitesse Incrément droit";
+"evtID8879RightDec"    = "Double vitesse Décrémentation droit";
+"evtID8885LeftFwd"     = "Joystick à gauche vers l'avant";
+"evtID8885LeftRev"     = "Joystick à gauche en arrière";
+"evtID8885RightFwd"    = "Joystick à droite vers l'avant";
+"evtID8885RightRev"    = "Joystick à droite en arrière";
+"evtID8885LeftCtrOff"  = "Joystick à gauche Centre";
+"evtID8885RightCtrOff" = "Joystick à droite Centre";
+"evtIDEV3Beacon"       = "EV3 Balise";
+"evtIDTestEvent"       = "Événement de test"; 
+"evtStartupEvent"      = "Événement de démarrage";
+
+"None" = "Aucun";
+"AllOff" = "Tout est éteint";
+"IRLockoutOn" = "Verrouillage IR Actif";
+"IRLockoutOff" = "Verrouillage IR Inactif";
+"IRLockToggle" = "Basculer le verrouillage IR";
+"AllMotorsOff" = "Tous les moteurs arrêtés";
+"AllLightsOff" = "Toutes les lumières éteintes";
+"AllAudioOff" = "Tous les sons sont éteints";
+"Restart" = "Redémarrer la brique PFx";
+
+"MotorEStop"              = "Arrêt d'urgence";
+"MotorStop"               = "Arrêt";
+"MotorIncSpd"             = "Augmenter la vitesse";
+"MotorDecSpd"             = "Diminuer la vitesse";
+"MotorIncSpdBi"           = "Augmenter la vitesse (bidirectionnelle)";
+"MotorDecSpdBi"           = "Diminuer la vitesse (bidirectionnelle)";
+"MotorChangeDir"          = "Changer de direction";
+"MotorSetSpd"             = "Régler la vitesse";
+"MotorSetSpdTimed"        = "Définir la vitesse pour la durée";
+"MotorOscillate"          = "Osciller";
+"MotorOscillateBidir"     = "Osciller (bidirectionnelle)";
+"MotorOscillateBidirWait" = "Osciller (bidirectionnelle) avec le temps d'attente";
+"MotorRandom"             = "Vitesse aléatoire";
+"MotorRandomBidir"        = "Vitesse aléatoire (bidirectionnelle)";
+"MotorSoundModulated"     = "Son modulé";
+
+"LightFxIndividual" = "Individuel";
+"LightFxCombo" = "Combinaison";
+
+"LightFxNone"        = "Aucun";
+"LightFxOnOffToggle" = "Activer / Désactiver";
+"LightFxIncBright"   = "Augmenter la luminosité";
+"LightFxDecBright"   = "Diminuer la luminosité";
+"LightFxSetBright"   = "Régler la luminosité";
+"LightFxFlash50P"    = "50% Clignotant (pos)";
+"LightFxFlash50N"    = "50% Clignotant (neg)";
+"LightFxStrobeP"     = "Clignotement stroboscopique (pos)";
+"LightFxStrobeN"     = "Clignotement stroboscopique (neg)";
+"LightFxGyraliteP"   = "Gyralite (pos)";
+"LightFxGyraliteN"   = "Gyralite (neg)";
+"LightFxFlicker"     = "Vaciller";
+"LightFxRandBlink"   = "Scintillement aléatoire";
+"LightFxPhotonTorp"  = "Torpille à photons";
+"LightFxLaserPulse"  = "Impulsion laser";
+"LightFxEngineGlow"  = "Lueur du moteur";
+"LightFxLighthouse"  = "Phare";
+"LightFxBrokenLight" = "Lumière cassée";
+"LightFxStatusInd"   = "Indicateur de statut";
+"LightFxSoundMod"    = "Son modulé";
+"LightFxMotorMod"    = "Vitesse du moteur modulée";
+
+"ComboFxNone"        = "Aucun";
+"ComboFxLinSweep"    = "Balayage Linéaire";
+"ComboFxBargraph"    = "Bargraph";
+"ComboFxKnightrider" = "Knightrider";
+"ComboFxEmcyTwsonic" = "Lampes de Secours Twinsonic";
+"ComboFxEmcyWhelen"  = "Lampes de Secours Whelen";
+"ComboFxTimesSq"     = "Times Square";
+"ComboFxNoise"       = "Scintillement aléatoire";
+"ComboFxTwinkleStar" = "Lumières scintillantes";
+"ComboFxTrafficSig"  = "Feux de Circulation";
+"ComboFxSoundBar"    = "Barre de Son";
+"ComboFxAltFlash"    = "Clignotants Alternés";
+"ComboFxLavaLamp"    = "Lampe à Lave";
+"ComboFxLaserCannon" = "Canon Laser";
+
+"motorChannel"   = "Canal";
+"motorStep"      = "Incrément de Vitesse";
+"motorSpeed"     = "Vitesse";
+"motorDuration"  = "Durée";
+"motorOnPeriod"  = "Période de temps Actif";
+"motorOffPeriod" = "Période de temps Inactif";
+
+"motorStep0"  = "1 niveau (plus petit)";
+"motorStep1"  = "1% (100 niveaux)";
+"motorStep2"  = "2% (50 niveaux)";
+"motorStep3"  = "3% (33 niveaux)";
+"motorStep4"  = "5% (20 niveaux)";
+"motorStep5"  = "6% (16 niveaux)";
+"motorStep6"  = "10% (10 niveaux)";
+"motorStep7"  = "20% (5 niveaux)";
+"motorStep8"  = "25% (4 niveaux)";
+"motorStep9"  = "33% (3 niveaux)";
+"motorStep10" = "LEGO PF 7 niveaux";
+
+"motorSpeed0"  = "Arrêté";
+"motorSpeed1"  = "10% Vers l'avant";
+"motorSpeed2"  = "25% Vers l'avant";
+"motorSpeed3"  = "33% Vers l'avant";
+"motorSpeed4"  = "50% Vers l'avant";
+"motorSpeed5"  = "67% Vers l'avant";
+"motorSpeed6"  = "75% Vers l'avant";
+"motorSpeed7"  = "100% Vers l'avant";
+"motorSpeed8"  = "Arrêté";
+"motorSpeed9"  = "10% en arrière";
+"motorSpeed10" = "25% en arrière";
+"motorSpeed11" = "33% en arrière";
+"motorSpeed12" = "50% en arrière";
+"motorSpeed13" = "67% en arrière";
+"motorSpeed14" = "75% en arrière";
+"motorSpeed15" = "100% en arrière";
+
+"motorDuration0"  = "0,5 sec";
+"motorDuration1"  = "1,0 sec";
+"motorDuration2"  = "1,5 sec";
+"motorDuration3"  = "2,0 sec";
+"motorDuration4"  = "3,0 sec";
+"motorDuration5"  = "4,0 sec";
+"motorDuration6"  = "5,0 sec";
+"motorDuration7"  = "10 sec";
+"motorDuration8"  = "15 sec";
+"motorDuration9"  = "20 sec";
+"motorDuration10" = "30 sec";
+"motorDuration11" = "45 sec";
+"motorDuration12" = "60 sec";
+"motorDuration13" = "90 sec";
+"motorDuration14" = "2 min";
+"motorDuration15" = "5 min";
+
+"motorPeriod0"  = "0,25 sec";
+"motorPeriod1"  = "0,5 sec";
+"motorPeriod2"  = "0,75 sec";
+"motorPeriod3"  = "1,0 sec";
+"motorPeriod4"  = "1,25 sec";
+"motorPeriod5"  = "1,5 sec";
+"motorPeriod6"  = "2,0 sec";
+"motorPeriod7"  = "2,5 sec";
+"motorPeriod8"  = "3,0 sec";
+"motorPeriod9"  = "4,0 sec";
+"motorPeriod10" = "5,0 sec";
+"motorPeriod11" = "10 sec";
+"motorPeriod12" = "15 sec";
+"motorPeriod13" = "20 sec";
+"motorPeriod14" = "30 sec";
+"motorPeriod15" = "60 sec";
+
+"lightChannel"        = "Sortie de la lumière";
+"lightPFChannel"      = "Sortie de PF";
+"lightDirOption"      = "Options de direction";
+"lightFadeTime"       = "Temps de fondu";
+"lightBrightness"     = "Luminosité";
+"lightPeriod"         = "Période";
+"lightPeriod2"        = "Période";
+"lightFadeFactor"     = "Se fanent";
+"lightDutyCycle"      = "Cycle de service";
+"lightFaultRate"      = "Taux de défaut";
+"lightSource1"        = "Source d'indicateur";
+"lightSource2"        = "Source 2";
+"lightFlickerOn"      = "Scintille et allume";
+"lightBurstCount"     = "Nombre d'impulsions";
+"lightFaultIntensity" = "Intensité";
+"lightInvert"         = "Inverser";
+"lightTransition"     = "Activation";
+"lightTransitionTime" = "Période de temps Actif";
+
+"lightFadeTime0"  = "Aucun";
+"lightFadeTime1"  = "50 msec";
+"lightFadeTime2"  = "0,1 sec";
+"lightFadeTime3"  = "0,2 sec";
+"lightFadeTime4"  = "0,4 sec";
+"lightFadeTime5"  = "0,5 sec";
+"lightFadeTime6"  = "0,6 sec";
+"lightFadeTime7"  = "0,8 sec";
+"lightFadeTime8"  = "1,0 sec";
+"lightFadeTime9"  = "1,5 sec";
+"lightFadeTime10" = "2,0 sec";
+"lightFadeTime11" = "2,5 sec";
+"lightFadeTime12" = "3,0 sec";
+"lightFadeTime13" = "4,0 sec";
+"lightFadeTime14" = "5,0 sec";
+"lightFadeTime15" = "10,0 sec";
+
+"lightFadeFactor0"  = "Aucun";
+"lightFadeFactor1"  = "1%";
+"lightFadeFactor2"  = "5%";
+"lightFadeFactor3"  = "10%";
+"lightFadeFactor4"  = "15%";
+"lightFadeFactor5"  = "20%";
+"lightFadeFactor6"  = "25%";
+"lightFadeFactor7"  = "30%";
+"lightFadeFactor8"  = "40%";
+"lightFadeFactor9"  = "50%";
+"lightFadeFactor10" = "75%";
+"lightFadeFactor11" = "90%";
+"lightFadeFactor12" = "100%";
+"lightFadeFactor13" = "150%";
+"lightFadeFactor14" = "200%";
+"lightFadeFactor15" = "400%";
+
+"lightPeriod-0"  = "0,1 sec";
+"lightPeriod-1"  = "0,25 sec";
+"lightPeriod-2"  = "0,5 sec";
+"lightPeriod-3"  = "0,75 sec";
+"lightPeriod-4"  = "1,0 sec";
+"lightPeriod-5"  = "1,25 sec";
+"lightPeriod-6"  = "1,5 sec";
+"lightPeriod-7"  = "1,75 sec";
+"lightPeriod-8"  = "2,0 sec";
+"lightPeriod-9"  = "2,5 sec";
+"lightPeriod-10" = "3,0 sec";
+"lightPeriod-11" = "4,0 sec";
+"lightPeriod-12" = "5,0 sec";
+"lightPeriod-13" = "8,0 sec";
+"lightPeriod-14" = "10 sec";
+"lightPeriod-15" = "20 sec";
+
+"lightPeriod20"  = "50 msec";
+"lightPeriod21"  = "0,1 sec";
+"lightPeriod22"  = "0,2 sec";
+"lightPeriod23"  = "0,3 sec";
+"lightPeriod24"  = "0,4 sec";
+"lightPeriod25"  = "0,5 sec";
+"lightPeriod26"  = "0,6 sec";
+"lightPeriod27"  = "0,7 sec";
+"lightPeriod28"  = "0,8 sec";
+"lightPeriod29"  = "0,9 sec";
+"lightPeriod210" = "1,0 sec";
+"lightPeriod211" = "1,25 sec";
+"lightPeriod212" = "1,5 sec";
+"lightPeriod213" = "1,75 sec";
+"lightPeriod214" = "2,0 sec";
+"lightPeriod215" = "3,0 sec";
+
+"lightDutyCycle0"  = "1%";
+"lightDutyCycle1"  = "2%";
+"lightDutyCycle2"  = "5%";
+"lightDutyCycle3"  = "10%";
+"lightDutyCycle4"  = "15%";
+"lightDutyCycle5"  = "20%";
+"lightDutyCycle6"  = "25%";
+"lightDutyCycle7"  = "30%";
+"lightDutyCycle8"  = "40%";
+"lightDutyCycle9"  = "50%";
+"lightDutyCycle10" = "60%";
+"lightDutyCycle11" = "70%";
+"lightDutyCycle12" = "75%";
+"lightDutyCycle13" = "80%";
+"lightDutyCycle14" = "85%";
+"lightDutyCycle15" = "90%";
+"lightDutyCycle16" = "95%";
+"lightDutyCycle17" = "98%";
+"lightDutyCycle18" = "99%";
+
+"lightTransitionTime0"  = "0,5 sec";
+"lightTransitionTime1"  = "1,0 sec";
+"lightTransitionTime2"  = "1,5 sec";
+"lightTransitionTime3"  = "2,0 sec";
+"lightTransitionTime4"  = "3,0 sec";
+"lightTransitionTime5"  = "4,0 sec";
+"lightTransitionTime6"  = "5,0 sec";
+"lightTransitionTime7"  = "10 sec";
+"lightTransitionTime8"  = "15 sec";
+"lightTransitionTime9"  = "20 sec";
+"lightTransitionTime10" = "30 sec";
+"lightTransitionTime11" = "45 sec";
+"lightTransitionTime12" = "60 sec";
+"lightTransitionTime13" = "90 sec";
+"lightTransitionTime14" = "2 min";
+"lightTransitionTime15" = "5 min";
+
+"dirOptionNone"         = "Aucun";
+"dirOptionMotorAFwd"    = "Actif si Motor A Fwd";
+"dirOptionMotorARev"    = "Actif si Motor A Rev";
+"dirOptionMotorBFwd"    = "Actif si Motor B Fwd";
+"dirOptionMotorBRev"    = "Actif si Motor B Rev";
+"dirOptionMotorCFwd"    = "Actif si Motor C Fwd";
+"dirOptionMotorCRev"    = "Actif si Motor C Rev";
+"dirOptionMotorDFwd"    = "Actif si Motor D Fwd";
+"dirOptionMotorDRev"    = "Actif si Motor D Rev";
+"dirOptionOddMotorAFwd" = "1,3,5,7 Actif si Motor A Fwd, 2,4,6,8 si Rev";
+"dirOptionOddMotorBFwd" = "1,3,5,7 Actif si Motor B Fwd, 2,4,6,8 si Rev";
+"dirOptionOddMotorCFwd" = "1,3,5,7 Actif si Motor C Fwd, 2,4,6,8 si Rev";
+"dirOptionOddMotorDFwd" = "1,3,5,7 Actif si Motor D Fwd, 2,4,6,8 si Rev";
+"dirOptionOddMotorARev" = "1,3,5,7 Actif si Motor A Rev, 2,4,6,8 si Fwd";
+"dirOptionOddMotorBRev" = "1,3,5,7 Actif si Motor B Rev, 2,4,6,8 si Fwd";
+"dirOptionOddMotorCRev" = "1,3,5,7 Actif si Motor C Rev, 2,4,6,8 si Fwd";
+"dirOptionOddMotorDRev" = "1,3,5,7 Actif si Motor D Rev, 2,4,6,8 si Fwd";
+
+"lightSize"         = "Nombre de sorties";
+"lightSweepStyle"   = "Style de balayage";
+"lightTwinStyle"    = "Style de Twinsonic";
+"lightWhelenStyle"  = "Style de Whelen";
+"lightSeq"          = "Sequence";
+"lightFlashRate"    = "Période";
+"lightTrafficStyle" = "Style de feux tricolores";
+"lightSeqTime"      = "Temps de séquence";
+"lightBarStyle"     = "Style de barre";
+
+"twinStyleSingle" = "Singulier";
+"twinStyleDual"   = "Double";
+"twinStyleAero"   = "Aero";
+"twinStyleCombo"  = "Combo";
+
+"whelenStyleSigAlert"       = "Signal Alert";
+"whelenStyleSigAlertSteady" = "Signal Alert Steady";
+"whelenStyleCometFlash"     = "Comet Flash";
+"whelenStyleActionFlash50"  = "Action Flash 50";
+"whelenStyleActionFlash150" = "Action Flash 150";
+"whelenStyleModuFlash"      = "Modu Flash";
+"whelenStyleSingleFlash"    = "Single Flash";
+"whelenStyleDoubleFlash"    = "Double Flash";
+"whelenStyleTripleFlash"    = "Triple Flash";
+"whelenStyleWarning"        = "Warning Flash";
+"whelenStyleRandom"         = "Random Program";
+
+"trafficStandard"         = "Standard";
+"trafficStandardGreen"    = "Standard avec vert clignotant";
+"trafficEuro"             = "European";
+"trafficFlashRedNS"       = "Rouge clignotant (NS), jaune (EW)";
+"trafficStandardPed"      = "Standard avec signal piéton";
+"trafficStandardGreenPed" = "Standard avec vert clignotant + signal piéton";
+"trafficEuroPed"          = "European avec signal piéton";
+"trafficFlashRedEW"       = "Rouge clignotant (EW), jaune (NS)";
+"trafficEuro2"            = "European 2";
+"trafficEuro2Ped"         = "European 2 avec signal piéton";
+
+"SoundFxNone"           = "Aucun";
+"SoundFxSetVolume"      = "Régler le volume";
+"SoundFxIncVolume"      = "Augmenter le volume";
+"SoundFxDecVolume"      = "Diminuer le volume";
+"SoundFxPlayOnce"       = "Jouer une fois";
+"SoundFxPlayContinuous" = "Jouer en continu";
+"SoundFxPlayNTimes"     = "Jouer N fois";
+"SoundFxPlayDuration"   = "Jouer pour la durée";
+"SoundFxGatedMotor"     = "Temps moteur modulé";
+"SoundFxAMMotor"        = "Amplitude du moteur modulée";
+"SoundFxStop"           = "Arrêt";
+"SoundFxPlayIdxMotor"   = "Bruits de moteur indexés";
+"SoundFxPlayRand"       = "Lecture aléatoire";
+
+"soundRelVolume0"  = "0 dB";
+"soundRelVolume1"  = "1 dB";
+"soundRelVolume2"  = "2 dB";
+"soundRelVolume3"  = "3 dB";
+"soundRelVolume4"  = "4 dB";
+"soundRelVolume5"  = "5 dB";
+"soundRelVolume6"  = "6 dB";
+"soundRelVolume7"  = "7 dB";
+"soundRelVolume8"  = "-8 dB";
+"soundRelVolume9"  = "-7 dB";
+"soundRelVolume10" = "-6 dB";
+"soundRelVolume11" = "-5 dB";
+"soundRelVolume12" = "-4 dB";
+"soundRelVolume13" = "-3 dB";
+"soundRelVolume14" = "-2 dB";
+"soundRelVolume15" = "-1 dB";
+
+"soundVolume"      = "Volume";
+"soundRetrigger"   = "Redéclencheur";
+"soundRelVolume"   = "Volume relatif";
+"soundRepeatCount" = "Nombre de répétitions";
+"soundDuration"    = "Durée";
+"soundMotorOutput" = "Canal Moteur";
+"soundGain"        = "Gain";
+"soundIdxOptions"  = "Options";
+"soundProbability" = "Probabilité";
+"soundFile"        = "Fichier";
+
+"soundIdxOptStartOvr" = "Arrêter le son de démarrage";
+"soundIdxOptPlayStart" = "Jouer les sons de démarrage";
+"soundIdxOptVolMod" = "Modulation de volume";
+
+"startup_actions" = "Actions de Démarrage";
+"edit_startup_actions" = "Modifier les actions de démarrage";
+"startup_action_1" = "Action de Démarrage 1";
+"startup_action_2" = "Action de Démarrage 2";
+"startup_action_3" = "Action de Démarrage 3";
+"startup_action_4" = "Action de Démarrage 4";
+"startup_action_5" = "Action de Démarrage 5";
+"startup_action_6" = "Action de Démarrage 6";
+"startup_action_7" = "Action de Démarrage 7";
+"startup_action_8" = "Action de Démarrage 8";
+
+"Rare" = "Rare";
+"Med" = "Med";
+"Often" = "Souvent";
+"Max" = "Max";
+"Subtle" = "Subtil";
+"Severe" = "Sévère";
+"Toggle" = "Basculer";
+"On" = "Actif";
+"Off" = "Inactif";
+"Timed" = "Pour la durée";
+"Solid" = "Solide";
+"L-R" = "à Droite";
+"R-L" = "à Gauche";
+"In-Out" = "Int-Ext";
+"Slow" = "Lent";
+"Fast" = "Vite";
+"None" = "Aucun";
+"Light" = "Lumière";
