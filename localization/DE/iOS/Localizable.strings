@@ -214,7 +214,7 @@
 "LightFxLighthouse"  = "Leuchtturm";
 "LightFxBrokenLight" = "Defektes Licht";
 "LightFxStatusInd"   = "Status-Anzeige";
-"LightFxSoundMod"    = "Sound-Moduliert";
+"LightFxSoundMod"    = "Audio-Moduliert";
 "LightFxMotorMod"    = "Motor-Moduliert";
 
 "ComboFxNone"        = "Keine";
@@ -227,7 +227,7 @@
 "ComboFxNoise"       = "Rauschen";
 "ComboFxTwinkleStar" = "Funkelnde Sterne";
 "ComboFxTrafficSig"  = "Ampel";
-"ComboFxSoundBar"    = "Sound Bar";
+"ComboFxSoundBar"    = "Pegelanzeige";
 "ComboFxAltFlash"    = "Abwechselndes Blinken";
 "ComboFxLavaLamp"    = "Lava-Lampe";
 "ComboFxLaserCannon" = "Laser-Kanone";
@@ -305,11 +305,11 @@
 "lightChannel"        = "Licht Ausgang";
 "lightPFChannel"      = "PF Ausgang";
 "lightDirOption"      = "Richtungs-Optionen";
-"lightFadeTime"       = "Abschwächungszeit";
+"lightFadeTime"       = "Blend-Zeit";
 "lightBrightness"     = "Helligkeit";
 "lightPeriod"         = "Periode";
 "lightPeriod2"        = "Periode";
-"lightFadeFactor"     = "Abschwächen";
+"lightFadeFactor"     = "Blend-Faktor";
 "lightDutyCycle"      = "Tastverhältnis";
 "lightFaultRate"      = "Fehlerrate";
 "lightSource1"        = "Anzeigequelle";
@@ -452,7 +452,7 @@
 "lightFlashRate"    = "Blinkrate";
 "lightTrafficStyle" = "Ampel-Stil";
 "lightSeqTime"      = "Sequenz Zeit";
-"lightBarStyle" 	= "Balken-Stil";
+"lightBarStyle" 	  = "Balken-Stil";
 
 "twinStyleSingle" = "Einzeln";
 "twinStyleDual"   = "Doppelt";
