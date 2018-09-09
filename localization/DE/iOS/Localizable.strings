@@ -221,7 +221,7 @@
 "ComboFxLinSweep"    = "Linearer Durchlauf";
 "ComboFxBargraph"    = "Balkendiagramm";
 "ComboFxKnightrider" = "Knightrider";
-"ComboFxEmcyTwsonic" = "Notfall Twinsonic-Blitzer";
+"ComboFxEmcyTwsonic" = "Notfall Twinsonic-Blinker";
 "ComboFxEmcyWhelen"  = "Notfall Whelen";
 "ComboFxTimesSq"     = "Times Square";
 "ComboFxNoise"       = "Rauschen";
@@ -461,14 +461,14 @@
 
 "whelenStyleSigAlert"       = "Alarmsignal";
 "whelenStyleSigAlertSteady" = "Stetiges Alarmsignal";
-"whelenStyleCometFlash"     = "Kometenblitz";
-"whelenStyleActionFlash50"  = "Aktionsblitz 50";
-"whelenStyleActionFlash150" = "Aktionsblitz 150";
-"whelenStyleModuFlash"      = "Modulierter Blitz";
-"whelenStyleSingleFlash"    = "Einzelner Blitz";
-"whelenStyleDoubleFlash"    = "Doppelter Blitz";
-"whelenStyleTripleFlash"    = "Dreifacher Blitz";
-"whelenStyleWarning"        = "Warnblitz";
+"whelenStyleCometFlash"     = "Kometenblinker";
+"whelenStyleActionFlash50"  = "Aktionsblinker 50";
+"whelenStyleActionFlash150" = "Aktionsblinker 150";
+"whelenStyleModuFlash"      = "Modulierter Blinker";
+"whelenStyleSingleFlash"    = "Einzelner Blinker";
+"whelenStyleDoubleFlash"    = "Doppelter Blinker";
+"whelenStyleTripleFlash"    = "Dreifacher Blinker";
+"whelenStyleWarning"        = "Warnblinker";
 "whelenStyleRandom"         = "Zufälliges Programm";
 
 "trafficStandard"         = "Standard";
@@ -543,7 +543,7 @@
 "Med" = "Mittel";
 "Often" = "Häufig";
 "Max" = "Maximal";
-"Subtle" = "Fein";
+"Subtle" = "Leicht";
 "Severe" = "Schwer";
 "Toggle" = "Umschalten";
 "On" = "Ein";
