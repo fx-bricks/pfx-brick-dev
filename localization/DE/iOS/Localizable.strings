@@ -474,11 +474,11 @@
 "trafficStandard"         = "Standard";
 "trafficStandardGreen"    = "Standard mit blink. Grün";
 "trafficEuro"             = "Europäisch";
-"trafficFlashRedNS"       = "Blinkendes Rot (NS), Gelb (EW)";
+"trafficFlashRedNS"       = "Blinkendes Rot (NS), Gelb (OW)";
 "trafficStandardPed"      = "Standard mit Fußgänger";
 "trafficStandardGreenPed" = "Standard mit blink. Grün + Fußgänger";
 "trafficEuroPed"          = "Europäisch mit Fußgänger";
-"trafficFlashRedEW"       = "Blinkendes Red (EW), Gelb (NS)";
+"trafficFlashRedEW"       = "Blinkendes Red (OW), Gelb (NS)";
 "trafficEuro2"            = "Europäisch 2";
 "trafficEuro2Ped"         = "Europäisch 2 mit Fußgänger";
 
