@@ -478,7 +478,7 @@
 "trafficStandardPed"      = "Standard mit Fußgänger";
 "trafficStandardGreenPed" = "Standard mit blink. Grün + Fußgänger";
 "trafficEuroPed"          = "Europäisch mit Fußgänger";
-"trafficFlashRedEW"       = "Blinkendes Red (OW), Gelb (NS)";
+"trafficFlashRedEW"       = "Blinkendes Rot (OW), Gelb (NS)";
 "trafficEuro2"            = "Europäisch 2";
 "trafficEuro2Ped"         = "Europäisch 2 mit Fußgänger";
 
