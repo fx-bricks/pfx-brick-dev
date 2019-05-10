@@ -1,7 +1,8 @@
 \documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$lang$,$endif$$if(papersize)$$papersize$,$endif$]{$documentclass$}
 \usepackage[top=1in, bottom=1.25in, left=1.25in, right=1.25in]{geometry}
-\usepackage[T1]{fontenc}
+\usepackage[T1,LGR,T2A,OT1]{fontenc}
 \usepackage{fancyhdr}
+\usepackage{xcolor}
 \pagestyle{fancy}
 \fancyhead[CO,CE]{$header$}
 \fancyfoot[CO,CE]{$footer$}
@@ -9,10 +10,23 @@
 \fancyfoot[L]{PFx Brick USB \& BLE Host ICD Rev $revision$}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
-\usepackage{lmodern}
+%\usepackage[RM={Scale=0.94},
+%            SS={Scale=0.94},
+%            SScon={Scale=0.94},
+%            TT={Scale=MatchLowercase,FakeStretch=0.9},
+%            DefaultFeatures={Ligatures=TeX}]{plex-otf}
+%\usepackage[sfdefault,rm]{roboto}
+%\usepackage[sfdefault]{universalis}
+\usepackage[scale=0.98,sfdefault,medium]{ClearSans}
+\usepackage{fancyvrb}
+\usepackage{makecell}
+\renewcommand{\cellalign}{tl}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \usepackage[bitheight=6ex]{bytefield}
+\bytefieldsetup{
+  boxformatting=\ttfamily\color[rgb]{0.13,0.29,0.53}\bfseries\centering
+}
 \usepackage{fixltx2e} % provides \textsubscript
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -58,9 +72,42 @@ $endif$
 $endif$
 $if(listings)$
 \usepackage{listings}
+\lstdefinelanguage{pfx}{
+    morekeywords={light, motor, sound, wait, ir, repeat},
+    morekeywords=[2]{play, stop, fade, all, on, off, flash, loop, left, right, up, down, ch, speed, fx, vol, bass, treble, bright, joy},
+    otherkeywords={0,1,2,3,4,5,6,7,8,9},
+    morekeywords=[3]{0,1,2,3,4,5,6,7,8,9},
+    otherkeywords={),(,\<,\>},
+    morekeywords=[4]{(,),\<,\>,channels, parameters, commands, command, id, value, ontime, offtime, fileID, time},
+    sensitive = true,
+    morecomment=[l]{\#},
+    morecomment=[l]{//},
+    morestring=[b]",
+    keywordstyle=\ttfamily\color[rgb]{0.13,0.29,0.53}\bfseries,
+    keywordstyle=[2]\ttfamily\color[rgb]{0.53,0.13,0.29}\bfseries,
+    keywordstyle=[3]\ttfamily\color[rgb]{0.0,0.5,0.29}\bfseries,
+    keywordstyle=[4]\ttfamily\color[rgb]{0.0,0.0,0.0}\bfseries\itshape,
+    stringstyle=\ttfamily\color[rgb]{0.31,0.60,0.02},
+    commentstyle=\ttfamily\color[rgb]{0.56,0.35,0.01}\itshape,
+    numberstyle=\footnotesize,
+    backgroundcolor=\color[RGB]{248,248,248},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=true,
+    breakautoindent=true,
+    basewidth=0.5em,
+    frame=trbl,
+    framesep=4pt,
+}
+\lstset{
+    basicstyle=\ttfamily\color[rgb]{0.13,0.29,0.53}\bfseries,
+}
 $endif$
 $if(lhs)$
-\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+\lstnewenvironment{code}{\lstset{language=pfx}}
 $endif$
 $if(highlighting-macros)$
 $highlighting-macros$
@@ -69,7 +116,7 @@ $if(verbatim-in-note)$
 \usepackage{fancyvrb}
 $endif$
 $if(tables)$
-\usepackage{longtable}  
+\usepackage{longtable}
 $endif$
 \usepackage{graphicx}
 $if(graphics)$
@@ -145,18 +192,18 @@ $endif$
 \thispagestyle{empty}
 
 	\centering % Centre everything on the title page
-	
+
 	\vspace*{\baselineskip} % White space at the top of the page
-	
+
 	%------------------------------------------------
 	%	Title
 	%------------------------------------------------
-	
+
 	\rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} % Thick horizontal rule
 	\rule{\textwidth}{0.4pt} % Thin horizontal rule
-	
+
 	\vspace{0.75\baselineskip} % Whitespace above the title
-	
+
 	{\LARGE PFx Brick\\} % Title
 	\vspace{0.75\baselineskip} % Whitespace below the title
 	{\LARGE Host Interface Control Document\\} % Title
@@ -165,48 +212,48 @@ $endif$
 	\vspace{0.75\baselineskip} % Whitespace below the title
 	{\LARGE USB and Bluetooth LE\\} % Title
 	\vspace{0.75\baselineskip} % Whitespace below the title
-	
+
 	\rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} % Thin horizontal rule
 	\rule{\textwidth}{1.6pt} % Thick horizontal rule
-	
+
 	\vspace{2\baselineskip} % Whitespace after the title block
-	
+
 	%------------------------------------------------
 	%	Subtitle
 	%------------------------------------------------
-	
+
   \large Document No.: {$doc_no$}
-  
+
   \vspace*{0.5\baselineskip} % Whitespace under the subtitle
-	  
+
 	Rev. {$revision$} % Subtitle or further description
-	
+
   %------------------------------------------------
 	%	Editor(s)
 	%------------------------------------------------
-	
+
 	\vspace{0.5\baselineskip} % Whitespace before the editors
 
 	{$date$} % Publication year
-	
+
 	\vfill % Whitespace between editor names and publisher logo
-	
+
 	%------------------------------------------------
 	%	Publisher
 	%------------------------------------------------
 
   \includegraphics[width=3cm]{./LogoTypeBlack.png}
 	\vspace{0.1\baselineskip} % Whitespace under the publisher logo
-  
+
   {\small Ottawa, ON \enskip CANADA}
 	\vspace{0.1\baselineskip} % Whitespace under the publisher logo
-  
+
   {\small www.fxbricks.com }
 	\vspace{0.1\baselineskip} % Whitespace under the publisher logo
-  
+
   {\small \textcopyright \enskip 2018 Fx Bricks Inc., All rights reserved}
 	\vspace{0.1\baselineskip} % Whitespace under the publisher logo
-	
+
 \end{titlepage}
 
 \pagebreak
