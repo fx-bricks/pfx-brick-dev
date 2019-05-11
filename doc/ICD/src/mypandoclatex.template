@@ -74,7 +74,7 @@ $if(listings)$
 \usepackage{listings}
 \lstdefinelanguage{pfx}{
     morekeywords={light, motor, sound, wait, ir, repeat},
-    morekeywords=[2]{play, stop, fade, all, on, off, flash, loop, left, right, up, down, ch, speed, fx, vol, bass, treble, bright, joy},
+    morekeywords=[2]{play, beep, stop, fade, all, on, off, flash, loop, left, right, up, down, ch, speed, fx, vol, bass, treble, bright, joy},
     otherkeywords={0,1,2,3,4,5,6,7,8,9},
     morekeywords=[3]{0,1,2,3,4,5,6,7,8,9},
     otherkeywords={),(,\<,\>},

@@ -2582,7 +2582,7 @@ The secondary command and parameter keywords are as follows:
 
 ~~~
 play, stop, fade, all, on, off, flash, loop, left, right, up, down,
-ch, speed, fx, vol, bass, treble, bright, joy
+ch, speed, fx, vol, bass, treble, bright, joy, beep
 ~~~
 
 \pagebreak
@@ -2646,6 +2646,7 @@ light (0.05 to 60.0 seconds) \\
 \lstinline|bright <value>| - set brightness (0 to 255) \\
 \lstinline|fx <id> [parameters]| - performs light action \\
 \lstinline|<id>| as \lstinline|LIGHT_FX_ID| with specified parameters \\
+if \lstinline|channels| = \lstinline|all| then \lstinline|<id>| is a combo id \\
 \\
 \lstinline|light 1 on| \\
 \lstinline|light [1,4,8] off fade 0.5| \\
@@ -2667,6 +2668,7 @@ of \lstinline|fileID| \\
 for \lstinline|value| times \\
 \lstinline|vol <value>| - set volume (0 to 255) \\
 \lstinline|bass <value>| - set bass (-20 to 20) \\
+\lstinline|beep| - short beep sound \\
 \lstinline|treble <value>| - set treble (-20 to 20) \\
 \lstinline|fx <id> [parameters]| - performs sound action \\
 \lstinline|<id>| as \lstinline|SOUND_FX_ID| with specified parameters \\
@@ -2704,7 +2706,7 @@ Negative speed is reverse direction \\
 \bfseries{Execution Control} \\
 \\
 Delay execution and wait for event to resume: \\
-\lstinline|wait <time>| - pause execution (0.05 to 60.0 sec) \\
+\lstinline|wait <time>| - pause (0.05 to unlimited sec) \\
 \lstinline|wait sound fileID| - pause execution until \\
 sound file \lstinline|fileID| has stopped playing \\
 \lstinline|wait ir parameters| - pause execution until \\
@@ -2739,27 +2741,24 @@ Redirect execution to same or different script: \\
 #
 # Ch 1: Red, Ch 2: Yellow, Ch 3: Green
 # Ch 4: Don't Walk, Ch 5: Walk
-
+# reset all light channels
+light all off
 # Red phase
 light [1,4] on
-light [2,3,5] off
-wait 10.0
-
+light [2,3,5] off fade 0.2
+wait 8.0
 # Green phase
 light [1,4] off fade 0.2
 light [3,5] on
-wait 10.0
-
+wait 8.0
 # Pedestrian crossing warning
-light 5 off fade 0.2
-light 4 flash 1.0 fade 0.2
+light 5 off fade 0.1
+light 4 flash 0.4 fade 0.1
 wait 5
-
 # Yellow
 light 3 off fade 0.2
 light [2,4] on
-wait 5
-
+wait 4
 # Start the sequence again
 repeat
 ~~~
