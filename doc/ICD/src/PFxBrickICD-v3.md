@@ -1872,7 +1872,9 @@ The `PFX_CMD_FILE_DIR` command is used to interact with the file system director
 \end{bytefield}
 \medskip
 
-**Device response packet (Request 0x00 - Get Number of Files)**
+**Device response packets**
+
+**Request 0x00 - Get Number of Files**
 
 \medskip
 \begin{bytefield}[bitwidth=\widthof{INIQUE~},endianness=little]{5}
@@ -1880,7 +1882,7 @@ The `PFX_CMD_FILE_DIR` command is used to interact with the file system director
   \bitbox{1}{0xC5} & \bitbox{1}{Request} & \bitbox{1}{Status} & \bitbox{2}{File Count[15:0]} \\
 \end{bytefield}
 
-**Device response packet (Request 0x01 - Get Free Space / Capacity)**
+**Request 0x01 - Get Free Space / Capacity**
 
 \medskip
 \begin{bytefield}[bitwidth=\widthof{INIQUE~},endianness=little]{11}
@@ -1888,9 +1890,9 @@ The `PFX_CMD_FILE_DIR` command is used to interact with the file system director
   \bitbox{1}{0xC5} & \bitbox{1}{Request} & \bitbox{1}{Status} & \bitbox{4}{Bytes Free[31:0]} & \bitbox{4}{Bytes Capacity[31:0]}\\
 \end{bytefield}
 
-**Device response packet (Request 0x02 - Get Directory Entry at Index)**
+**Request 0x02 - Get Directory Entry at Index**
 
-**Device response packet (Request 0x03 - Get Directory Entry of File ID)**
+**Request 0x03 - Get Directory Entry of File ID**
 
 \medskip
 \begin{bytefield}[bitwidth=\widthof{INIQUE~},endianness=little]{10}
@@ -1917,43 +1919,43 @@ The `PFX_CMD_FILE_DIR` command is used to interact with the file system director
 
 \pagebreak
 
-**Device response packet (Request 0x04 - Add File with ID to Audio LUT)**
+**Request 0x04 - Add Audio Meta Data to Directory with ID**
 
 This command will trigger the file system to read the specified file and extract meta data associated with an audio WAV file.  This meta data is then written to the directory in the `Attributes`, `User Data1`, and `User Data2` fields.
 
 \medskip
 
-**Device response packet (Request 0x05 - Rename File with ID)**
+**Request 0x05 - Rename File with ID**
 
 Changes the 32 character filename of the specified file.  The filename data bytes should be contained in bytes 3 to 34 of the host command packet.
 
 \medskip
 
-**Device response packet (Request 0x06 - Set Attributes with ID)**
+**Request 0x06 - Set Attributes with ID**
 
 Changes the `Attributes` field of the file directory entry.  The `Attributes[15:0]` data bytes should be contained in bytes 3 and 4 of the host command packet.
 
-**Device response packet (Request 0x0A - Set Attributes with ID, masked)**
+**Request 0x0A - Set Attributes with ID, masked**
 
 Changes the `Attributes` field of the file directory entry.  The `Attributes[15:0]` data bytes should be contained in bytes 3 and 4 of the host command packet and a bit mask should be contained in bytes 5 and 6.  The only bits that are changed in the `Attributes` field are the bits specified with the bit mask.  This allows non-destructive modification of attributes by only specifying the bits that require changing.  For example a command to modify the file type of file ID `0x77` to WAV would be as follows: `0x45 0x0A 0x77 0x00 0x00 0xFF 0x00`, i.e. only `User Attributes[15:8]` is set to `0x00` because of the bit mask `0xFF00`.
 
 \medskip
 
-**Device response packet (Request 0x07 - Set User Data1 with ID)**
+**Request 0x07 - Set User Data1 with ID**
 
-**Device response packet (Request 0x08 - Set User Data2 with ID)**
+**Request 0x08 - Set User Data2 with ID**
 
 Changes the `User Data1/2` fields of the file directory entry.  The `User Data1/2[31:0]` data bytes should be contained in bytes 3 to 6 of the host command packet.
 
 \medskip
 
-**Device response packet (Request 0x09 - Compute CRC32 with ID)**
+**Request 0x09 - Compute CRC32 with ID**
 
 Computes the CRC32 hash code of the specified file and stores it into the file directory.  Normally, the CRC32 code is automatically computed when a file that is being written is closed.  This command can be used force the recalculation of the CRC32 code.  Note that the computation of the CRC32 code is performed as a background process and may take several seconds to complete for large files.  The CRC32 code is set to zero before a new computation is performed.  This can be used to monitor the progress of the CRC32 computation since it will revert to a non-zero value when it is completed.
 
 \medskip
 
-**Device response packet (Request 0x0B - Get File ID for Filename)**
+**Request 0x0B - Get File ID for Filename**
 
 Attempts to find the file ID of a specified filename.  The filename data bytes should be contained in bytes 3 to 34 of the host command packet and byte 2 should contain the length of filename.  If the filename is found, then it is returned in the `Status` field, otherwise an error code indicating `PFX_ERR_FILE_NOT_FOUND` or `PFX_ERR_FILE_NOT_UNIQUE` may be returned.
 
@@ -2582,7 +2584,7 @@ The secondary command and parameter keywords are as follows:
 
 ~~~
 play, stop, fade, all, on, off, flash, loop, left, right, up, down,
-ch, speed, fx, vol, bass, treble, bright, joy, beep
+ch, speed, fx, vol, bass, treble, bright, joy, beep, button
 ~~~
 
 \pagebreak
@@ -2621,31 +2623,24 @@ Some commands also support the use of strings--typically for specifying items su
 
 ##Command Reference
 
-\begin{tabular}{  p{7.5cm}  p{7.5cm}  }
-\hline
-\bfseries{Light Commands} & \bfseries{Motor Commands} \\
-
-\lstinline|light channels commands|
-&
-\lstinline|motor channels command|
-\\
-
-\lstinline|channels| can be specified as a single channel number 1-8, a list of channels enclosed with \Verb|[]| parenthesis, or the keyword \lstinline|all|
-&
-\lstinline|channels| can be specified as a single channel number 1 or 2 (or as \lstinline|a| and \lstinline|b|), a list of channels enclosed with \Verb|[]| parenthesis, or the keyword \lstinline|all|
-\\
-
+\begin{tabular}{  p{15cm}   }
 \makecell{
-\lstinline|commands| are a combination of the following \\
-keywords and values: \\
+\hline
+\\
+\bfseries{Light Commands} \\
+\\
+\lstinline|light channels commands| \\
+\\
+\lstinline|channels| can be specified as a single channel number 1-8, a list of channels enclosed with \\
+\Verb|[]| parenthesis, or the keyword \lstinline|all| \\
+\\
+\lstinline|commands| are a combination of the following keywords and values: \\
 \lstinline|on| - turn on light channel(s) \\
 \lstinline|off| - turn off light channel(s) \\
 \lstinline|fade <time>| - fade time (0 to 10.0 seconds). \\
-\lstinline|flash <ontime> [offtime]| - periodic flashing \\
-light (0.05 to 60.0 seconds) \\
+\lstinline|flash <ontime> [offtime]| - periodic flashing light (0.05 to 60.0 seconds) \\
 \lstinline|bright <value>| - set brightness (0 to 255) \\
-\lstinline|fx <id> [parameters]| - performs light action \\
-\lstinline|<id>| as \lstinline|LIGHT_FX_ID| with specified parameters \\
+\lstinline|fx <id> [parameters]| - performs light action \lstinline|<id>| as \lstinline|LIGHT_FX_ID| with specified parameters \\
 if \lstinline|channels| = \lstinline|all| then \lstinline|<id>| is a combo id \\
 \\
 \lstinline|light 1 on| \\
@@ -2653,7 +2648,8 @@ if \lstinline|channels| = \lstinline|all| then \lstinline|<id>| is a combo id \\
 \lstinline|light [2,4] flash 0.1 0.4 fade 0.1| \\
 \lstinline|light all bright 128| \\
 \lstinline|light [6,7] fx 0x0C [1,0,3,0,0]| \\
-\\ \hline
+\\
+\hline
 \\
 \bfseries{Sound Commands} \\
 \\
@@ -2662,16 +2658,14 @@ if \lstinline|channels| = \lstinline|all| then \lstinline|<id>| is a combo id \\
 \lstinline|command| is one of the following keywords: \\
 \lstinline|play fileID| - start playback of \lstinline|fileID| \\
 \lstinline|stop fileID| - stop playback of \lstinline|fileID| \\
-\lstinline|play fileID| \lstinline|repeat| - continuous playback \\
-of \lstinline|fileID| \\
-\lstinline|play fileID| \lstinline|loop <value>| - plays \lstinline|fileID| \\
-for \lstinline|value| times \\
+\lstinline|play fileID| \lstinline|repeat| - continuous playback of \lstinline|fileID| \\
+\lstinline|play fileID| \lstinline|loop <value>| - plays \lstinline|fileID| for \lstinline|value| times \\
 \lstinline|vol <value>| - set volume (0 to 255) \\
 \lstinline|bass <value>| - set bass (-20 to 20) \\
 \lstinline|beep| - short beep sound \\
 \lstinline|treble <value>| - set treble (-20 to 20) \\
-\lstinline|fx <id> [parameters]| - performs sound action \\
-\lstinline|<id>| as \lstinline|SOUND_FX_ID| with specified parameters \\
+\lstinline|fx fileID <id> [parameters]| - performs sound action \lstinline|<id>| as \lstinline|SOUND_FX_ID| with \\
+specified parameters \\
 \\
 \lstinline|fileID| can be specified either as a numeric \\
 file ID or string containing the filename.\\
@@ -2679,43 +2673,53 @@ file ID or string containing the filename.\\
 \lstinline|sound play 3 loop 5| \\
 \lstinline|sound play "Siren1.wav"| \\
 \lstinline|sound vol 160| \\
-\lstinline|sound treble -6|
+\lstinline|sound treble -6| \\
+\lstinline|sound fx 9 0x04 0 0| \\
+\\
+\hline
 }
-&
+\end{tabular}
+\pagebreak
 
+\begin{tabular}{  p{15cm}   }
 \makecell{
+\hline
+\\
+\bfseries{Motor Commands} \\
+\lstinline|motor channels command| \\
+\\
+\lstinline|channels| can be specified as a single channel number 1 or 2 (or as \lstinline|a| and \lstinline|b|), a list of channels \\
+enclosed with \Verb|[]| parenthesis, or the keyword \lstinline|all| \\
+\\
 \lstinline|command| is one of the following keywords: \\
 \lstinline|stop| - stop motor channel(s) \\
-\lstinline|speed <value>| - set motor speed (-255 to 255) \\
-Positive speed is forward direcation \\
-Negative speed is reverse direction \\
-\lstinline|fx <id> [parameters]| - performs motor action \\
-\lstinline|<id>| as \lstinline|MOTOR_FX_ID| with specified parameters \\
+\lstinline|speed <value>| - motor speed (-255 to 255), +speed is forward, -speed is reverse direction \\
+\lstinline|servo <value>| - servo motor angle (-90 to 90) \\
+\lstinline|fx <id> [parameters]| - performs motor action \lstinline|<id>| as \lstinline|MOTOR_FX_ID| with specified parameters \\
 \\
 \lstinline|motor all stop| \\
 \lstinline|motor a speed -50| \\
-\lstinline|motor 2 speed 130| \\
-\\ \hline
+\lstinline|motor 2 servo 45| \\
+\lstinline|motor 1 fx 0x07 0x03 0| \\
+\\
+\hline
 \\
 \bfseries{IR Commands} \\
 \\
 \lstinline|ir on| - activates the IR sensor \\
 \lstinline|ir off| - disables the IR sensor \\
-\\ \hline
+\\
+\hline
 \\
 \bfseries{Execution Control} \\
 \\
 Delay execution and wait for event to resume: \\
 \lstinline|wait <time>| - pause (0.05 to unlimited sec) \\
-\lstinline|wait sound fileID| - pause execution until \\
-sound file \lstinline|fileID| has stopped playing \\
-\lstinline|wait ir parameters| - pause execution until \\
-IR event has been received where \lstinline|parameters| \\
-can be any combination of: \\
-\lstinline|joy| - joystick remote \\
-\lstinline|speed| - speed remote \\
+\lstinline|wait sound fileID| - pause execution until sound file \lstinline|fileID| has stopped playing \\
+\lstinline|wait ir parameters| - pause execution until IR event has been received \\
+where \lstinline|parameters| can be any combination of: \\
+\lstinline|joy| - joystick remote, \lstinline|speed| - speed remote, \lstinline|up,down,left,right,button| - remote actions \\
 \lstinline|ch <value>| - IR channel \\
-\lstinline|up,down,left,right| - remote direction \\
 \\
 Redirect execution to same or different script: \\
 \lstinline|repeat| - repeat execution of current script \\
@@ -2724,12 +2728,12 @@ Redirect execution to same or different script: \\
 \lstinline|wait 3.0| \\
 \lstinline|wait sound 5| \\
 \lstinline|wait ir joy left up| \\
-\lstinline|wait ir speed ch 4| \\
+\lstinline|wait ir speed ch 4 left button| \\
 \lstinline|run 3| \\
 \lstinline|run "MyScript.txt"| \\
-}
 \\
 \hline
+} \\
 \end{tabular}
 
 \pagebreak
