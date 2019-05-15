@@ -1017,9 +1017,14 @@ This message asks the PFx Brick to report its current internal operating state. 
   \bitbox{2}{millisec count} & \bitbox{2}{slow 1 sec count} \\
 \end{bytefield}
 
-\begin{bytefield}[bitwidth=\widthof{CURrentSpeed~},endianness=little]{6}
-  \bitheader[lsb=57]{57-62} \\
-  \bitbox{1}{Status Latch 1} & \bitbox{1}{Status Latch 2} & \bitbox{1}{File system state} & \bitbox{1}{Current \\ audio peak} & \bitbox{1}{Current \\ audio notch} & \bitbox{1}{Script exec \\ state} \\
+\begin{bytefield}[bitwidth=\widthof{CURrentSpeed~},endianness=little]{5}
+  \bitheader[lsb=57]{57-61} \\
+  \bitbox{1}{Status Latch 1} & \bitbox{1}{Status Latch 2} & \bitbox{1}{File system state} & \bitbox{1}{Current \\ audio peak} & \bitbox{1}{Current \\ audio notch} \\
+\end{bytefield}
+
+\begin{bytefield}[bitwidth=\widthof{CURrentSpeed~},endianness=little]{2}
+  \bitheader[lsb=62]{62-63} \\
+  \bitbox{1}{Script exec \\ state} & \bitbox{1}{Script exec \\ line} \\
 \end{bytefield}
 
 \pagebreak
@@ -2099,6 +2104,8 @@ The `PFX_CMD_RUN_SCRIPT` command starts execution of a script file stored in the
 
 The `Status` byte contains the result code of this command and should nominally be 0x00 indicating success.
 
+If the `File ID` byte is set to 0xFF, then the current running script will be stopped.
+
 \pagebreak
 
 ##`PFX_CMD_STATUS_LED`
@@ -2578,12 +2585,13 @@ ir parameters
 wait parameters
 repeat
 run
+stop
 ~~~
 
 The secondary command and parameter keywords are as follows:
 
 ~~~
-play, stop, fade, all, on, off, flash, loop, left, right, up, down,
+play, fade, all, on, off, flash, loop, left, right, up, down,
 ch, speed, fx, vol, bass, treble, bright, joy, beep, button
 ~~~
 
@@ -2724,11 +2732,13 @@ where \lstinline|parameters| can be any combination of: \\
 Redirect execution to same or different script: \\
 \lstinline|repeat| - repeat execution of current script \\
 \lstinline|run fileID| - execute script with \lstinline|fileID| \\
+\lstinline|stop| - stops the script at the current line \\
 \\
 \lstinline|wait 3.0| \\
 \lstinline|wait sound 5| \\
 \lstinline|wait ir joy left up| \\
 \lstinline|wait ir speed ch 4 left button| \\
+\lstinline|stop| \\
 \lstinline|run 3| \\
 \lstinline|run "MyScript.txt"| \\
 \\
