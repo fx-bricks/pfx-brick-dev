@@ -184,7 +184,7 @@ Changes made to each version of this document are summarized in the table below.
         & Added a new User Attribute for file system to mark text files for use with scripting \\
         & Added new error codes \\
         & Changed the format of the \lstinline|PFX_CMD_GET_CURRENT_STATE| message response \\
-        & Added new \lstinline|PFX_DIR_REQ_GET_NAMED_FILE_ID| request type for the \lstinline|PFX_CMD_FILE_DIR| command message \\
+        & Added 3 new request types for the \lstinline|PFX_CMD_FILE_DIR| command message: \lstinline|PFX_DIR_REQ_GET_NAMED_FILE_ID|, \lstinline|PFX_DIR_REQ_GET_SMALL_DIR_ID|, \lstinline|PFX_DIR_REQ_GET_SMALL_DIR_IDX| \\
         & Re-organized the document by putting reference descriptions of the memory map, file system, etc. at the end \\
   \hline
 \end{tabular}
@@ -1494,17 +1494,26 @@ The PFX Encrypted Firmware file is then written as follows:
   \bitbox[]{4}{$\vdots$ \\[1ex]} \\
 \end{bytefield}
 
-```
-where Byte Count = total number of data bytes in the IVT and Application firmware spaces
-      CRC32 = the CRC32 code computed over the IVT and Application spaces
-      IVT Start = start address of IVT space (word aligned/2-byte boundary)
-      IVT Length = number of 3-byte words in IVT space
-      App Start = start address of Application (word aligned/2-byte boundary)
-      App Length = number of 3-byte words in Application space
-      Cfg Start = start address of Configuration space (word aligned)
-      Cfg Length = number of 3-byte words in Configuration space
-      Reset Vector = start address of application contained at IVT address 0x0000
-```
+where,
+
+`Byte Count` = total number of data bytes in the IVT and Application firmware spaces
+
+`CRC32` = the CRC32 code computed over the IVT and Application spaces
+
+`IVT Start` = start address of IVT space (word aligned/2-byte boundary)
+
+`IVT Length` = number of 3-byte words in IVT space
+
+`App Start` = start address of Application (word aligned/2-byte boundary)
+
+`App Length` = number of 3-byte words in Application space
+
+`Cfg Start` = start address of Configuration space (word aligned)
+
+`Cfg Length` = number of 3-byte words in Configuration space
+
+`Reset Vector` = start address of application contained at IVT address 0x0000
+
 \pagebreak
 
 **Host command packet:**
@@ -1514,20 +1523,23 @@ where Byte Count = total number of data bytes in the IVT and Application firmwar
   \bitbox{1}{0x30} & \bitbox{1}{File type} & \bitbox{4}{Total file size [31:0]} & \bitbox{4}{CRC32 [31:0]} & \bitbox{2}{IVT size} & \bitbox{4}{App size} \\
 \end{bytefield}
 
-```
-where File type = 0 for PFx encrypted Intel HEX file format
-                = 1 for Microchip blob format
+\medskip
 
-CRC32 is the computed CRC-32 (IEEE 802.3 Ethernet version) over the
+where,
+
+`File type` = 0 for PFx encrypted Intel HEX file format, 1 for Microchip blob format
+
+`CRC32` is the computed CRC-32 (IEEE 802.3 Ethernet version) over the
 entire firmware image file.  The polynomial implemented is:
 
 x32 + x26 + x23 + x22 + x16 + x12 + x11 + x10 + x8 + x7 + x5 + x4 + x2 + x + 1
 
 Commonly this is represented as 0xEDB88320 (or 0x04C11DB7 for big endian)
 
-IVT size = number of 3-byte words in IVT space
-App size = number of 3-byte words in Application space
-```
+`IVT size` = number of 3-byte words in IVT space
+`App size` = number of 3-byte words in Application space
+
+\medskip
 
 **Device response packet:**
 
@@ -1871,11 +1883,38 @@ The `PFX_CMD_FILE_DIR` command is used to interact with the file system director
 **Host command packet:**
 
 \medskip
-\begin{bytefield}[bitwidth=\widthof{INIQUE~},endianness=little]{4}
+\begin{bytefield}[bitwidth=\widthof{INIQUE~},endianness=little]{6}
   \bitheader{0-2} \\
-  \bitbox{1}{0x45} & \bitbox{1}{Request} & \bitbox{2}{Dir Index / \\ File ID } \\
+  \bitbox{1}{0x45} & \bitbox{1}{Request} & \bitbox{4}{File ID, index, optional parameters, ...} \\
 \end{bytefield}
 \medskip
+
+The `Request` byte can be specified as follows:
+
+\medskip
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{ | c | l | p{7.5cm} | }
+  \hline
+  Status & Code & Description \\
+  \hline
+  0x00 & \lstinline|PFX_DIR_REQ_GET_FILE_COUNT|     & Get number of files  \\
+  0x01 & \lstinline|PFX_DIR_REQ_GET_FREE_SPACE|     & Get free space and total capacity  \\
+  0x02 & \lstinline|PFX_DIR_REQ_GET_DIR_ENTRY_IDX|  & Get directory entry at index  \\
+  0x03 & \lstinline|PFX_DIR_REQ_GET_DIR_ENTRY_ID|   & Get directory entry of File ID  \\
+  0x04 & \lstinline|PFX_DIR_REQ_ADD_AUDIO_FILE_ID|  & Add audio meta data to directory for File ID  \\
+  0x05 & \lstinline|PFX_DIR_REQ_RENAME_FILE_ID|     & Rename File ID  \\
+  0x06 & \lstinline|PFX_DIR_REQ_SET_ATTR_ID|        & Set attributes for File ID  \\
+  0x07 & \lstinline|PFX_DIR_REQ_SET_USER_DATA1_ID|  & Set UserData1 attributes for File ID  \\
+  0x08 & \lstinline|PFX_DIR_REQ_SET_USER_DATA2_ID|  & Set UserData2 attributes for File ID   \\
+  0x09 & \lstinline|PFX_DIR_REQ_COMPUTE_CRC32_ID|   & Compute CRC32 for File ID  \\
+  0x0A & \lstinline|PFX_DIR_REQ_SET_ATTR_MASKED_ID| & Set attributes with mask for File ID  \\
+  0x0B & \lstinline|PFX_DIR_REQ_GET_NAMED_FILE_ID|  & Get File ID for file name  \\
+  0x0C & \lstinline|PFX_DIR_REQ_GET_SMALL_DIR_ID|   & Get compact file info of File ID  \\
+  0x0D & \lstinline|PFX_DIR_REQ_GET_SMALL_DIR_IDX|  & Get compact file info at index  \\
+  \hline
+\end{tabular}
+
+\bigskip
 
 **Device response packets**
 
@@ -1907,7 +1946,7 @@ The `PFX_CMD_FILE_DIR` command is used to interact with the file system director
 
 \begin{bytefield}[bitwidth=\widthof{INIQUE~},endianness=little]{10}
   \bitheader[lsb=10]{10-19} \\
-  \bitbox{2}{Attributes[15:0]} & \bitbox{4}{User Data1[31:0]} & \bitbox{4}{User Data2[31:0]}  \\
+  \bitbox{2}{Attributes [15:0]} & \bitbox{4}{UserData1 [31:0]} & \bitbox{4}{UserData2 [31:0]}  \\
 \end{bytefield}
 
 \begin{bytefield}[bitwidth=\widthof{INIQUE~},endianness=little]{4}
@@ -1922,11 +1961,9 @@ The `PFX_CMD_FILE_DIR` command is used to interact with the file system director
   \wordbox{1}{ } \\
 \end{bytefield}
 
-\pagebreak
-
 **Request 0x04 - Add Audio Meta Data to Directory with ID**
 
-This command will trigger the file system to read the specified file and extract meta data associated with an audio WAV file.  This meta data is then written to the directory in the `Attributes`, `User Data1`, and `User Data2` fields.
+This command will trigger the file system to read the specified file and extract meta data associated with an audio WAV file.  This meta data is then written to the directory in the `Attributes`, `UserData1`, and `UserData2` fields.
 
 \medskip
 
@@ -1946,13 +1983,13 @@ Changes the `Attributes` field of the file directory entry.  The `Attributes[15:
 
 \medskip
 
-**Request 0x07 - Set User Data1 with ID**
+**Request 0x07 - Set UserData1 with ID**
 
-**Request 0x08 - Set User Data2 with ID**
+**Request 0x08 - Set UserData2 with ID**
 
-Changes the `User Data1/2` fields of the file directory entry.  The `User Data1/2[31:0]` data bytes should be contained in bytes 3 to 6 of the host command packet.
+Changes the `UserData1/2` fields of the file directory entry.  The `UserData1/2[31:0]` data bytes should be contained in bytes 3 to 6 of the host command packet.
 
-\medskip
+\pagebreak
 
 **Request 0x09 - Compute CRC32 with ID**
 
@@ -1964,16 +2001,46 @@ Computes the CRC32 hash code of the specified file and stores it into the file d
 
 Attempts to find the file ID of a specified filename.  The filename data bytes should be contained in bytes 3 to 34 of the host command packet and byte 2 should contain the length of filename.  If the filename is found, then it is returned in the `Status` field, otherwise an error code indicating `PFX_ERR_FILE_NOT_FOUND` or `PFX_ERR_FILE_NOT_UNIQUE` may be returned.
 
+\medskip
+
+**Request 0x0C - Get Compact File Info with ID**
+
+**Request 0x0D - Get Compact File Info with Index**
+
+This message returns two consecutive file directory entries in a compact form within one message.  This directory request type is available for the benefit of Bluetooth mobile hosts needing to enumerate sound files quickly by reducing the number of BLE transactions and bandwidth.  The message returns only essential file information such as size, attributes, and a truncated version of the filename.  The message also packs two entries starting at the index of requested file and if it exists, the next consecutive file directory entry.
+
+\medskip
+\begin{bytefield}[bitwidth=\widthof{INIQUE~},endianness=little]{10}
+  \bitheader{0-9} \\
+  \bitbox{1}{0xC5} & \bitbox{1}{Request} & \bitbox{1}{Status} & \bitbox{1}{File ID 1} & \bitbox{4}{File Size 1 [31:0]} & \bitbox{2}{Attributes 1 [15:0]}  \\
+\end{bytefield}
+
+\begin{bytefield}[bitwidth=\widthof{0xJ~},endianness=little]{23}
+  \bitheader[lsb=10]{10-32} \\
+  \bitbox{23}{Left justified 23 character file name 1 UTF8 encoded} \\
+\end{bytefield}
+
+\begin{bytefield}[bitwidth=\widthof{INIQUE~},endianness=little]{7}
+  \bitheader[lsb=33]{33-39} \\
+  \bitbox{1}{File ID 2} & \bitbox{4}{File Size 2 [31:0]} & \bitbox{2}{Attributes 2 [15:0]}  \\
+\end{bytefield}
+
+\begin{bytefield}[bitwidth=\widthof{0xJ~},endianness=little]{23}
+  \bitheader[lsb=40]{40-62} \\
+  \bitbox{23}{Left justified 23 character file name 2 UTF8 encoded} \\
+\end{bytefield}
+
 \bigskip
+
+The `Status` byte contains the result code of the directory operation request which should nominally be 0x00 indicating success.
+
+
+\medskip
 
 \begin{bytefield}[bitwidth=\widthof{INIQUE~},endianness=little]{3}
   \bitheader{0-2} \\
   \bitbox{1}{0xC5} & \bitbox{1}{Request} & \bitbox{1}{Status} \\
 \end{bytefield}
-
-\medskip
-
-The `Status` byte contains the result code of the directory operation request which should nominally be 0x00 indicating success.
 
 \pagebreak
 
@@ -3795,6 +3862,24 @@ The `PERIOD2` parameter specifies repeating period for many light f/x.
   \hline
 \end{tabular}
 \normalsize
+
+####`TRANSITION`
+
+The `TRANSITION` parameter used with the alternating flash effect defines the transition after the active (flashing) state. It is defined as follows:
+\medskip
+
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{ | c | l | }
+  \hline
+  Value & Description  \\
+  \hline
+  0x00 & toggle light output \\
+  0x01 & transition to always ON \\
+  0x02 & transition to OFF \\
+  \hline
+\end{tabular}
+\normalsize
+\medskip
 
 \pagebreak
 
