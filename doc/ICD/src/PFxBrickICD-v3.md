@@ -3331,14 +3331,14 @@ The `MOTOR_POS` parameter specifies the angular position of a LEGO Power Functio
   \hline
   Value & Definition &  Value & Definition \\
   \hline
-  0x0 & 90 deg  & 0x8 & -30 deg \\
-  0x1 & 75 deg  & 0x9 & -45 deg \\
-  0x2 & 60 deg  & 0xA & -60 deg \\
-  0x3 & 45 deg  & 0xB & -75 deg \\
-  0x4 & 30 deg  & 0xC & -90 deg \\
-  0x5 & 15 deg  &     &  \\
+  0x0 & -90 deg  & 0x8 & 30 deg \\
+  0x1 & -75 deg  & 0x9 & 45 deg \\
+  0x2 & -60 deg  & 0xA & 60 deg \\
+  0x3 & -45 deg  & 0xB & 75 deg \\
+  0x4 & -30 deg  & 0xC & 90 deg \\
+  0x5 & -15 deg  &     &  \\
   0x6 & 0 deg   &     &  \\
-  0x7 & -15 deg &     &  \\
+  0x7 & 15 deg &     &  \\
   \hline
 \end{tabular}
 \normalsize
