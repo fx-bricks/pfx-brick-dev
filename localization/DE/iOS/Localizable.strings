@@ -142,9 +142,9 @@
 
 "edit_action" = "Bearbeite Aktion";
 "command" = "Spezielle Anweisung";
-"motor_actions" = "Motor Aktionen";
-"light_actions" = "Licht Aktionen";
-"sound_actions" = "Sound Aktionen";
+"motor_actions" = "Motor Aktion";
+"light_actions" = "Licht Aktion";
+"sound_actions" = "Sound Aktion";
 "swipe_clear" = "Wische um zu Löschen";
 "test_action" = "Teste diese Aktion";
 "clear" = "Löschen";
@@ -250,6 +250,7 @@
 "motorStep8"  = "25% (4 Schritte)";
 "motorStep9"  = "33% (3 Schritte)";
 "motorStep10" = "LEGO PF 7 Schritte";
+"motorStep11" = "";
 
 "motorSpeed0"  = "Angehalten";
 "motorSpeed1"  = "10% Vorwärts";
@@ -427,22 +428,23 @@
 "lightTransitionTime15" = "5 min";
 
 "dirOptionNone"         = "Kein";
-"dirOptionMotorAFwd"    = "Ein wenn Motor A Vorw.";
-"dirOptionMotorARev"    = "Ein wenn Motor A Rückw.";
-"dirOptionMotorBFwd"    = "Ein wenn Motor B Vorw.";
-"dirOptionMotorBRev"    = "Ein wenn Motor B Rückw.";
-"dirOptionMotorCFwd"    = "Ein wenn Motor C Vorw.";
-"dirOptionMotorCRev"    = "Ein wenn Motor C Rückw.";
-"dirOptionMotorDFwd"    = "Ein wenn Motor D Vorw.";
-"dirOptionMotorDRev"    = "Ein wenn Motor D Rückw.";
-"dirOptionOddMotorAFwd" = "1,3,5,7 Ein wenn Motor A Vorw., 2,4,6,8 wenn Rückw.";
-"dirOptionOddMotorBFwd" = "1,3,5,7 Ein wenn Motor B Vorw., 2,4,6,8 wenn Rückw.";
-"dirOptionOddMotorCFwd" = "1,3,5,7 Ein wenn Motor C Vorw., 2,4,6,8 wenn Rückw.";
-"dirOptionOddMotorDFwd" = "1,3,5,7 Ein wenn Motor D Vorw., 2,4,6,8 wenn Rückw.";
-"dirOptionOddMotorARev" = "1,3,5,7 Ein wenn Motor A Rückw., 2,4,6,8 wenn Vorw.";
-"dirOptionOddMotorBRev" = "1,3,5,7 Ein wenn Motor B Rückw., 2,4,6,8 wenn Vorw.";
-"dirOptionOddMotorCRev" = "1,3,5,7 Ein wenn Motor C Rückw., 2,4,6,8 wenn Vorw.";
-"dirOptionOddMotorDRev" = "1,3,5,7 Ein wenn Motor D Rückw., 2,4,6,8 wenn Vorw.";
+"dirOptionMotorAFwd"    = "An wenn Motor A Vorw.";
+"dirOptionMotorARev"    = "An wenn Motor A Rückw.";
+"dirOptionMotorBFwd"    = "An wenn Motor B Vorw.";
+"dirOptionMotorBRev"    = "An wenn Motor B Rückw.";
+"dirOptionMotorCFwd"    = "An wenn Motor C Vorw.";
+"dirOptionMotorCRev"    = "An wenn Motor C Rückw.";
+"dirOptionMotorDFwd"    = "An wenn Motor D Vorw.";
+"dirOptionMotorDRev"    = "An wenn Motor D Rückw.";
+
+"dirOptionOddMotorAFwd" = "Motor A Vorw. = 1,3,5,7, Rückw. = 2,4,6,8";
+"dirOptionOddMotorBFwd" = "Motor B Vorw. = 1,3,5,7, Rückw. = 2,4,6,8";
+"dirOptionOddMotorCFwd" = "Motor C Vorw. = 1,3,5,7, Rückw. = 2,4,6,8";
+"dirOptionOddMotorDFwd" = "Motor D Vorw. = 1,3,5,7, Rückw. = 2,4,6,8";
+"dirOptionOddMotorARev" = "Motor A Rückw. = 1,3,5,7, Vorw. = 2,4,6,8";
+"dirOptionOddMotorBRev" = "Motor B Rückw. = 1,3,5,7, Vorw. = 2,4,6,8";
+"dirOptionOddMotorCRev" = "Motor C Rückw. = 1,3,5,7, Vorw. = 2,4,6,8";
+"dirOptionOddMotorDRev" = "Motor D Rückw. = 1,3,5,7, Vorw. = 2,4,6,8";
 
 "lightSize"         = "Ausgangsgröße";
 "lightSweepStyle"   = "Durchlauf-Stil";
@@ -475,9 +477,9 @@
 "trafficStandard"         = "Standard";
 "trafficStandardGreen"    = "Standard mit blink. Grün";
 "trafficEuro"             = "Europäisch";
-"trafficFlashRedNS"       = "Blinkendes Rot (NS), Gelb (EW)";
+"trafficFlashRedNS"       = "Rot blinkend (NS), Gelb (OW)";
 "trafficStandardPed"      = "Standard mit Fußgänger";
-"trafficStandardGreenPed" = "Standard mit blink. Grün + Fußgänger";
+"trafficStandardGreenPed" = "Std. mit blink. Grün + Fußgänger";
 "trafficEuroPed"          = "Europäisch mit Fußgänger";
 "trafficFlashRedEW"       = "Blinkendes Red (EW), Gelb (NS)";
 "trafficInt"              = "International";
@@ -548,15 +550,15 @@
 "Max" = "Maximal";
 "Subtle" = "Leicht";
 "Severe" = "Schwer";
-"Toggle" = "Umschalten";
+"Toggle" = "Schalten";
 "On" = "Ein";
 "Off" = "Aus";
-"Timed" = "Zeitgebunden";
+"Timed" = "Zeitabh.";
 "Solid" = "Stetig";
 "L-R" = "L-R";
 "R-L" = "R-L";
-"In-Out" = "Innen-Außen";
-"Out-In" = "Außen-Innen";
+"In-Out" = "I-A";
+"Out-In" = "A-I";
 "Slow" = "Langsam";
 "Fast" = "Schnell";
 "None" = "Kein";

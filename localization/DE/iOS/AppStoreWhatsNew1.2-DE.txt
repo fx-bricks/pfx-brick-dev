@@ -1,0 +1,10 @@
+Die App für den PFx Brick hat weitere Effekte und Funktionen erhalten, die für den Update
+auf das neue Baustein-Betriebssystem 1.40 ausgelegt sind:
+
+- Erweiterte Möglichkeiten, alle Funktionen über die "Test-Steuerung" zu testen
+- Programmierung der Funktionen kann nun auch über die App direkt erfolgen
+- Servo-Ansteuerung mit Positionierung von -90° bis +90° in 15° Schritten
+- Landbahnbefeuerung (Lichertanordnung in Pfeilform bis zum Beginn der Landebahn)
+- Dragster Signale (Weihnachtsbaum). Countdown-Anzeigen in verschiedenen Varianten.
+- Formel 1 Signale. Countdown-Anzeige für Training/Rennstart, Abbruch und Warnungen
+- Erweiterung der Schnittstelle (ICD 3.37)
