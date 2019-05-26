@@ -1,10 +1,10 @@
-/* 
+/*
   LocalizedStrings.strings
   PFx Mobile
 
   Created by Michael Gale on 2017-08-26.
   Translated by Alexander Ehle on 2018-09-08
-  
+
   Copyright © 2017 Fx Bricks. All rights reserved.
 */
 
@@ -163,7 +163,7 @@
 "evtID8885LeftCtrOff"  = "Fernbedienung Links Mitte Aus";
 "evtID8885RightCtrOff" = "Fernbedienung Rechts Mitte Aus";
 "evtIDEV3Beacon"       = "EV3 Fernbedienung";
-"evtIDTestEvent"       = "Teste Ereignis"; 
+"evtIDTestEvent"       = "Teste Ereignis";
 "evtStartupEvent"      = "Einschalt-Ereignis";
 
 "None" = "Kein";
@@ -452,7 +452,7 @@
 "lightFlashRate"    = "Blinkrate";
 "lightTrafficStyle" = "Ampel-Stil";
 "lightSeqTime"      = "Sequenz Zeit";
-"lightBarStyle" 	  = "Balken-Stil";
+"lightBarStyle"     = "Balken-Stil";
 
 "twinStyleSingle" = "Einzeln";
 "twinStyleDual"   = "Doppelt";
@@ -471,16 +471,19 @@
 "whelenStyleWarning"        = "Warnblinker";
 "whelenStyleRandom"         = "Zufälliges Programm";
 
+
 "trafficStandard"         = "Standard";
 "trafficStandardGreen"    = "Standard mit blink. Grün";
 "trafficEuro"             = "Europäisch";
-"trafficFlashRedNS"       = "Blinkendes Rot (NS), Gelb (OW)";
+"trafficFlashRedNS"       = "Blinkendes Rot (NS), Gelb (EW)";
 "trafficStandardPed"      = "Standard mit Fußgänger";
 "trafficStandardGreenPed" = "Standard mit blink. Grün + Fußgänger";
 "trafficEuroPed"          = "Europäisch mit Fußgänger";
-"trafficFlashRedEW"       = "Blinkendes Rot (OW), Gelb (NS)";
-"trafficEuro2"            = "Europäisch 2";
-"trafficEuro2Ped"         = "Europäisch 2 mit Fußgänger";
+"trafficFlashRedEW"       = "Blinkendes Red (EW), Gelb (NS)";
+"trafficInt"              = "International";
+"trafficIntPed"           = "International Fußgänger";
+"trafficInt2"             = "International 2";
+"trafficInt2Ped"          = "International 2 Fußgänger";
 
 "SoundFxNone"           = "Kein";
 "SoundFxSetVolume"      = "Laustärke einstellen";
@@ -558,3 +561,55 @@
 "Fast" = "Schnell";
 "None" = "Kein";
 "Light" = "Licht";
+
+"actionType" = "Aktionstyp";
+"action" = "Aktion";
+"ComboFxDragster" = "Dragster Starter";
+"ComboFxFormula1" = "Formula 1 Style";
+"ComboFxAirportRunway" = "Airport Runway";
+"SoundFxPlayPitch" = "Motor Pitch Modulated";
+
+"lightDragsterStyle" = "Stil";
+"lightRunwayRate" = "Flash Rate";
+"lightRunwayBright" = "Static light brightness";
+"lightF1Style" = "Race phase";
+"dragsterStandard" = "Standard countdown to Green";
+"dragsterPro04" = "Pro countdown 0.4 sec";
+"dragsterPro05" = "Pro countdown 0.5 sec";
+
+"f1Countdown" = "Race start countdown";
+"f1RaceBreak" = "Race break/caution";
+"f1RaceStart" = "Training countdown";
+"f1TrainingEnd" = "Training end";
+"f1TrainingBreak" = "Training break";
+"f1TrainingStart" = "Training start";
+
+"runwaySteady" = "Steady";
+"runwaySlow" = "Slow";
+"runwayMed" = "Med";
+"runwayFast" = "Fast";
+
+"runwayBrightMax" = "Max";
+"runwayBrightMed" = "Mitte";
+"runwayBrightLow" = "Low";
+"runwayBrightMin" = "Min";
+
+"MotorSetServo" = "Set Servo Angle";
+"motorServo" = "Servo Angle";
+"motorServo0" = "-90 deg";
+"motorServo1" = "-75 deg";
+"motorServo2" = "-60 deg";
+"motorServo3" = "-45 deg";
+"motorServo4" = "-30 deg";
+"motorServo5" = "-15 deg";
+"motorServo6" = "0 deg";
+"motorServo7" = "15 deg";
+"motorServo8" = "30 deg";
+"motorServo9" = "45 deg";
+"motorServo10" = "60 deg";
+"motorServo11" = "75 deg";
+"motorServo12" = "90 deg";
+
+"icon" = "Symbol";
+"button_icon" = "Schaltflächensymbol";
+"custom_controls" = "Benutzertasten";
