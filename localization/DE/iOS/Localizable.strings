@@ -473,7 +473,6 @@
 "whelenStyleWarning"        = "Warnblinker";
 "whelenStyleRandom"         = "Zufälliges Programm";
 
-
 "trafficStandard"         = "Standard";
 "trafficStandardGreen"    = "Standard mit blink. Grün";
 "trafficEuro"             = "Europäisch";
@@ -566,51 +565,51 @@
 
 "actionType" = "Aktionstyp";
 "action" = "Aktion";
-"ComboFxDragster" = "Dragster Starter";
-"ComboFxFormula1" = "Formula 1 Style";
-"ComboFxAirportRunway" = "Airport Runway";
-"SoundFxPlayPitch" = "Motor Pitch Modulated";
+"ComboFxDragster" = "Dragster Signal";
+"ComboFxFormula1" = "Formel 1 Signal";
+"ComboFxAirportRunway" = "Flughafen-Landbahn";
+"SoundFxPlayPitch" = "Tonhöhenmoduliert";
 
 "lightDragsterStyle" = "Stil";
-"lightRunwayRate" = "Flash Rate";
-"lightRunwayBright" = "Static light brightness";
-"lightF1Style" = "Race phase";
-"dragsterStandard" = "Standard countdown to Green";
-"dragsterPro04" = "Pro countdown 0.4 sec";
-"dragsterPro05" = "Pro countdown 0.5 sec";
+"lightRunwayRate" = "Blinkrate";
+"lightRunwayBright" = "Basishelligkeit";
+"lightF1Style" = "Rennphase";
+"dragsterStandard" = "Standard Countdown";
+"dragsterPro04" = "Professional 0.4";
+"dragsterPro05" = "Professional 0.5";
 
-"f1Countdown" = "Race start countdown";
-"f1RaceBreak" = "Race break/caution";
-"f1RaceStart" = "Training countdown";
-"f1TrainingEnd" = "Training end";
-"f1TrainingBreak" = "Training break";
-"f1TrainingStart" = "Training start";
+"f1Countdown" = "Countdown Rennstart";
+"f1RaceBreak" = "Rennabbruch";
+"f1RaceStart" = "Countdown Einführungsrunde";
+"f1TrainingEnd" = "Training Ende";
+"f1TrainingBreak" = "Training abgebrochen";
+"f1TrainingStart" = "Training Start";
 
-"runwaySteady" = "Steady";
-"runwaySlow" = "Slow";
-"runwayMed" = "Med";
-"runwayFast" = "Fast";
+"runwaySteady" = "Stetig";
+"runwaySlow" = "Langsam";
+"runwayMed" = "Mittel";
+"runwayFast" = "Schnell";
 
 "runwayBrightMax" = "Max";
-"runwayBrightMed" = "Mitte";
-"runwayBrightLow" = "Low";
+"runwayBrightMed" = "Mittel";
+"runwayBrightLow" = "Gering";
 "runwayBrightMin" = "Min";
 
-"MotorSetServo" = "Set Servo Angle";
-"motorServo" = "Servo Angle";
-"motorServo0" = "-90 deg";
-"motorServo1" = "-75 deg";
-"motorServo2" = "-60 deg";
-"motorServo3" = "-45 deg";
-"motorServo4" = "-30 deg";
-"motorServo5" = "-15 deg";
-"motorServo6" = "0 deg";
-"motorServo7" = "15 deg";
-"motorServo8" = "30 deg";
-"motorServo9" = "45 deg";
-"motorServo10" = "60 deg";
-"motorServo11" = "75 deg";
-"motorServo12" = "90 deg";
+"MotorSetServo" = "Setze Servo-Winkel";
+"motorServo" = "Winkelposition";
+"motorServo0" = "-90 Grad";
+"motorServo1" = "-75 Grad";
+"motorServo2" = "-60 Grad";
+"motorServo3" = "-45 Grad";
+"motorServo4" = "-30 Grad";
+"motorServo5" = "-15 Grad";
+"motorServo6" = "0 Grad";
+"motorServo7" = "15 Grad";
+"motorServo8" = "30 Grad";
+"motorServo9" = "45 Grad";
+"motorServo10" = "60 Grad";
+"motorServo11" = "75 Grad";
+"motorServo12" = "90 Grad";
 
 "icon" = "Symbol";
 "button_icon" = "Schaltflächensymbol";
