@@ -250,7 +250,7 @@
 "motorStep8"  = "25% (4 Schritte)";
 "motorStep9"  = "33% (3 Schritte)";
 "motorStep10" = "LEGO PF 7 Schritte";
-"motorStep11" = "";
+"motorStep11" = "15 Grad (Servo Schrittweite)";
 
 "motorSpeed0"  = "Angehalten";
 "motorSpeed1"  = "10% Vorwärts";
