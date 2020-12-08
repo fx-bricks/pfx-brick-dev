@@ -1,9 +1,9 @@
 ---
 title: PFx Brick USB & Bluetooth LE Host Interface Control Document Revision 3.36
-date: Apr 28, 2019
+date: Dec 8, 2020
 author: Fx Bricks
 toc: yes
-revision: 3.37
+revision: 3.38
 doc_no: 11 80 17 10001
 ---
 
@@ -190,18 +190,27 @@ Changes made to each version of this document are summarized in the table below.
 \end{tabular}
 \pagebreak
 
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{ | c | p{13.8cm} | }
+  \hline
+  Rev & Change Notes  \\
+  \hline
+  3.38  & Added new file attributes for multiple gated playback sound files. \\
+  \hline
+\end{tabular}
+\pagebreak
 
-#Introduction
+# Introduction
 
 The PFx Brick injects new possibilites of animation and control for LEGO® models by offering rich capabilities for controlling Power Functions motors, diverse lighting effects and for the first time, user defined sound effects.  These features have a wide range of operational possibilies and characteristics.  In order to use and configure these features to a user's desired application, a host computer or mobile device uses a software application to make this process simple and efficient.  Fx Bricks offers the PFx App to perform this function; however, it is possible for any 3rd party to make a software application to interact with the PFx Brick as well.
 
 In order for a host application to interact with the PFx Brick, it must connect to the PFx Brick via either the standard USB interface or optionally with a Bluetooth Low Energy (BLE) connection.  Both of these physical interfaces offer a common command and control message facility described in this Interface Control Document (ICD).
 
-#PFx Brick USB HID Device Class
+# PFx Brick USB HID Device Class
 
 The PFx Brick firmware includes a USB HID compliant interface device for communications with USB attached hosts.  This will allow host applications to configure and update any attached PFx Brick without the need for custom device drivers.  An attached PFx Brick should automatically trigger the host operating system to enumerate the PFx Brick within the USB stack and recognize it as a USB HID compliant device with custom endpoints.
 
-##PFx Brick Vendor and Product ID (VID/PID)
+## PFx Brick Vendor and Product ID (VID/PID)
 
 The PFx Brick unoffical vendor ID is 0x04D8 (Microchip Inc.'s registered VID)
 The PFx Brick USB product ID is 0xEF74 (Microchip vendor sublicensed PID for the PFx Brick)
@@ -212,7 +221,7 @@ To find the PFx Brick using the HID API, the following code could be used:
 device = hid_open(0x04D8, 0xEF74, NULL);
 ```
 
-##Message Packet Format
+## Message Packet Format
 
 USB HID message packets are exchanged via two buffers:
 
@@ -223,7 +232,7 @@ The PFx Brick will respond to commands issued by the host using a set of customi
 
 \pagebreak
 
-#Bluetooth Low Energy
+# Bluetooth Low Energy
 
 Certain PFx Brick models are fitted with a Bluetooth Low Energy (BLE) v.4.2 compliant interface.  This interface allows connected BLE hosts to control and interact with the PFx Brick identically to a USB connected host.  The messages described in this document are identically formatted for transport via USB and/or BLE.
 
@@ -291,7 +300,7 @@ The PFx Brick normally advertises its presence periodically so that it can be di
 
 \pagebreak
 
-##Message Packet Format
+## Message Packet Format
 
 BLE message packets are exchanged via two buffers which are part of the UART Transmit and Receive charactersitics.  Internally, these buffers are limited to 20 bytes each.  Therefore, the standard 64 byte ICD messages will be broken up into an integral number of 20 byte transactions to perform the transfer.  From the point of view of the PFx Brick, this process is transparent.  However, for the connecting host, extra processing will be required to assemble/disassemble ICD messages into 20 byte payloads.
 
@@ -315,7 +324,7 @@ The PFx Brick always sends a response to every transmitted message it receives. 
 
 \pagebreak
 
-#Host Command Messages
+# Host Command Messages
 
 The USB HID class supports the exchange of message buffers between the host and a device of up to 64 bytes. The PFx Brick message definition consists of various command messages which originate from the host.  The structure of these messages is as follows:
 \bigskip
@@ -485,7 +494,7 @@ The following tables show the host CMD bytes grouped by functional category. Als
 
 \pagebreak
 
-##`PFX_CMD_GET_ICD_REV`
+## `PFX_CMD_GET_ICD_REV`
 
 This command queries the revision number of the Interface Control Document/Specification (ICD) that the PFx Brick supports.  The returned version number will correspond to the revision number of this document.  This will give both firmware and host software development a common reference point for determining compatibility.  The ICD revision number is independent of both the firmware revision and host software revision/build state.  It is possible that several consecutive versions of firmware may support a common revision of ICD.
 
@@ -509,7 +518,7 @@ The `Silent` flag can be used to disable the blink indication of the PFx Brick s
 
 \pagebreak
 
-##`PFX_CMD_GET_STATUS`
+## `PFX_CMD_GET_STATUS`
 
 This command queries the fundamental operational state of the PFx Brick. Normally, the PFx Brick is running its main application firmware.  However, the PFx Brick is designed to have its firmware upgraded in the field by the end user with a host PC application.  This functionality requires a permanent firmware component called a *bootloader*.  The bootloader resides permanently in the PFx Brick and is executed after reset or a power cycle.  The bootloader checks to see if valid application firmware has been loaded onto the PFx Brick.  If present, it immediately transfers execution to the application firmware.  However, if no application firmware is present or corrupted, the bootloader continues to operate the PFx Brick in *Service* mode.  This mode has just enough functionality to allow a USB host to load a new application firmware binary image.  If successfully loaded, the PFx Brick will restart and then launch the new firmware image.
 
@@ -638,7 +647,7 @@ The Part Number is a unique 2-byte value which corresponds to a distinct SKU pro
 \pagebreak
 
 
-##`PFX_CMD_SET_FACTORY_DEFAULTS`
+## `PFX_CMD_SET_FACTORY_DEFAULTS`
 
 Resets the global configuration, event look-up table and file system with factory default values. This command will overwrite the current configuration of the PFx Brick and cannot be undone.
 
@@ -658,7 +667,7 @@ Resets the global configuration, event look-up table and file system with factor
 
 \pagebreak
 
-##`PFX_CMD_GET_CONFIG`
+## `PFX_CMD_GET_CONFIG`
 
 Retrieves global configuration data from the PFx Brick.
 
@@ -860,7 +869,7 @@ Configuration for the default global light output brightness to apply after powe
 
 \pagebreak
 
-##`PFX_CMD_SET_CONFIG`
+## `PFX_CMD_SET_CONFIG`
 
 Overwrites the PFx Brick global configuration data.  The PFx Brick will store the new configuration to flash memory.
 
@@ -937,7 +946,7 @@ Overwrites the PFx Brick global configuration data.  The PFx Brick will store th
 
 \pagebreak
 
-##`PFX_CMD_GET_CURRENT_STATE`
+## `PFX_CMD_GET_CURRENT_STATE`
 
 This message asks the PFx Brick to report its current internal operating state. This includes data such as the current motor target and operating speed, light output states, audio playback status, etc. This information can be useful for test purposes in order to verify that the PFx Brick is correctly responding to event/actions. It is also useful for simple passive monitoring for informational purposes.
 
@@ -1029,7 +1038,7 @@ This message asks the PFx Brick to report its current internal operating state. 
 
 \pagebreak
 
-##`PFX_CMD_GET_NAME`
+## `PFX_CMD_GET_NAME`
 
 The device name is user configurable identifier which can be changed at any time.  It allows the owner of multiple PFx Bricks to uniquely assign a convenient name for each PFx Brick.  The device name is a UTF8 encoded string up to 24 bytes long left justified within the 24 byte block.  Unused characters should be padded with zeros (0x00).
 
@@ -1054,7 +1063,7 @@ The device name is user configurable identifier which can be changed at any time
   \wordbox{1}{Left justified 24 character name UTF8 encoded}\\
 \end{bytefield}
 
-##`PFX_CMD_SET_NAME`
+## `PFX_CMD_SET_NAME`
 
 This message sets the user assigned name of the PFx Brick.  The name is 24 bytes long and is UTF8 encoded.  Unused characters should be padded with zeros (0x00).
 
@@ -1081,7 +1090,7 @@ This message sets the user assigned name of the PFx Brick.  The name is 24 bytes
 
 \pagebreak
 
-##`PFX_CMD_GET_EVENT_ACTION`
+## `PFX_CMD_GET_EVENT_ACTION`
 
 The message allows the host to read the contents of the event LUT for a specific IR remote event and IR channel.
 
@@ -1179,7 +1188,7 @@ where the `Event ID` is defined as:
 
 \pagebreak
 
-##`PFX_CMD_SET_EVENT_ACTION`
+## `PFX_CMD_SET_EVENT_ACTION`
 
 The message allows the host to set the contents of the event LUT for a specific IR remote event and IR channel.
 
@@ -1280,7 +1289,7 @@ where the `Event ID` is defined as:
 
 \pagebreak
 
-##`PFX_CMD_TEST_ACTION`
+## `PFX_CMD_TEST_ACTION`
 
 Allows a host to test an event/action.  The specified action is performed immediately and is not stored in the event LUT.  The format of the action definition is identical to event/actions stored in the event LUT.
 
@@ -1342,7 +1351,7 @@ Allows a host to test an event/action.  The specified action is performed immedi
 
 \pagebreak
 
-##`PFX_CMD_SEND_EVENT`
+## `PFX_CMD_SEND_EVENT`
 
 This message triggers an action from the event/action LUT by specifying an event index into the LUT.  The event index corresponds to an equivalent received IR event and can be used to simulate IR events from USB or BLE connected hosts.
 
@@ -1371,7 +1380,7 @@ This message triggers an action from the event/action LUT by specifying an event
 \pagebreak
 
 
-##`PFX_CMD_INC_VOLUME`
+## `PFX_CMD_INC_VOLUME`
 
 This message increases the sound volume one increment.
 
@@ -1393,7 +1402,7 @@ This message increases the sound volume one increment.
 \end{bytefield}
 
 
-##`PFX_CMD_DEC_VOLUME`
+## `PFX_CMD_DEC_VOLUME`
 
 This message decreases the sound volume one increment.
 
@@ -1416,7 +1425,7 @@ This message decreases the sound volume one increment.
 
 \pagebreak
 
-##`PFX_CMD_SET_AUDIO_EQ`
+## `PFX_CMD_SET_AUDIO_EQ`
 
 This message can be used to set the audio equalization levels for bass and treble as well as setting the state of the automatic Dynamic Range Control (DRC).  These values are applied immediately but do not override the default settings stored in the configuration.  The values stored in configuration are applied immediately after startup.  This message can then be used to set different bass/treble values during operation with a connected USB host.
 
@@ -1446,7 +1455,7 @@ The DRC value is either 0 or 1 reprsenting off or on respectively.
 
 \pagebreak
 
-##`PFX_CMD_LOAD_FIRMWARE_FILE`
+## `PFX_CMD_LOAD_FIRMWARE_FILE`
 
 This message is the mandatory start message to initiate the transfer of a new firmware image file from the host to the PFx Brick.  After this message one or more `PFX_CMD_LOAD_FIRMWARE_DATA` messages will follow containing the verbatim data content of the firmware image file.  Finally, after all of the data has been transferred with multiple `PFX_CMD_LOAD_FIRMWARE_DATA` messages, a final `PFX_CMD_LOAD_FIRMWARE_DONE` message is sent to terminate the transfer.  After each message, the PFx Brick will respond with an acknowlegement packet to pace the transfer from the host.
 
@@ -1561,7 +1570,7 @@ Commonly this is represented as 0xEDB88320 (or 0x04C11DB7 for big endian)
 
 \pagebreak
 
-##`PFX_CMD_LOAD_FIRMWARE_DATA`
+## `PFX_CMD_LOAD_FIRMWARE_DATA`
 
 One or more of these messages is sent after the `PFX_CMD_LOAD_FIRMWARE_FILE` message containing the raw byte-for-byte verbatim content of the firmware image file densely packed into every data byte.
 
@@ -1595,7 +1604,7 @@ One or more of these messages is sent after the `PFX_CMD_LOAD_FIRMWARE_FILE` mes
 
 \pagebreak
 
-##`PFX_CMD_LOAD_FIRMWARE_DONE`
+## `PFX_CMD_LOAD_FIRMWARE_DONE`
 
 This message is sent after the final `PFX_CMD_LOAD_FIRMWARE_DATA` message to signal the termination of the firmware file transfer. The host should check the returned error code to ensure that the file transfer was successful.
 
@@ -1626,7 +1635,7 @@ This message is sent after the final `PFX_CMD_LOAD_FIRMWARE_DATA` message to sig
 
 \pagebreak
 
-##`PFX_CMD_READ_BOOTCONFIG`
+## `PFX_CMD_READ_BOOTCONFIG`
 
 This message allows the host to read back the contents of bootloader status and control values stored in the microcontroller NVRAM.  These values are used to coordinate the firmware upgrade process between the bootloader and the host as well as storing the operational state of the PFx Brick.
 
@@ -1676,7 +1685,7 @@ This message allows the host to read back the contents of bootloader status and 
 \pagebreak
 
 
-##`PFX_CMD_REBOOT`
+## `PFX_CMD_REBOOT`
 
 Reboots the PFx Brick. This command should only be issued to initiate the upgrade of application firmware after it has been successfully transferred and staged into the PFx Brick.
 
@@ -1699,7 +1708,7 @@ Note that immediately after issuing this command, the reboot process will termin
 \pagebreak
 
 
-##`PFX_CMD_FILE_OPEN`
+## `PFX_CMD_FILE_OPEN`
 
 The PFx Brick File System is a simple block-oriented file storage facility which allows files of any content to be transfered to and from the connected host. The primary function of this file system is to store audio files; however, it is general purpose enough to be used for storage of any file type for future applications.
 
@@ -1774,7 +1783,7 @@ The file open request will return a status code which indicates either success o
 
 \pagebreak
 
-##`PFX_CMD_FILE_CLOSE`
+## `PFX_CMD_FILE_CLOSE`
 
 The `PFX_CMD_FILE_CLOSE` command closes the virtual file handle to a file which was opened with the `PFX_CMD_FILE_OPEN` command.  It is important to close a file especially after any write operations.  This is to ensure that any buffered or cached data is committed to the file system so that no written data is lost.
 
@@ -1796,7 +1805,7 @@ The `PFX_CMD_FILE_CLOSE` command closes the virtual file handle to a file which 
 
 \pagebreak
 
-##`PFX_CMD_FILE_READ`
+## `PFX_CMD_FILE_READ`
 
 The `PFX_CMD_FILE_READ` command is used to read file data sequentially from the current file read pointer location.  Each read file operation advances the file pointer by how many file bytes have been retrieved. This ensures consecutive read operations maintain continuity along the file data stream.
 
@@ -1825,7 +1834,7 @@ The returned `Status` byte is either an error code or the number of bytes (1-62)
 
 \pagebreak
 
-##`PFX_CMD_FILE_WRITE`
+## `PFX_CMD_FILE_WRITE`
 
 The `PFX_CMD_FILE_WRITE` command is used to write file data sequentially from the current file write pointer location.  Each write file operation advances the file pointer by how many file bytes have been written. This ensures consecutive write operations maintain continuity along the file data stream.
 
@@ -1854,7 +1863,7 @@ The returned `Status` byte error code indicates if write operaton was successful
 
 \pagebreak
 
-##`PFX_CMD_FILE_SEEK`
+## `PFX_CMD_FILE_SEEK`
 
 The `PFX_CMD_FILE_SEEK` command is used to reposition the file access pointer to any location within the file.  The position is specified as an absolute value in bytes relative to the start of the file.
 
@@ -1874,7 +1883,7 @@ The `PFX_CMD_FILE_SEEK` command is used to reposition the file access pointer to
 
 \pagebreak
 
-##`PFX_CMD_FILE_DIR`
+## `PFX_CMD_FILE_DIR`
 
 The `PFX_CMD_FILE_DIR` command is used to interact with the file system directory.  The file directory contains a list of files currently stored on the file system along with several attributes and data fields.  This command can be used request different types of directory information such as the number of files, free space, individual file directory entries, etc.  It can also be used to modify the directory entry of a stored file.
 
@@ -2044,7 +2053,7 @@ The `Status` byte contains the result code of the directory operation request wh
 
 \pagebreak
 
-##`PFX_CMD_FILE_REMOVE`
+## `PFX_CMD_FILE_REMOVE`
 
 The `PFX_CMD_FILE_REMOVE` command deletes a file from the file system.  The file is specified by its unique File ID.
 
@@ -2067,7 +2076,7 @@ The `PFX_CMD_FILE_REMOVE` command deletes a file from the file system.  The file
 \pagebreak
 
 
-##`PFX_CMD_FILE_FORMAT_FS`
+## `PFX_CMD_FILE_FORMAT_FS`
 
 The `PFX_CMD_FILE_FORMAT_FS` command erases and re-initializes the entire file system.  After this command is performed, the PFx Brick will automatically start to pre-erase the file storage space on the flash memory. During this process, the host can continue to access the file system; however, response times will be reduced due to the arbitration that must take place to interleave access to the flash memory.  The process of pre-erasing memory usually takes less than one minute and after it is completed, full response time will be restored.
 
@@ -2100,7 +2109,7 @@ The `Mode` parameter can be used to specify one of two formatting modes:
 
 \pagebreak
 
-##`PFX_CMD_FILE_GET_FS_STATE`
+## `PFX_CMD_FILE_GET_FS_STATE`
 
 The `PFX_CMD_FILE_GET_FS_STATE` command reports low-level operational status information of the file system.  This data is mainly used for test and debug purposes; however, it could be used for useful status updates.
 
@@ -2149,7 +2158,7 @@ The `Autosync Dir Time` and `Autosync FAT Time` fields report the timer values o
 
 \pagebreak
 
-##`PFX_CMD_RUN_SCRIPT`
+## `PFX_CMD_RUN_SCRIPT`
 
 The `PFX_CMD_RUN_SCRIPT` command starts execution of a script file stored in the file system.  The file is specified by its unique File ID.
 
@@ -2175,7 +2184,7 @@ If the `File ID` byte is set to 0xFF, then the current running script will be st
 
 \pagebreak
 
-##`PFX_CMD_STATUS_LED`
+## `PFX_CMD_STATUS_LED`
 
 This message allows the host to either poll or set the state of the status LED.
 
@@ -2209,7 +2218,7 @@ LED state = 0 if LED is off, non-zero if LED is on.
 
 \pagebreak
 
-##`PFX_CMD_WRITE_SPI`
+## `PFX_CMD_WRITE_SPI`
 
 This message allows the host to perform a write command over the SPI bus connected to the flash memory.  This permits very low level access to the flash memory device for test and debug purposes.
 
@@ -2244,7 +2253,7 @@ each byte in the desired SPI transfer follows up to the specified numBytes.
 \pagebreak
 
 
-##`PFX_CMD_READ_SPI`
+## `PFX_CMD_READ_SPI`
 
 This message allows the host to perform a write command over the SPI bus and read back a corresponding SPI response.  This permits very low level access to the flash memory device for test and debug purposes.
 
@@ -2285,7 +2294,7 @@ This message allows the host to perform a write command over the SPI bus and rea
 \pagebreak
 
 
-##`PFX_CMD_WRITE_I2C`
+## `PFX_CMD_WRITE_I2C`
 
 This message allows the host to perform a write command over the I2C bus. This permits very low level access to connected I2C devices such as the audio DSP/DAC for test and debug purposes.
 
@@ -2319,7 +2328,7 @@ This message allows the host to perform a write command over the I2C bus. This p
 
 \pagebreak
 
-##`PFX_CMD_READ_I2C`
+## `PFX_CMD_READ_I2C`
 
 This message allows the host to read a device register over the I2C bus. This permits very low level access to connected I2C devices such as the audio DSP/DAC for test and debug purposes.
 
@@ -2357,7 +2366,7 @@ This message allows the host to read a device register over the I2C bus. This pe
 \pagebreak
 
 
-##`PFX_CMD_READ_FLASH`
+## `PFX_CMD_READ_FLASH`
 
 This message allows the host to read back the contents of the flash memory device starting at specified address up to 63 additional byte locations.
 
@@ -2395,7 +2404,7 @@ byte 2 is data as read from `Address[31:0]+1` and so on
 
 \pagebreak
 
-##`PFX_CMD_GET_IRRX_STATUS`
+## `PFX_CMD_GET_IRRX_STATUS`
 
 This command retreives detailed low level data from the IR receiver protocol processor. This message may or may not be supported for a particular PFx Brick due to the overhead required to capture the data. The return message from the PFx Brick will indicate if there is valid data available.
 
@@ -2442,7 +2451,7 @@ The `IR Data` and `Prev IR Data` fields are always valid independent of the valu
 
 \pagebreak
 
-##`PFX_CMD_GET_BT_STATUS`
+## `PFX_CMD_GET_BT_STATUS`
 
 This command gets the operational status of the Bluetooth interface module.
 
@@ -2464,7 +2473,7 @@ This command gets the operational status of the Bluetooth interface module.
 
 `Sleep` = 0 if Bluetooth module is active, 1 = Bluetooth module is in power saving sleep mode
 
-##`PFX_CMD_SET_BT_POWER`
+## `PFX_CMD_SET_BT_POWER`
 
 This command sets the power mode of the Bluetooth interface module.
 
@@ -2486,7 +2495,7 @@ This command sets the power mode of the Bluetooth interface module.
 
 \pagebreak
 
-##`PFX_CMD_SEND_BT_UART`
+## `PFX_CMD_SEND_BT_UART`
 
 This command sends an ASCII message to the Bluetooth interface module UART.
 
@@ -2510,7 +2519,7 @@ each byte in the desired UART message follows up to the specified numBytes.
   \bitbox{1}{0xD2} \\
 \end{bytefield}
 
-##`PFX_CMD_RECEIVE_BT_UART`
+## `PFX_CMD_RECEIVE_BT_UART`
 
 This message reads back the contents of the receive buffer from the Bluetooth module UART.
 
@@ -2535,7 +2544,7 @@ This message reads back the contents of the receive buffer from the Bluetooth mo
 
 \pagebreak
 
-##`PFX_CMD_SET_NOTIFCATIONS`
+## `PFX_CMD_SET_NOTIFCATIONS`
 
 This message configures the notification service in the PFx Brick.
 
@@ -2558,7 +2567,7 @@ A detailed description of the `Flags` field can be found in section \ref{notific
 
 \pagebreak
 
-##`PFX_MSG_NOTIFICATION`
+## `PFX_MSG_NOTIFICATION`
 
 These messages are sent asynchronously from the PFx Brick after notifications have been configured by a connected host using the `PFX_CMD_SET_NOTIFCATIONS` command.  Each notification message contains information about one notification event.  Therefore, if the host subscribes to two or more notifcations, then multiple notification messages can be expected from the PFx Brick, one or more for each event.  Unlike the command to set notifications which represent the logical-OR of multiple notifications, the notification messages themselves are sent individually, one for each desired notification.
 
@@ -2589,7 +2598,7 @@ The `Notification` field represents the notification type. The `Data` field opti
 
 \pagebreak
 
-#Scripting Actions
+# Scripting Actions
 
 As of ICD version 3.37 (and PFx Brick firmware versions 1.40+), the ability to execute complex actions and behaviours defined in script files was added.  Script files are simple, human readable text files stored in the PFx Brick file system.  These files conform to a simple script language syntax described later in this document.  The scripting capability can be summarized as follows:
 
@@ -2599,28 +2608,28 @@ As of ICD version 3.37 (and PFx Brick firmware versions 1.40+), the ability to e
 4. Script execution is sequential line-by-line from the start of the file to the end.  At the end, the script will either stop or repeat if a repeat command is the last line.
 5. Script lines with bad syntax are ignored and script execution will continue to the next line.
 
-##Loading Scripts
+## Loading Scripts
 
 Script files can be loaded on to the PFx Brick using the PFx App or by using other 3rd party software to copy files from a host PC to the PFx Brick.  A script file will have a name and file ID on the PFx Brick file system.  The unique file ID must be known in order to execute a script (see the file system section for more information).
 
 Creating script files or making changes to a script must be made on a host PC using any standard text editor (e.g. Windows Notepad, macOS Text Editor, etc.)  To modify a script file, the old one must be removed from the PFx Brick file system and then replaced with a new copy (with the same file ID).
 
-##Executing Scripts
+## Executing Scripts
 
 Script files can be executed in one of two ways:
 
 1. Using an Event/Action
 2. Using the `PFX_CMD_RUN_SCRIPT` ICD message via USB or BLE.
 
-###Event/Action Script Execution
+### Event/Action Script Execution
 
 The Event/Action data structure `COMMAND` byte (0) can be set to `COMMAND_RUN_SCRIPT` (0x09) and the script file ID can be specified in the `SOUND_FILE_ID` byte (13).  When a IR remote action is configured this way, it will trigger the execution of the specified script file.  Therefore, a simple event from a remote control can trigger a very complex sequence of actions defined by the script.
 
-###ICD Message
+### ICD Message
 
 The `PFX_CMD_RUN_SCRIPT` ICD message can be sent to the PFx Brick via a USB or BLE connected host to trigger the execution of a script file.  A unique file ID must be specified in the message to indicate which script file to execute.
 
-##Script Syntax
+## Script Syntax
 
 The PFx Brick script language syntax is a simple human readable free form text file format.  Script files can contain comments and arbitrary amounts of whitespace in addition to the recognized script keywords.  Script file execution is sequential and proceeds line by line from the start of the file to the end.  This implies that all logical script commands must be terminated with a either a linefeed (0x0A) and/or carriage return character (0x0D).
 
@@ -2628,7 +2637,7 @@ The PFx Brick script language syntax is a simple human readable free form text f
 
 \lstset{language=pfx}
 
-###Comments
+### Comments
 
 Comment lines start with either a `#` character (similar to python) or `//` characters (similar to C++). Comments should not be used in line with a command.
 
@@ -2638,7 +2647,7 @@ Comment lines start with either a `#` character (similar to python) or `//` char
 light 1 on  # not a valid comment location
 ~~~
 
-###Keywords
+### Keywords
 
 The script syntax uses case sensitive keyword commands and specifiers.  There are several primary keywords which act as commands and many secondary keywords used for specifying sub-commands, parameters values and options.
 
@@ -2664,7 +2673,7 @@ ch, speed, fx, vol, bass, treble, bright, joy, beep, button
 
 \pagebreak
 
-###Numeric Values
+### Numeric Values
 
 Many commands and options require specified numeric quantities.  The script syntax supports both integer and decimal values.  The following are examples of valid numeric quantities:
 
@@ -2685,7 +2694,7 @@ For commands which support a list of values, a list is specified as a group of c
 [0, 1, 2, 3]
 ~~~
 
-###Strings
+### Strings
 
 Some commands also support the use of strings--typically for specifying items such as filenames.  Strings are UTF-8 formatted and enclosed within double quotations marks \lstinline|"|.
 
@@ -2696,7 +2705,7 @@ Some commands also support the use of strings--typically for specifying items su
 
 \pagebreak
 
-##Command Reference
+## Command Reference
 
 \begin{tabular}{  p{15cm}   }
 \makecell{
@@ -2815,7 +2824,7 @@ Redirect execution to same or different script: \\
 
 \pagebreak
 
-##Examples
+## Examples
 
 ~~~
 # Traffic light sequence
@@ -2872,11 +2881,11 @@ repeat
 
 \lstset{language=}
 
-#Event/Action Data Structures
+# Event/Action Data Structures
 
 The fundamental behaviour of the PFx Brick is to perform actions in response to received IR and/or Bluetooth interface events. Actions are encoded in a data structure called the event look up table (LUT). The actions performed are indexed by a corresponding event trigger into the event LUT, i.e. the event LUT is "addressed" by message events. This section will describe event LUT and the many associated fields and parameters.
 
-##Event Encoding
+## Event Encoding
 
 The events sent by IR remotes and/or Bluetooth interface cue corresponding actions stored in the event look up table.  These actions include controlling motors, light f/x and sound.  Some event actions may depend on the current state of other items, e.g. the change of direction on a motor channel may depend on its current speed.
 
@@ -3012,7 +3021,7 @@ The RC Train remote was black with 4 yellow buttons.  The buttons are labelled U
 
 \pagebreak
 
-##Action Encoding
+## Action Encoding
 
 The event LUT stores encoded actions in a multi-byte data structure. The actions performed by the PFx Brick are grouped into the following categories:
 
@@ -3058,7 +3067,7 @@ When an event is triggered (e.g. from an IR remote, or a `PFX_CMD_TEST_ACTION` m
 
 \pagebreak
 
-###`COMMAND`
+### `COMMAND`
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -3090,7 +3099,7 @@ The `COMMAND` byte is used to perform special actions not related to the core ac
 
 
 
-###`MOTOR_ACTION_ID`
+### `MOTOR_ACTION_ID`
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -3126,7 +3135,7 @@ The `MOTOR_ACTION_ID` is a 4-bit encoded value which occupies bits [7:4] and spe
 
 \pagebreak
 
-###`MOTOR_MASK`
+### `MOTOR_MASK`
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -3137,7 +3146,7 @@ Motor actions can be applied to any combination of motor outputs simultaneously,
 
 \pagebreak
 
-###`MOTOR_PARAMx`
+### `MOTOR_PARAMx`
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -3174,7 +3183,7 @@ The `MOTOR_PARAM1` and `MOTOR_PARAM2` bytes encode parameters which are associat
 
 \pagebreak
 
-####`MOTOR_SPEED`
+#### `MOTOR_SPEED`
 
 The `MOTOR_SPEED` parameter specifies absolute motor speed to be directly applied without intermediate incremental steps.  This parameter is defined as follows:
 
@@ -3239,7 +3248,7 @@ This allows for a range of speed settings as follows:
 
 \pagebreak
 
-####`MOTOR_STEP`
+#### `MOTOR_STEP`
 
 Motor actions which increment or decrement the motor speed can specify the magnitude of the change with the `MOTOR_STEP` parameter.  It is defined as follows:
 \medskip
@@ -3265,7 +3274,7 @@ Motor actions which increment or decrement the motor speed can specify the magni
 
 The percentage change in speed is specified as an increment equal to that percentage of full speed.
 
-####`MOTOR_PERIOD`
+#### `MOTOR_PERIOD`
 
 
 The `MOTOR_PERIOD` parameter specifies the time period for oscillating motor actions. This parameter is defined as follows:
@@ -3298,7 +3307,7 @@ For motor actions which have both an on and off interval, they can be specified 
 
 \pagebreak
 
-####`DURATION`
+#### `DURATION`
 
 The `DURATION` parameter specifies a fixed time interval as follows:
 \medskip
@@ -3320,7 +3329,7 @@ The `DURATION` parameter specifies a fixed time interval as follows:
 \end{tabular}
 \normalsize
 
-####`MOTOR_POS`
+#### `MOTOR_POS`
 
 The `MOTOR_POS` parameter specifies the angular position of a LEGO Power Functions servo motor.  This parameter offers a convenient method of specifying the servo positon rather than a corresponding voltage or speed.
 
@@ -3345,7 +3354,7 @@ The `MOTOR_POS` parameter specifies the angular position of a LEGO Power Functio
 
 \pagebreak
 
-###`LIGHT_FX_ID`
+### `LIGHT_FX_ID`
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -3356,7 +3365,7 @@ Light F/X actions are specified with an ID code which determines the action. The
 
 The `COMBO` bit <7> of the `LIGHT_FX_ID` byte specifies if the light f/x is a single or combo light action when set to 0 or 1 respectively.  Based on the state of `COMBO` bit, the `LIGHT_FX_ID` is interpreted differently.
 
-###`LIGHT_FX_ID` Single Light Actions
+### `LIGHT_FX_ID` Single Light Actions
 
 When the `COMBO` bit is zero, then the `LIGHT_FX_ID` field is defined as follows:
 \bigskip
@@ -3390,7 +3399,7 @@ When the `COMBO` bit is zero, then the `LIGHT_FX_ID` field is defined as follows
 
 \pagebreak
 
-###`LIGHT_OUTPUT_MASK`
+### `LIGHT_OUTPUT_MASK`
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -3399,7 +3408,7 @@ When the `COMBO` bit is zero, then the `LIGHT_FX_ID` field is defined as follows
 
 The selected light f/x can be applied to any combination of the dedicated light output ports.  This is configured by the `LIGHT_OUTPUT_MASK` byte where a logic 1 in each bit corresponds to selected light output port, e.g. a `LIGHT_OUTPUT_MASK<7:0>=0xC5` means that the light f/x will be applied to light output ports 8,7,3, and 1.
 
-###`LIGHT_PF_OUTPUT_MASK`
+### `LIGHT_PF_OUTPUT_MASK`
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -3418,7 +3427,7 @@ Note, that if a conflicting event/action simultaneously commands a motor output 
 
 \pagebreak
 
-###`LIGHT_PARAMx` Single Light Actions
+### `LIGHT_PARAMx` Single Light Actions
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -3546,7 +3555,7 @@ The suggested default value for `LIGHT_PARAM4` is 0x00, i.e. toggle light output
 
 \pagebreak
 
-###`LIGHT_FX_ID` Combination Light Actions
+### `LIGHT_FX_ID` Combination Light Actions
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -3581,13 +3590,13 @@ When the `COMBO` bit is set, then the `LIGHT_FX_ID` corresponds to a combination
 
 \pagebreak
 
-###Combination Light F/X Notes
+### Combination Light F/X Notes
 
-####Sound Bargraph
+#### Sound Bargraph
 
 The sound bargraph light f/x animates a bargraph type display in response to any audio playback activity.  The bargraph deflects at a level proportional to the instantaneous audio level.  The bargraph style as well as the number of lights and peristence can be configured using parameters `BAR_STYLE`, `SIZE`, and `FADE_FACTOR`.
 
-####Traffic Lights
+#### Traffic Lights
 
 Traffic lights for a typical four way intersection can be simulated with the traffic lights combo light f/x.  The two opposing flows of traffic are designated North/South and East/West and each have a dedicated group of Red, Yellow, and Green light aspects.  Additionally, the North/South flow has two optional light outputs for a pedestrian crossing indicator with "Walk" and "Don't Walk" aspects.  The assignment of light output channels to the corresponding light aspects is as follows:
 
@@ -3605,7 +3614,7 @@ Traffic lights for a typical four way intersection can be simulated with the tra
 \end{tabular}
 
 
-####Emergency Flashers
+#### Emergency Flashers
 
 The combo light f/x which are used to simulate flashers on emergency vehicles (e.g. police, fire, ambulance, etc.) enable builders to configure light outputs to match a wide variety of emergency vehicles used around the world and from different eras.  A key feature of emergency vehicle flashers is the roof mounted lighting; implemented either as discrete lights or more commonly mounted into a light bar structure on the roof.  In addition to the roof/lightbar flashers are auxilary flashing lights.  These auxilary lights vary widely in terms of quantity and location among all emergency vehicles.  Examples include side mounted flashers, radiator grille flashers, headlamp cluster flashers, etc.  Auxilary flashers are often synchronized with one or more of the lightbar flashers and may or may not have the same flashing pattern.  The PFx Brick provides a variety of functional flashing light outputs for all emergency flasher types in order to match a wide variety of prototypical emergency vehicles.  The builder does not have to use every light output and may chose any combination which best suits their model.  The emergency flashers use 6 of 8 light output ports, leaving the 7th and 8th port available for another use, e.g. headlamps.
 
@@ -3625,13 +3634,13 @@ For all emergency flasher applications, the light outputs are defined the same w
   \hline
 \end{tabular}
 
-####Light Bar
+#### Light Bar
 
 The lightbar or roof mounted lights consist of a group of 4 lights which flash in variety of different styles.  Often, these lights will be co-packaged into a roof mounted light bar.  Two lights are intended for the left side of the vehicle and another pair is intended for the right side.  Each left/right pair can have an inner and outer light.  This allows light flashing sequences to alternate from left to right or from inside to outside depending on the style.  For more simple applications, one of each of the left and right pairs can be used, e.g. just the outer left/right pair.
 
 Two very common types of lightbar flashers are the so-called "Twinsonic" and "Whelen" style lightbars.  These are named after the trade-marked products of Federal Signal and Whelen Engineering respectively; manufacturers of emergency vehicle lighting products.  These style names are intended to be representative and not exact copies of any particular lighting product.  The "Twinsonic" style light bar physically consisted of rotating mirrors around a light source and were common in older or heritage emergency vehicles.  The rotating light effect is simulated with periodically variable brightness and has a "softer" flashing effect.  The "Whelen" style lightbar is designed to simulate the flashing effects of modern and contemporary LED strobe-type emergency flashers.  These light bars have many different strobe-like patterns and sequences.  The PFx Brick includes most of the typical sequences available from this style of emergency flasher.
 
-####Auxilary Flashers
+#### Auxilary Flashers
 
 Many emergency vehicles incorporate additional flashing lights to those mounted on the roof.  These can consist of flashers which duplicate the flashing sequence from the light bar or flash periodically synchronized with the alternating effect of the lightbar.  The PFx Brick provides auxilary flasher outputs in order to connect lights which best represent the flashing light configuration of a particular vehicle.
 
@@ -3639,7 +3648,7 @@ The left/right auxilary 1x flashers flash periodically at the specificied rate a
 
 \pagebreak
 
-###`LIGHT_PARAMx` Combination Light Actions
+### `LIGHT_PARAMx` Combination Light Actions
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -3728,11 +3737,11 @@ The table below shows some suggested default values for a host application for e
 
 \pagebreak
 
-###`LIGHT_PARAMx` Definitions
+### `LIGHT_PARAMx` Definitions
 
 This section describes all of the named parameters occupying the `LIGHT_PARAMx` event action bytes. Many of the parameters are shared among both single and combination light f/x.
 
-####`DIR_OPTION`
+#### `DIR_OPTION`
 
 The `DIR_OPTION` parameter qualifies the illumination of individual lighting events based on motor direction. This can be used for directional head and tail lamps on a motor powered vehicle for example.
 \medskip
@@ -3762,18 +3771,18 @@ The `DIR_OPTION` parameter qualifies the illumination of individual lighting eve
 \end{tabular}
 \normalsize
 
-####`FLICKER_ON`
+#### `FLICKER_ON`
 
 The `FLICKER_ON` parameter specifies whether a light should flicker during its transition from off to on.  Any non-zero value will enable this feature.
 
-####`OUT_MASK`
+#### `OUT_MASK`
 
 The `OUT_MASK` parameter corresponds to an light output mask with bits 7-0 corresponding to light output ports 8-1 respectively.  A `1` in a bit position indicates that the corresponding light output port should be used/active.
 
 \pagebreak
 
 
-####`FADE_TIME`
+#### `FADE_TIME`
 
 The `FADE_TIME` parameter specifies the absolute duration of intensity fading when the light transitions to a different intensity levels.
 \medskip
@@ -3795,7 +3804,7 @@ The `FADE_TIME` parameter specifies the absolute duration of intensity fading wh
 \end{tabular}
 \normalsize
 
-####`FADE_FACTOR`
+#### `FADE_FACTOR`
 
 The `FADE_FACTOR` parameter specifies the duration (relative to the period of the light f/x) of intensity fading when the light transitions to a different intensity levels.
 \medskip
@@ -3819,7 +3828,7 @@ The `FADE_FACTOR` parameter specifies the duration (relative to the period of th
 
 \pagebreak
 
-####`PERIOD`
+#### `PERIOD`
 
 The `PERIOD` parameter specifies repeating period for many light f/x.
 \medskip
@@ -3841,7 +3850,7 @@ The `PERIOD` parameter specifies repeating period for many light f/x.
 \end{tabular}
 \normalsize
 
-####`PERIOD2`
+#### `PERIOD2`
 
 The `PERIOD2` parameter specifies repeating period for many light f/x.
 \medskip
@@ -3863,7 +3872,7 @@ The `PERIOD2` parameter specifies repeating period for many light f/x.
 \end{tabular}
 \normalsize
 
-####`TRANSITION`
+#### `TRANSITION`
 
 The `TRANSITION` parameter used with the alternating flash effect defines the transition after the active (flashing) state. It is defined as follows:
 \medskip
@@ -3883,7 +3892,7 @@ The `TRANSITION` parameter used with the alternating flash effect defines the tr
 
 \pagebreak
 
-####`DUTY_CYCLE`
+#### `DUTY_CYCLE`
 
 The `DUTY_CYCLE` parameter specifies ratio of On/Off intervals for several periodic light f/x.
 \medskip
@@ -3907,7 +3916,7 @@ The `DUTY_CYCLE` parameter specifies ratio of On/Off intervals for several perio
 \end{tabular}
 \normalsize
 
-####`BURST_COUNT`
+#### `BURST_COUNT`
 
 The `BURST_COUNT` parameter specifies how many consective strobe intervals a `LIGHTFX_STROBE_POS/NEG` light f/x has.  Generally, the strobe intervals are much shorter than the overall period of the light f/x and are specified with the `DUTY_CYCLE` parameter.
 \medskip
@@ -3925,7 +3934,7 @@ The `BURST_COUNT` parameter specifies how many consective strobe intervals a `LI
 \end{tabular}
 \normalsize
 
-####`SIZE`
+#### `SIZE`
 
 The `SIZE` parameter restricts the number of light outputs used for combo light f/x.  Most combo light f/x use up to all 8 light output channels; however, some light f/x can be scaled to use less light channels.  Restricting the size of the combo action makes the remaining light channels available for other light f/x actions.
 \medskip
@@ -3945,7 +3954,7 @@ The `SIZE` parameter restricts the number of light outputs used for combo light 
 \normalsize
 \pagebreak
 
-####`BAR_STYLE`
+#### `BAR_STYLE`
 
 The `BAR_STYLE` parameter determines the modulation pattern of combo light f/x such as the sound bar.
 \medskip
@@ -3963,7 +3972,7 @@ The `BAR_STYLE` parameter determines the modulation pattern of combo light f/x s
 \end{tabular}
 \normalsize
 
-####`TWINSONIC_STYLE`
+#### `TWINSONIC_STYLE`
 
 The `TWINSONIC_STYLE` parameter determines the modulation pattern of the Twinsonic emergency flasher combo light f/x.
 \medskip
@@ -3981,7 +3990,7 @@ The `TWINSONIC_STYLE` parameter determines the modulation pattern of the Twinson
 \end{tabular}
 \normalsize
 
-####`WHELEN_STYLE`
+#### `WHELEN_STYLE`
 
 The `WHELEN_STYLE` parameter determines the modulation pattern of the Whelen light bar emergency flasher combo light f/x.
 \medskip
@@ -4008,7 +4017,7 @@ The `WHELEN_STYLE` parameter determines the modulation pattern of the Whelen lig
 
 \pagebreak
 
-####`SWEEP_STYLE`
+#### `SWEEP_STYLE`
 
 The `SWEEP_STYLE` parameter determines the modulation pattern of combo light f/x such as linear sweep and bar graph.
 \medskip
@@ -4024,7 +4033,7 @@ The `SWEEP_STYLE` parameter determines the modulation pattern of combo light f/x
 \end{tabular}
 \normalsize
 
-####`TRAFFIC_STYLE`
+#### `TRAFFIC_STYLE`
 
 The `TRAFFIC_STYLE` parameter determines the type of traffic light sequence to simulate.
 \medskip
@@ -4050,7 +4059,7 @@ The `TRAFFIC_STYLE` parameter determines the type of traffic light sequence to s
 \end{tabular}
 \normalsize
 
-####`SEQ_TIME`
+#### `SEQ_TIME`
 
 The `SEQ_TIME` parameter determines the length of traffic light sequence.
 \medskip
@@ -4069,7 +4078,7 @@ The `SEQ_TIME` parameter determines the length of traffic light sequence.
 \normalsize
 
 
-####`SEQ`
+#### `SEQ`
 
 The `SEQ` parameter determines how the flashing pattern is sequenced on emergency flasher light bars, e.g. alternating left and right, alternating from inside to outside, etc.
 \medskip
@@ -4088,7 +4097,7 @@ The `SEQ` parameter determines how the flashing pattern is sequenced on emergenc
 
 \pagebreak
 
-####`FLASH_RATE`
+#### `FLASH_RATE`
 
 The `FLASH_RATE` parameter determines flashing rate of emergency flashers.
 \medskip
@@ -4106,7 +4115,7 @@ The `FLASH_RATE` parameter determines flashing rate of emergency flashers.
 \end{tabular}
 \normalsize
 
-####`FAULT_RATE`
+#### `FAULT_RATE`
 
 The `FAULT_RATE` parameter determines the approximate probability of the broken light flickering.
 \medskip
@@ -4124,7 +4133,7 @@ The `FAULT_RATE` parameter determines the approximate probability of the broken 
 \end{tabular}
 \normalsize
 
-####`FAULT_INTENSITY`
+#### `FAULT_INTENSITY`
 
 The `FAULT_INTENSITY` parameter determines the approximate relative change of intensity of the broken light flickering.
 \medskip
@@ -4144,7 +4153,7 @@ The `FAULT_INTENSITY` parameter determines the approximate relative change of in
 
 \pagebreak
 
-####`SOURCE1`
+#### `SOURCE1`
 
 The `SOURCE1` parameter specifies a combination of internal PFx Brick events which can trigger a light channel.  Each of the values listed can be logically OR-ed together to indicate multiple items on one light channel.
 
@@ -4167,7 +4176,7 @@ The `SOURCE1` parameter specifies a combination of internal PFx Brick events whi
 \end{tabular}
 \normalsize
 
-####`SOURCE2`
+#### `SOURCE2`
 
 The `SOURCE2` parameter specifies a combination of motor channel states which can trigger a light channel.  The indication is only active when the motor channel is operating at a speed that is not zero.  Each of the values listed can be logically OR-ed together to indicate multiple items on one light channel.
 
@@ -4190,17 +4199,17 @@ The `SOURCE2` parameter specifies a combination of motor channel states which ca
 \end{tabular}
 \normalsize
 
-####`INVERT`
+#### `INVERT`
 
 The `INVERT` parameter is used to specify whether the light channel output is inverted, i.e. an active state is shown with the light off.  Normally, an active state is shown with the light on. When `INVERT` is zero, the indicator is normal, i.e. active=on.  When set to a non-zero value, the indicator is inverted, i.e. active=off.
 
-####`BRIGHTNESS`
+#### `BRIGHTNESS`
 
 A numeric value specifying light intensity.  The valid range is 0 to 255 corresponding to minimum and maximum brightness respectively.
 
 \pagebreak
 
-####`DRAGSTER_STYLE`
+#### `DRAGSTER_STYLE`
 
 The dragster starting lights can operate in one of the 3 folloing styles:
 
@@ -4218,7 +4227,7 @@ The dragster starting lights can operate in one of the 3 folloing styles:
 \end{tabular}
 \normalsize
 
-####`F1_STYLE`
+#### `F1_STYLE`
 
 The Formula 1 combo light effects can operate in a variety of styles which correspond to the different operational phases of a typical F1 race.  The F1 styles are defined as follows:
 
@@ -4239,7 +4248,7 @@ The Formula 1 combo light effects can operate in a variety of styles which corre
 \end{tabular}
 \normalsize
 
-####`RUNWAY_RATE`
+#### `RUNWAY_RATE`
 
 The runway approach flasher lights can operate with flashing rates defined as follows:
 
@@ -4258,7 +4267,7 @@ The runway approach flasher lights can operate with flashing rates defined as fo
 \end{tabular}
 \normalsize
 
-####`RUNWAY_BRIGHT`
+#### `RUNWAY_BRIGHT`
 
 The runway approach lights illuminate with a static brightness level under the animating flashing effect.  The static brightness level is defined by this parameter as follows:
 
@@ -4280,7 +4289,7 @@ The runway approach lights illuminate with a static brightness level under the a
 
 \pagebreak
 
-###`SOUND_FX_ID`
+### `SOUND_FX_ID`
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -4313,7 +4322,7 @@ Sound effects are actions to playback a specific sound "file" stored in flash me
 
 \pagebreak
 
-###`SOUND_FILE_ID`
+### `SOUND_FILE_ID`
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -4322,9 +4331,9 @@ Sound effects are actions to playback a specific sound "file" stored in flash me
 
 The `SOUND_FILE_ID` is the file ID of a sound file stored in the PFx Brick file system.
 
-###Sound F/X Notes
+### Sound F/X Notes
 
-####Indexed Motor/Engine Sounds (SOUNDFX_PLAY_IDX_MOTOR)
+#### Indexed Motor/Engine Sounds (SOUNDFX_PLAY_IDX_MOTOR)
 
 One of the more sophisticated sound playback behaviours for the PFx Brick is the automatic playback of sound files to simulate engines, motors, prime-movers, etc.  This requires specially prepared sound files which can be reliably looped and/or sequentially played without gaps and acoustically transition smoothly.
 
@@ -4388,7 +4397,7 @@ The process of preparing the PFx Brick for this sound effect can be summarized a
 
 
 
-###`SOUND_PARAMx`
+### `SOUND_PARAMx`
 
 \begin{bytefield}[bitwidth=\widthof{COMBO~},endianness=big]{9}
   \bitheader{0-7} \\
@@ -4422,9 +4431,9 @@ Some sound f/x actions have associated parameters and are encoded as follows:
 
 \pagebreak
 
-###`SOUND_PARAMx` Definitions
+### `SOUND_PARAMx` Definitions
 
-####`DURATION`
+#### `DURATION`
 
 The `DURATION` parameter specifies a fixed time interval used by some f/x.
 
@@ -4445,7 +4454,7 @@ The `DURATION` parameter specifies a fixed time interval used by some f/x.
 \end{tabular}
 \normalsize
 
-####`RETRIGGER`
+#### `RETRIGGER`
 
 If an event to playback the same file occurs while the file is playing, the `RETRIGGER` parameter specifies which action should be taken as follows:
 
@@ -4454,23 +4463,23 @@ If an event to playback the same file occurs while the file is playing, the `RET
 1 = Restart playback from the beginning of the file
 ```
 
-####`REPEAT_COUNT`
+#### `REPEAT_COUNT`
 
 A numeric value specifying the number of times to repeat audio playback.  The valid range is 1 to 100.
 
-####`VOLUME`
+#### `VOLUME`
 
 A numeric value specifying audio volume.  The valid range is 0 to 255 corresponding to minimum and maximum volume respectively.
 
-####`RELVOLUME`
+#### `RELVOLUME`
 
 2's complement 0x8 ~ 0x7 corresponding to a relative volume level expressed as a gain/attenuation factor in dB from the current playback volume.
 
-####`GAIN`
+#### `GAIN`
 
 The `GAIN` parameter corresponds to the gain or amount of influence motor speed has on the modulation.  The valid range is -100 to 100, where negative values define modulation effect in the opposite sense to motor speed, e.g. audio volume which decreases with increasing motor speed.
 
-####`MOTOR_OUTPUT`
+#### `MOTOR_OUTPUT`
 
 The `MOTOR_OUTPUT` parameter specifies which motor channel is used to modulate a sound f/x.  Motor channels A, B, C, and D are specified as 0x0, 0x1, 0x2, and 0x3 respectively.
 
@@ -4478,7 +4487,7 @@ If the `MOTOR_OUTPUT` parameter is used with the `SOUNDFX_PLAY_IDX_MOTOR` sound 
 
 If `MOTOR_OUTPUT[2] = 0` then the target speed is used, if `MOTOR_OUTPUT[2] = 1` then the current speed is used.
 
-####`IDX_OPTIONS`
+#### `IDX_OPTIONS`
 
 The `IDX_OPTIONS` parameter customizes the behaviour of the `SOUNDFX_PLAY_IDX_MOTOR` sound Fx.  The `IDX_OPTIONS` parameter is defined as follows:
 
@@ -4502,7 +4511,7 @@ The `IDX_OPTIONS` parameter customizes the behaviour of the `SOUNDFX_PLAY_IDX_MO
 0x3 = heavy modulation
 ```
 
-####`PROBABILITY`
+#### `PROBABILITY`
 
 The `PROBABILITY` parameter specifies the approximate probability of playing a specified sound file when used with the `SOUNDFX_PLAY_RAND` sound Fx.  The `PROBABILITY` parameter is specified as follows:
 
@@ -4515,7 +4524,7 @@ The `PROBABILITY` parameter specifies the approximate probability of playing a s
 
 \pagebreak
 
-#Notifications
+# Notifications
 
 The PFx Brick implements an optional notification mechanism to asynchronously send messages to a connected host.  These notification messages operate on a subscription model whereby the host indicates which combination of notifications it wants to receive.  After a command has been issued to subscribe to notifications, the PFx Brick will then send messages corresponding to the desired notification events.  The notifications can be enabled or disabled at any time by the host.
 
@@ -4556,7 +4565,7 @@ to disable notifications completely, the following command message is used:
 
 \pagebreak
 
-#Memory Map
+# Memory Map
 
 The PFx Brick has non-volatile flash memory storage used to store its configuration and audio files.  Typically, the PFx Brick can come configured with 4, 8, or 16 MBytes of flash storage.  This is partitioned into the following regions:
 
@@ -4595,7 +4604,7 @@ The PFx Brick has non-volatile flash memory storage used to store its configurat
 
 \pagebreak
 
-#Flash Memory File System
+# Flash Memory File System
 
 The majority of the capacity of PFx Brick flash memory is dedicated to storing a simple block-oriented file system.  This file system allows files of any content to be transfered to and from the connected USB host. The primary function of this file system is to store audio files; however, it is general purpose enough to be used for storage of any file type for future applications.
 
@@ -4603,7 +4612,7 @@ Access to the file system is provided by a set of conventional file I/O methods 
 
 The details of allocating files across the flash memory is completely abstracted and managed by the file system.  The file system automatically allocates space for new files, performs garbage collection on freed/deleted files, pre-erases blocks of flash memory for instant allocation, and arbitrates access to the flash memory from all sources.
 
-##Flash Directory Structure
+## Flash Directory Structure
 
 A file system directory contains a list of the files stored as well as several fields of meta data associated with each file.  The format of individual flash directory entries is as follows:
 
@@ -4634,23 +4643,23 @@ A file system directory contains a list of the files stored as well as several f
   \bitbox{16}{Left justified 32 character filename UTF-8 encoded} \\
 \end{bytefield}
 
-###File ID
+### File ID
 
 The `File ID` is a unique identifier which is used to identify and distiguish files.  It can have any value in the range 0x0000 to 0x7FFE.  An identifier value of 0xFFFF signifies an empty directory entry.  **Note:** that all file access commands described in this ICD use the **lower 8-bits of the `File ID` only.**  The `File ID` is stored as a 16-bit value; however, access requests are made using the lower 8-bits.  Therefore, `File ID` values should be specified as values between 0x00 and 0xFE.  The use of the full 16-bits of `File ID` may be exploited in future applications.
 
-###Flags
+### Flags
 
 The `Flags` field is used internally within the file system during file operations and is not normally useful to connected host applications.
 
-###First Sector
+### First Sector
 
 The `First Sector` field points to the location in flash memory of the first sector of the associated file's payload data.  This sector location is also used by the file system as a pointer to the beginning of File Allocation Table (FAT) sector chain belonging to the file.  Sectors are nominally 4096 byte containers and file data is stored in an integral number of these 4k sectors.
 
-###File Size
+### File Size
 
 The `File Size` reports the total number of bytes contained in the file.
 
-###User Attributes
+### User Attributes
 
 The `User Attributes` field stores file specific meta data as follows:
 
@@ -4724,7 +4733,7 @@ A more detailed description of setting these file attributes for use with motor 
 When a text file is specifically intended to be used for scripting, then an optional value of **0x80** can be assigned to the `User Attributes` field.  This is not strictly required for execution of script files; however it can be a useful marker for host applications to easily distinguish ordinary text files from script files.
 
 
-###User Data1/2
+### User Data1/2
 
 The `User Data1` and `User Data2` fields are user defined 32-bit containers for any meta data that either the host or firmware application needs to store conveniently with the file directory entry.  These fields are currently defined when used to store audio WAV files as follows:
 
@@ -4745,15 +4754,15 @@ The `User Data1` and `User Data2` fields are user defined 32-bit containers for 
 
 Note that the PFx Brick firmware automatically fills the contents of `User Attributes`, `User Data1`, and `User Data2` automatically when a WAV audio file is written to the file system.
 
-###CRC32
+### CRC32
 
 The `CRC32` field is a 32 bit hash code automatically generated by the PFx Brick after a file has been written to the file system.  This hash code is automatically computed along the entire stream of data bytes of the file.  This code can be a useful integrity check of the data that is actually written to the file system.  It can also be used loosely as a unique hashing code to verify the identity of a file; however, CRC32 codes are prone to "code collision" for hashing purposes when a large number of files need to be compared.
 
-###Filename
+### Filename
 
 The filename field can be used to store a filename containing up to 32 UTF-8 characters.  The filename is not used for file directory lookup as with other traditional file systems; rather the `File ID` field is used for lookup.
 
-##File System Access Commands
+## File System Access Commands
 
 The file system is accessed by the host with a group of commands supporting many of the conventional file access tasks.  Files are accessed by first opening a handle to a file specified by its unique `File ID`.  When a handle has been obtained, read and write operations may be performed on the file.  Finally, after file I/O has been completed, the file handle can be closed.  Note that the file handle is not a physical token which is passed to the host, it is effectively a virtual state.  When a handle is opened, the PFx file system initializes read and write pointers to a file and applies any subsequent read or write requests to the requested file.  It will continue in this state until the handle is closed.  The handle is logically associated with the USB interface instance that the host uses to connect to the PFx Brick.  There can be up to 4 USB HID interface sessions available and one virtual file handle is associated with each USB HID interface.  Connecting with multiple interface sessions allows for a potential increase in transfer bandwidth between the PFx Brick and the host.
 
@@ -4785,7 +4794,7 @@ The USB host commands to access the file system are summarized as follows (detai
 
 \pagebreak
 
-#Product ID Codes & Descriptors
+# Product ID Codes & Descriptors
 
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{ | p{1.3cm} | l | p{8.8cm} | }
@@ -4816,7 +4825,7 @@ The USB host commands to access the file system are summarized as follows (detai
 
 \pagebreak
 
-#Status Codes
+# Status Codes
 
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{ | c | l | }
@@ -4833,7 +4842,7 @@ The USB host commands to access the file system are summarized as follows (detai
 
 \pagebreak
 
-#Error Codes
+# Error Codes
 
 Several USB command messages include status feedback bytes which may report error or status conditions.  Note that there are some error codes which can refer to more than one condition; however, these codes are used in different contexts and therefore will not conflict.  For example, some codes reported by the PFX_CMD_GET_STATUS message will be different than the PFX_CMD_FILE_OPEN message.  The error codes are summarized as follows:
 

@@ -1,7 +1,7 @@
 % \iffalse meta-comment
 %
-% Copyright (C) 2015 by Scott Pakin <scott+bf@pakin.org>
-% ------------------------------------------------------
+% Copyright (C) 2000-2020 by Scott Pakin <scott+bf@pakin.org>
+% -----------------------------------------------------------
 %
 % This file may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3a
@@ -22,7 +22,7 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
 %<package>\ProvidesPackage{bytefield}
 %<*package>
-    [2015/10/28 v2.3 Network protocol diagrams]
+    [2020/10/31 v2.6 Network protocol diagrams]
 %</package>
 %
 %<*driver>
@@ -35,6 +35,7 @@
 \usepackage{calc}
 \usepackage{array}
 \usepackage{wasysym}
+\usepackage{needspace}
 \usepackage{hyperxmp}
 \usepackage{hypdoc}
 \usepackage{hyperref}
@@ -45,7 +46,7 @@
   pdfauthor={Scott Pakin},
   pdfsubject={Protocol diagrams for LaTeX},
   pdfkeywords={bits, bytes, bit fields, communication, network protocol diagrams, LaTeX2e, memory maps},
-  pdfcopyright={Copyright (C) 2015, Scott Pakin},
+  pdfcopyright={Copyright (C) 2000-2020, Scott Pakin},
   pdflicenseurl={http://www.latex-project.org/lppl/},
   pdfcaptionwriter={Scott Pakin},
   pdfcontactemail={scott+bf@pakin.org},
@@ -67,7 +68,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{1025}
+% \CheckSum{1194}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -99,6 +100,19 @@
 %   \cs{endwordgroupl} with a \texttt{leftwordgroup} environment and
 %   also replacing a slew of user-visible lengths and macros with a
 %   single \cs{bytefieldsetup} macro}
+% \changes{v2.5}{2020/10/20}{Redefine the \protect\cs{bitbox},
+%   \protect\cs{wordbox}, and \protect\cs{bitboxes} commands additionally
+%   to accept key/value options}
+% \changes{v2.5}{2020/10/20}{Accept a new \protect\optname{bgcolor}
+%   option to set a bit's background color}
+% \changes{v2.5}{2020/10/22}{Accept a new \protect\optname{perword}
+%   option to execute a macro for each word in a word box.  This addresses
+%   a feature request by Victor Toni}
+% \changes{v2.6}{2020/10/29}{Accept new \protect\optname{curlystyle},
+%   \protect\optname{leftcurlystyle}, and
+%   \protect\optname{rightcurlystyle} options to control the styling
+%   (e.g.,~color) of curly braces.  This addresses a feature request by
+%   Victor Toni}
 %
 % \GetFileInfo{bytefield.dtx}
 %
@@ -129,7 +143,7 @@
 %
 % \title{The \textsf{bytefield} package\thanks{This document
 %   corresponds to \textsf{bytefield}~\fileversion, dated \filedate.}}
-% \author{Scott Pakin \\ \texttt{scott+bf@pakin.org}}
+% \author{Scott Pakin \\ \textit{scott+bf@pakin.org}}
 %
 % \sloppy
 % \maketitle
@@ -271,10 +285,10 @@
 %   \item ``skipped words'' within fields.
 % \end{itemize}
 %
-% Because \pkgname{bytefield} draws its figures using only
-% the \LaTeX{} \texttt{picture} environment, these figures are not
-% specific to any particular backend, do not require PostScript support,
-% and do not need support from external programs.  Furthermore, unlike an
+% Because \pkgname{bytefield} draws its figures using only the \LaTeX{}
+% \texttt{picture} environment, these figures are not specific to any
+% particular backend, do not require PostScript or PDF support, and do
+% not need support from external programs.  Furthermore, unlike an
 % imported graphic, \pkgname{bytefield} pictures can include arbitrary
 % \LaTeX{} constructs, such as mathematical equations, |\ref|s and
 % |\cite|s to the surrounding document, and macro calls.
@@ -372,12 +386,12 @@
 % \label{sec:basic-cmds}
 %
 % This section explains how to use the \pkgname{bytefield} package.  It
-% lists all the exported macros and environments in approximately
+% lists all of the exported macros and environments in approximately
 % decreasing order of usefulness.
 %
 % \begin{decl}
 %   \SpecialEnvIndex{bytefield}
-%   |\begin{bytefield}| \oarg{parameters} \marg{bit-width} \\
+%   |\begin{bytefield}| \oarg{options} \marg{bit-width} \\
 %   \meta{fields} \\
 %   |\end{bytefield}|
 % \end{decl}
@@ -385,19 +399,20 @@
 % The \pkgname{bytefield} package's top-level environment is called, not
 % surprisingly, ``|bytefield|''.  It takes one mandatory argument, which
 % is the number of bits in each word, and one optional argument, which
-% is a set of parameters, described in Section~\ref{sec:options}, for
-% formatting the bit-field's layout.  One can think of a |bytefield| as
-% being analogous to a |tabular|: words are separated by~``|\\|'', and
-% fields within a word are separated by~``|&|''.  As in a |tabular|,
-% ``|\\|'' accepts a \meta{length} as an optional argument, and this
-% specifies the amount of additional vertical whitespace to include
-% after the current word is typeset.
+% is a comma-separated list of \meta{key}=\meta{value} pairs, described
+% in Section~\ref{sec:options}, for formatting the bit-field's layout.
+% One can think of a |bytefield| as being analogous to a |tabular|:
+% words are separated by~``|\\|'', and fields within a word are
+% separated by~``|&|''.  As in a |tabular|, ``|\\|'' accepts a
+% \meta{length} as an optional argument, and this specifies the amount
+% of additional vertical whitespace to include after the current word is
+% typeset.
 %
 % \begin{decl}
 %   \SpecialUsageIndex{\bitbox}
-%   |\bitbox| \oarg{sides} \marg{width} \marg{text} \\
+%   |\bitbox| \oarg{sides} \marg{width} \oarg{options} \marg{text} \\
 %   \SpecialUsageIndex{\wordbox}
-%   |\wordbox| \oarg{sides} \marg{height} \marg{text}
+%   |\wordbox| \oarg{sides} \marg{height} \oarg{options} \marg{text}
 % \end{decl}
 %
 % The two main commands one uses within a \pkgname{bytefield}
@@ -406,16 +421,19 @@
 % typesets a field that is an entire word wide and one or more words
 % tall.
 %
-% The optional argument, \meta{sides}, is a list of letters specifying
-% which sides of the field box to draw---[|l|]eft, [|r|]ight, [|t|]op,
-% and/or [|b|]ottom.\footnote{Uppercase |L|, |R|, |T|, and |B| undo a
-%   prior |l|, |r|, |t|, or |b| and may be useful for writing wrapper
-%   commands around \texttt{\string\bitbox} and
+% The first, optional, argument, \meta{sides}, is a list of letters
+% specifying which sides of the field box to draw---[|l|]eft, [|r|]ight,
+% [|t|]op, and/or [|b|]ottom.\footnote{Uppercase |L|, |R|, |T|, and |B|
+%   undo a prior |l|, |r|, |t|, or |b| and may be useful for writing
+%   wrapper commands around \texttt{\string\bitbox} and
 %   \texttt{\string\wordbox}.}  The default is ``|lrtb|'' (i.e.,~all
-% sides are drawn).  \meta{text} is the text to include within the
-% |\bitbox| or |\wordbox|.  It is typeset horizontally centered within a
-% vertically centered |\parbox|.  Hence, words will wrap, and ``|\\|''
-% can be used to break lines manually.
+% sides are drawn).  The second, required, argument is the width in bits
+% of a bit box or the height in words of a word box.  The third argument
+% is an optional, comma-separated list of \meta{key}=\meta{value} pairs,
+% described in Section~\ref{sec:options}.  The fourth, required,
+% argument is the text to typeset within the box.  It is typeset
+% horizontally centered within a vertically centered |\parbox|.  Hence,
+% words will wrap, and ``|\\|'' can be used to break lines manually.
 %
 % The following example shows how to produce a simple 16-bit-wide field:
 %
@@ -442,6 +460,35 @@
 % mandatory argument to the |bytefield| environment);
 % \pkgname{bytefield} does not currently check for under- or overruns.
 %
+% Here's an example of using the \optname{bgcolor} option to fill each
+% box with a different color:
+%
+% \begin{verbatim}
+%       \definecolor{lightcyan}{rgb}{0.84,1,1}
+%       \definecolor{lightgreen}{rgb}{0.64,1,0.71}
+%       \definecolor{lightred}{rgb}{1,0.7,0.71}
+%       \begin{bytefield}[bitheight=\widthof{~Sign~},
+%                         boxformatting={\centering\small}]{32}
+%         \bitheader[endianness=big]{31,23,0} \\
+%         \bitbox{1}[bgcolor=lightcyan]{\rotatebox{90}{Sign}} &
+%         \bitbox{8}[bgcolor=lightgreen]{Exponent} &
+%         \bitbox{23}[bgcolor=lightred]{Mantissa}
+%       \end{bytefield}
+% \end{verbatim}
+%
+% \begin{bffigure}
+%       \definecolor{lightcyan}{rgb}{0.84,1,1}
+%       \definecolor{lightgreen}{rgb}{0.64,1,0.71}
+%       \definecolor{lightred}{rgb}{1,0.7,0.71}
+%       \begin{bytefield}[bitheight=\widthof{~Sign~},
+%                         boxformatting={\centering\small}]{32}
+%         \bitheader[endianness=big]{31,23,0} \\
+%         \bitbox{1}[bgcolor=lightcyan]{\rotatebox{90}{Sign}} &
+%         \bitbox{8}[bgcolor=lightgreen]{Exponent} &
+%         \bitbox{23}[bgcolor=lightred]{Mantissa}
+%       \end{bytefield}
+% \end{bffigure}
+%
 % Within a |\bitbox| or |\wordbox|, the \pkgname{bytefield} package
 % defines |\height|, |\depth|, |\totalheight|, and |\width| to the
 % corresponding dimensions of the box.  Section~\ref{sec:tricks} gives an
@@ -449,8 +496,8 @@
 %
 % \begin{decl}
 %   \SpecialUsageIndex{\bitboxes}
-%   |\bitboxes| \oarg{sides} \marg{width} \marg{tokens} \\
-%   |\bitboxes*| \oarg{sides} \marg{width} \marg{tokens} \\
+%   |\bitboxes| \oarg{sides} \marg{width} \oarg{options} \marg{tokens} \\
+%   |\bitboxes*| \oarg{sides} \marg{width} \oarg{options} \marg{tokens} \\
 % \end{decl}
 %
 % The |\bitboxes| command provides a shortcut for typesetting a sequence
@@ -521,17 +568,17 @@
 %
 % \begin{decl}
 %   \SpecialUsageIndex{\bitheader}
-%   |\bitheader| \oarg{parameters} \marg{bit-positions}
+%   |\bitheader| \oarg{options} \marg{bit-positions}
 % \end{decl}
 %
 % To make the bit field more readable, it helps to label bit positions
 % across the top.  The |\bitheader| command provides a flexible way to
-% do that.  The optional argument is a set of parameters from the set
-% described in Section~\ref{sec:options}.  In practice, the only
-% parameters that are meaningful in the context of |\bitheader| are
-% |bitformatting|, |endianness|, and |lsb|.  See
-% Section~\ref{sec:options} for descriptions and examples of those
-% parameters.
+% do that.  The optional argument is a comma-separated list of
+% \meta{key}=\meta{value} pairs from the set described in
+% Section~\ref{sec:options}.  In practice, the only parameters that are
+% meaningful in the context of |\bitheader| are |bitformatting|,
+% |endianness|, and |lsb|.  See Section~\ref{sec:options} for
+% descriptions and examples of those parameters.
 %
 % |\bitheader|'s mandatory argument, \meta{bit-positions}, is a
 % comma-separated list of bit positions to label.  For example,
@@ -565,12 +612,12 @@
 %
 % \begin{decl}
 %   \SpecialEnvIndex{rightwordgroup}
-%   |\begin{rightwordgroup}| \marg{text} \\
+%   |\begin{rightwordgroup}| \oarg{options} \marg{text} \\
 %   \meta{rows of bit boxes and word boxes} \\
 %   |\end{rightwordgroup}| \\
 %   \\
 %   \SpecialEnvIndex{leftwordgroup}
-%   |\begin{leftwordgroup}| \marg{text} \\
+%   |\begin{leftwordgroup}| \oarg{options} \marg{text} \\
 %   \meta{rows of bit boxes and word boxes} \\
 %   |\end{leftwordgroup}|
 % \end{decl}
@@ -584,6 +631,12 @@
 % at the beginning of a row (i.e.,~right after a ``|\\|''), and
 % |\end{|\meta{side}|wordgroup}| must lie right \emph{before} the end of
 % the row (i.e.,~right before a ``|\\|'').
+%
+% The optional argument is a comma-separated list of
+% \meta{key}=\meta{value} pairs from the set described in
+% Section~\ref{sec:options}.  In practice, only \optname{curlystyle},
+% \optname{leftcurlystyle}, and \optname{rightcurlystyle}, make sense
+% within the context of a |\begin{|\meta{side}|wordgroup}|.
 %
 % Unlike other \LaTeX\ environments, |rightwordgroup| and
 % |leftwordgroup| do not have to nest properly with each other.
@@ -691,12 +744,12 @@
 %
 % \begin{decl}
 %   \SpecialUsageIndex{\bytefieldsetup}
-%   |\bytefieldsetup| \marg{key-value list}
+%   |\bytefieldsetup| \marg{options}
 % \end{decl}
 %
 % Alter the formatting of all subsequent bit fields.
 % Section~\ref{sec:options} describes the possible values for each
-% \meta{key}=\meta{value} item in the comma-separated list that
+% \meta{key}=\meta{value} pair in the comma-separated list that
 % |\bytefieldsetup| accepts as its argument.  Note that changes made
 % with |\bytefieldsetup| are local to their current scope.  Hence, if
 % used within an environment (e.g.,~|figure|), |\bytefieldsetup| does
@@ -709,7 +762,7 @@
 % A document author can customize many of the \pkgname{bytefield}
 % package's figure-formatting parameters, either globally or on a
 % per-figure basis.  The parameters described below can be specified in
-% four locations:
+% six locations:
 %
 % \begin{itemize}
 %   \item as package options (i.e.,~in the
@@ -726,6 +779,14 @@
 %   \item as the optional argument to a |\bitheader|, which affects only
 %     that particular header.  (Only a few parameters are meaningful in
 %     this context.)
+%
+%   \item as the optional argument to a |\begin{leftwordgroup}| or
+%     |\begin{rightwordgroup}|, which affects only that particular word
+%     group.  (Only a few parameters are meaningful in this context.)
+%
+%   \item as the second optional argument to a \cs{bitbox}, \cs{wordbox},
+%     or \cs{bitboxes}, which affects only that particular box.  (Only a
+%     few parameters are meaningful in this context.)
 % \end{itemize}
 %
 % Unfortunately, \LaTeX\ tends to abort with a ``\texttt{TeX capacity
@@ -753,7 +814,7 @@
 %
 % As a special case, if \optname{bitwidth} is set to the word
 % ``|auto|'', it will be set to the width of ``|99i|'' in the current
-% bit-number formatting (cf.~\optname{bitformatting} below).  This
+% bit-number formatting (see \optname{bitformatting} below).  This
 % feature provides a convenient way to adjust the bit width after a
 % formatting change.
 %
@@ -893,6 +954,17 @@
 % \end{bffigure}
 %
 % \begin{decl}
+%   \optname{bgcolor} = \meta{color}
+% \end{decl}
+%
+% Bit and word boxes are normally left unfilled.  The \optname{bgcolor}
+% option fills them with a specified background color.  A document will
+% need to include the \pkgname{color}, \pkgname{xcolor}, or similar
+% package to expose color names to \pkgname{bytefield}.  The
+% \optname{boxformatting} option described above can be used to set the
+% foreground color.
+%
+% \begin{decl}
 %   \optname{leftcurly} = \meta{delimiter} \\
 %   \optname{rightcurly} = \meta{delimiter}
 % \end{decl}
@@ -1024,6 +1096,55 @@
 % different heights.
 %
 % \begin{decl}
+%   \optname{leftcurlystyle} = \meta{command} \\
+%   \optname{rightcurlystyle} = \meta{command} \\
+%   \optname{curlystyle} = \meta{command}
+% \end{decl}
+%
+% Provide a macro that will be invoked before the code that draws left,
+% right, or both curly braces.  The macro must accept either zero or one
+% argument.  It can be used, for example, to color the curly brace:
+%
+% \begin{verbatim}
+%       \begin{bytefield}[curlystyle=\color{blue}]{16}
+%         \bitheader{0-15} \\
+%         \begin{rightwordgroup}{Sign-extended}
+%             \bitbox{4}{Tag} & \bitbox{12}{Data}
+%         \end{rightwordgroup} \\
+%       \end{bytefield}
+% \end{verbatim}
+%
+% \begin{bffigure}
+%       \begin{bytefield}[curlystyle=\color{blue}]{16}
+%         \bitheader{0-15} \\
+%         \begin{rightwordgroup}{Sign-extended}
+%             \bitbox{4}{Tag} & \bitbox{12}{Data}
+%         \end{rightwordgroup} \\
+%       \end{bytefield}
+% \end{bffigure}
+%
+% \noindent
+% or
+%
+% \begin{verbatim}
+%       \begin{bytefield}{16}
+%         \bitheader{0-15} \\
+%         \begin{rightwordgroup}[curlystyle=\color{blue}]{Sign-extended}
+%             \bitbox{4}{Tag} & \bitbox{12}{Data}
+%         \end{rightwordgroup} \\
+%       \end{bytefield}
+% \end{verbatim}
+%
+% \begin{bffigure}
+%       \begin{bytefield}{16}
+%         \bitheader{0-15} \\
+%         \begin{rightwordgroup}[curlystyle=\color{blue}]{Sign-extended}
+%             \bitbox{4}{Tag} & \bitbox{12}{Data}
+%         \end{rightwordgroup} \\
+%       \end{bytefield}
+% \end{bffigure}
+%
+% \begin{decl}
 %   \optname{lsb} = \meta{integer}
 % \end{decl}
 %
@@ -1064,6 +1185,42 @@
 %         \bitheader[lsb=4]{4,12,20,28} \\
 %         \bitbox{16}{ar\$hrd} & \bitbox{16}{ar\$pro} \\
 %         \bitbox{8}{ar\$hln} & \bitbox{8}{ar\$pln} & \bitbox{16}{ar\$op} \\
+%       \end{bytefield}
+% \end{bffigure}
+%
+% \begin{decl}
+%   \optname{perword} = \meta{command}
+% \end{decl}
+%
+% Provide a macro that will be invoked once for each word in a word box
+% after the regular content is rendered.  The macro will be passed two
+% arguments: the word number (starting from~0) and the total number of
+% words in the word box.  Furthermore, the macro will be invoked within
+% a one-word-wide box positioned at the base of the word.
+% \optname{perword} can therefore be used for delineating words within a
+% word box, numbering words, or performing other such annotations.  As a
+% simple example, the following code draws a gray line at the bottom of
+% each word in the ``Descriptive text'' word box:
+%
+% \begin{verbatim}
+%       \newcommand{\wordline}[2]{\color[rgb]{0.7,0.7,0.7}\hrulefill}
+%       \begin{bytefield}[bitwidth=4em]{8}
+%         \bitheader[lsb=1,bitformatting=\small]{1-8} \\
+%         \wordbox[lrt]{7}[perword=\wordline]{Descriptive text (60 bytes)} \\
+%         \bitbox[lrb]{4}{} & \bitbox{4}{subsys data offset} \\
+%         \bitbox{4}{subsys data offset} & \bitbox{2}{version} &
+%           \bitbox{2}{endian indicator} \\
+%       \end{bytefield}
+% \end{verbatim}
+%
+% \begin{bffigure}
+%       \newcommand{\wordline}[2]{\color[rgb]{0.7,0.7,0.7}\hrulefill}
+%       \begin{bytefield}[bitwidth=4em]{8}
+%         \bitheader[lsb=1,bitformatting=\small]{1-8} \\
+%         \wordbox[lrt]{7}[perword=\wordline]{Descriptive text (60 bytes)} \\
+%         \bitbox[lrb]{4}{} & \bitbox{4}{subsys data offset} \\
+%         \bitbox{4}{subsys data offset} & \bitbox{2}{version} &
+%           \bitbox{2}{endian indicator} \\
 %       \end{bytefield}
 % \end{bffigure}
 %
@@ -1293,40 +1450,16 @@
 % \end{bffigure}
 %
 % \paragraph{Unused bits}
-% Because |\width| and |\height| are defined within bit boxes (also word
-% boxes), we can represent unused bits by filling a |\bitbox| with a
-% rule of size |\width|~$\times$ |\height|:
-%
-% \begin{verbatim}
-%       \begin{bytefield}{32}
-%         \bitheader{0,4,8,12,16,20,24,28} \\
-%         \bitbox{8}{Tag} & \bitbox{8}{Value} &
-%         \bitbox{4}{\rule{\width}{\height}} &
-%         \bitbox{12}{Mask} \\
-%         \wordbox{1}{Key}
-%       \end{bytefield}
-% \end{verbatim}
-%
-% \begin{bffigure}
-%       \begin{bytefield}{32}
-%         \bitheader{0,4,8,12,16,20,24,28} \\
-%         \bitbox{8}{Tag} & \bitbox{8}{Value} &
-%         \bitbox{4}{\rule{\width}{\height}} &
-%         \bitbox{12}{Mask} \\
-%         \wordbox{1}{Key}
-%       \end{bytefield}
-% \end{bffigure}
-%
-% \noindent
-% The effect is much better when the \pkgname{color} package is used to
-% draw the unused bits in color.  (Light gray looks nice.)
+% The \optname{bgcolor} option can be used to represent unused bits by
+% specifying a background fill color---light gray looks nice---and empty
+% text:
 %
 % \begin{verbatim}
 %       \definecolor{lightgray}{gray}{0.8}
 %       \begin{bytefield}{32}
 %         \bitheader{0,4,8,12,16,20,24,28} \\
 %         \bitbox{8}{Tag} & \bitbox{8}{Value} &
-%         \bitbox{4}{\color{lightgray}\rule{\width}{\height}} &
+%         \bitbox{4}[bgcolor=lightgray]{} &
 %         \bitbox{12}{Mask} \\
 %         \wordbox{1}{Key}
 %       \end{bytefield}
@@ -1337,7 +1470,7 @@
 %       \begin{bytefield}{32}
 %         \bitheader{0,4,8,12,16,20,24,28} \\
 %         \bitbox{8}{Tag} & \bitbox{8}{Value} &
-%         \bitbox{4}{\color{lightgray}\rule{\width}{\height}} &
+%         \bitbox{4}[bgcolor=lightgray]{} &
 %         \bitbox{12}{Mask} \\
 %         \wordbox{1}{Key}
 %       \end{bytefield}
@@ -1458,44 +1591,6 @@
 %
 %
 % \subsection{Not-so-common tricks}
-%
-% \paragraph{Colored fields}
-% A similar approach to that utilized to indicate unused bits can be
-% applied to coloring an individual bit field.  The trick is to use the
-% \TeX\ |\rlap| primitive to draw a colored box that overlaps whatever
-% follows it to the right:
-%
-% \begin{verbatim}
-%       \newcommand{\colorbitbox}[3]{%
-%         \rlap{\bitbox{#2}{\color{#1}\rule{\width}{\height}}}%
-%         \bitbox{#2}{#3}}
-%       \definecolor{lightcyan}{rgb}{0.84,1,1}
-%       \definecolor{lightgreen}{rgb}{0.64,1,0.71}
-%       \definecolor{lightred}{rgb}{1,0.7,0.71}
-%       \begin{bytefield}[bitheight=\widthof{~Sign~},
-%                         boxformatting={\centering\small}]{32}
-%         \bitheader[endianness=big]{31,23,0} \\
-%         \colorbitbox{lightcyan}{1}{\rotatebox{90}{Sign}} &
-%         \colorbitbox{lightgreen}{8}{Exponent} &
-%         \colorbitbox{lightred}{23}{Mantissa}
-%       \end{bytefield}
-% \end{verbatim}
-%
-% \begin{bffigure}
-%       \newcommand{\colorbitbox}[3]{^^A
-%         \rlap{\bitbox{#2}{\color{#1}\rule{\width}{\height}}}^^A
-%         \bitbox{#2}{#3}}^^A
-%       \definecolor{lightcyan}{rgb}{0.84,1,1}
-%       \definecolor{lightgreen}{rgb}{0.64,1,0.71}
-%       \definecolor{lightred}{rgb}{1,0.7,0.71}
-%       \begin{bytefield}[bitheight=\widthof{~Sign~},
-%                         boxformatting={\centering\small}]{32}
-%         \bitheader[endianness=big]{31,23,0} \\
-%         \colorbitbox{lightcyan}{1}{\rotatebox{90}{Sign}} &
-%         \colorbitbox{lightgreen}{8}{Exponent} &
-%         \colorbitbox{lightred}{23}{Mantissa}
-%       \end{bytefield}
-% \end{bffigure}
 %
 % \paragraph{Omitted bit numbers}
 % It is occasionally convenient to show a wide bit field in which the
@@ -1951,7 +2046,10 @@
 %
 % \section{Implementation}
 %
-% \newcommand{\usermacro}{\marginpar{\vspace*{1ex}{\strut\hspace{18pt}\huge$\star$}\vspace*{-1ex}}}
+% \newcommand{\usermacro}{^^A
+%   \Needspace{2\baselineskip}^^A
+%   \marginpar{\huge\raisebox{-1.5ex}[0pt][1.5ex]{\strut\hspace{18pt}$\star$}\par}^^A
+% }
 %
 % This section contains the complete source code for \pkgname{bytefield}.
 % Most users will not get much out of it, but it should be of use to
@@ -2018,7 +2116,7 @@
 % \changes{v2.3}{2015/10/28}{Rewrote the macro based on discussions with
 %   David Carlisle to avoid producing ``\texttt{No room for a new
 %   \string\string\string\dimen}'' errors in newer versions of $\varepsilon$-\TeX\
-%   (cf.~\url{http://tex.stackexchange.com/q/275042})}
+%   (see \url{http://tex.stackexchange.com/q/275042})}
 %    \begin{macrocode}
 \AtBeginDocument{%
   \expandafter\ifx\csname e@alloc\endcsname\relax
@@ -2057,7 +2155,8 @@
 \newlength{\bytefield@height@increment}
 \DeclareRobustCommand{\inc@bytefield@height}[1]{%
   \setlength{\bytefield@height@increment}{#1}%
-  \global\advance\bytefield@height by \bytefield@height@increment}
+  \global\advance\bytefield@height by \bytefield@height@increment
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2075,6 +2174,9 @@
 %
 % \begin{environment}{bytefield}
 % \usermacro
+% \changes{v2.4}{2017/09/15}{Make the code resilient to changes in
+%   \texttt{\string\string\string\baselinestretch}.  Thanks to
+%   Karst Koymans for the bug report}
 % \begin{macro}{\bits@wide}
 % \begin{macro}{\old@nl}
 % \begin{macro}{\amp}
@@ -2089,6 +2191,8 @@
 %    \begin{macrocode}
 \newenvironment{bytefield}[2][]{%
   \bf@bytefieldsetup{#1}%
+  \renewcommand{\baselinestretch}{}%
+  \selectfont
   \def\bits@wide{#2}%
   \let\old@nl=\\%
   \let\amp=&%
@@ -2120,9 +2224,11 @@
 %    \begin{macrocode}
   \vbox\bgroup\ialign\bgroup##\amp##\amp##\cr\amp
 }{%
+  \unskip
   \amp\show@wordlabelr\cr\egroup\egroup
   \end{lrbox}%
-  \usebox{\entire@bytefield@picture}}
+  \usebox{\entire@bytefield@picture}%
+}
 %    \end{macrocode}
 % \end{environment}
 %
@@ -2182,35 +2288,151 @@
 % \end{macro}
 % \end{macro}
 %
+% \begin{macro}{\bf@call@box@cmd}
+% \begin{macro}{\bf@call@box@func}
+% Define any box-drawing macro that accepts the same set of four
+% arguments.  It takes as input the name of a macro that is defined with
+% formal parameters |[#1]#2[#3]#4|.  \cs{bf@call@box@cmd} then invokes
+% that macro, passing it a set of lines to draw out of the set
+% ``\texttt{lrtbLRTB}''~(|#1|), a number of bits or words~(|#2|), a list
+% of key/value pairs~(|#3|), and arbitrary text to typeset~(|#4|).
+%    \begin{macrocode}
+\newcommand*{\bf@call@box@cmd}[1]{%
+  \def\bf@call@box@func{#1}%
+  \bf@call@box@cmd@i
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\bf@call@box@cmd@i}
+% \begin{macro}{\bf@call@box@arg@i}
+% \begin{macro}{\bf@call@box@arg@ii}
+% Store the set of lines and the bit/word count and invoke
+% \cs{bf@call@box@cmd@ii}.
+%    \begin{macrocode}
+\newcommand*{\bf@call@box@cmd@i}[2][lrtb]{%
+  \def\bf@call@box@arg@i{#1}%
+  \def\bf@call@box@arg@ii{#2}%
+  \bf@call@box@cmd@ii
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\bf@call@box@cmd@ii}
+% \begin{macro}{\bf@call@box@arg@iii}
+% \begin{macro}{\bf@call@box@arg@iv}
+% Store the key/value parameters and the text to typeset then invoke the
+% macro originally passed to \cs{bf@call@box@cmd}.
+%    \begin{macrocode}
+\newcommand*{\bf@call@box@cmd@ii}[2][]{%
+  \def\bf@call@box@arg@iii{#1}%
+  \def\bf@call@box@arg@iv{#2}%
+  \bf@call@box@func
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
 % \begin{macro}{\bitbox}
 % \usermacro
-% Put some text (|#3|) in a box that's a given number of bits (|#2|)
-% wide and one byte tall.  An optional argument (|#1|) specifies which
+% Put some text~(|#4|) in a box that's a given number of bits~(|#2|)
+% wide and one byte tall.  An optional argument~(|#1|) specifies which
 % lines to draw---|[l]|eft, |[r]|ight, |[t]|op, and/or |[b]|ottom
-% (default: |lrtb|).  Uppercase letters suppress drawing the |[L]|eft,
-% |[R]|ight, |[T]|op, and/or |[B]|ottom sides.
+% (default: |lrtb|).  Uppercase letters provide the opposite effect:
+% They suppress drawing the |[L]|eft, |[R]|ight, |[T]|op, and/or
+% |[B]|ottom sides.  Additional drawing parameters can be provided via
+% another optional argument~(|#3|).
 %    \begin{macrocode}
-\DeclareRobustCommand{\bitbox}[3][lrtb]{%
-  \setlength{\units@wide}{\bf@bitwidth * #2}%
-  \bf@parse@bitbox@arg{#1}%
-  \draw@bit@picture{\strip@pt\units@wide}{\strip@pt\bf@bitheight}{#3}}
+\DeclareRobustCommand{\bitbox}{\bf@call@box@cmd{\bf@bitbox}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bf@bitbox}
+% Implement all of the \cs{bitbox} logic.
+%    \begin{macrocode}
+\def\bf@bitbox{%
+  \bgroup
+    \expandafter\bf@parse@bitbox@arg\expandafter{\bf@call@box@arg@i}%
+    \setlength{\units@wide}{\bf@bitwidth * \bf@call@box@arg@ii}%
+    \expandafter\bf@bytefieldsetup\expandafter{\bf@call@box@arg@iii}%
+    \@ifundefined{bf@bgcolor}{%
+    }{%
+%    \end{macrocode}
+% If \optname{bgcolor} was specified, draw a colored rule of the full
+% size of the box.
+%    \begin{macrocode}
+      \rlap{%
+        \draw@bit@picture{\strip@pt\units@wide}{\strip@pt\bf@bitheight}{%
+          \color{\bf@bgcolor}%
+          \rule{\width}{\height}%
+        }%
+      }%
+    }%
+%    \end{macrocode}
+% Draw the user-provided text on top of the rule (if any).
+%    \begin{macrocode}
+    \draw@bit@picture{\strip@pt\units@wide}{\strip@pt\bf@bitheight}{%
+      \bf@call@box@arg@iv
+    }%
+  \egroup
+  \ignorespaces
+}
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\wordbox}
 % \usermacro
-% Put some text (|#3|) in a box that's a given number of bytes (|#2|)
-% tall and one word (|\bits@wide| bits) wide.
-% An optional argument (|#1|) specifies which lines to draw---|[l]|eft,
-% |[r]|ight, |[t]|op, and/or |[b]|ottom (default: |lrtb|).  Uppercase
-% letters suppress drawing the |[L]|eft, |[R]|ight, |[T]|op, and/or
-% |[B]|ottom sides.
+% Put some text~(|#4|) in a box that's a given number of bytes~(|#2|)
+% tall and one word (|\bits@wide| bits) wide.  An optional
+% argument~(|#1|) specifies which lines to draw---|[l]|eft, |[r]|ight,
+% |[t]|op, and/or |[b]|ottom (default: |lrtb|).  Uppercase letters
+% provide the opposite effect: They suppress drawing the |[L]|eft,
+% |[R]|ight, |[T]|op, and/or |[B]|ottom sides.  Additional drawing
+% parameters can be provided via another optional argument~(|#3|).
 %    \begin{macrocode}
-\DeclareRobustCommand{\wordbox}[3][lrtb]{%
-  \setlength{\units@wide}{\bf@bitwidth * \bits@wide}%
-  \setlength{\units@tall}{\bf@bitheight * #2}%
-  \bf@parse@bitbox@arg{#1}%
-  \draw@bit@picture{\strip@pt\units@wide}{\strip@pt\units@tall}{#3}}
+\DeclareRobustCommand{\wordbox}{\bf@call@box@cmd{\bf@wordbox}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bf@wordbox}
+% Implement all of the \cs{wordbox} logic.
+%    \begin{macrocode}
+\def\bf@wordbox{%
+  \bgroup
+    \expandafter\bf@parse@bitbox@arg\expandafter{\bf@call@box@arg@i}%
+    \setlength{\units@wide}{\bf@bitwidth * \bits@wide}%
+    \setlength{\units@tall}{\bf@bitheight * \bf@call@box@arg@ii}%
+    \expandafter\bf@bytefieldsetup\expandafter{\bf@call@box@arg@iii}%
+    \@ifundefined{bf@bgcolor}{%
+    }{%
+%    \end{macrocode}
+% If \optname{bgcolor} was specified, draw a colored rule of the full
+% size of the box.
+%    \begin{macrocode}
+      \rlap{%
+        \draw@bit@picture{\strip@pt\units@wide}{\strip@pt\units@tall}{%
+          \color{\bf@bgcolor}%
+          \rule{\width}{\height}%
+        }%
+      }%
+    }%
+%    \end{macrocode}
+% Draw the user-provided text on top of the rule (if any).
+%    \begin{macrocode}
+    \draw@bit@picture{\strip@pt\units@wide}{\strip@pt\units@tall}{%
+      \bf@call@box@arg@iv
+    }%
+%    \end{macrocode}
+% Invoke the user-provided \cs{bf@per@word} macro once per word.
+%    \begin{macrocode}
+    \@ifundefined{bf@per@word}{}{\bf@invoke@per@word{\bf@call@box@arg@ii}}%
+  \egroup
+  \ignorespaces
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2228,40 +2450,13 @@
 \DeclareRobustCommand{\draw@bit@picture}[3]{%
   \begin{picture}(#1,#2)%
 %    \end{macrocode}
-% \begin{macro}{\height}
-% \usermacro
-% \begin{macro}{\depth}
-% \usermacro
-% \begin{macro}{\totalheight}
-% \usermacro
-% \begin{macro}{\width}
-% \usermacro
-% \begin{macro}{\widthunits}
-% \usermacro
-% \begin{macro}{\heightunits}
-% \usermacro
 %   First, we plot the user's text, with all sorts of useful lengths
 %   predefined.
 %    \begin{macrocode}
     \put(0,0){\makebox(#1,#2){\parbox{#1\unitlength}{%
-      \bf@newdimen\height
-      \bf@newdimen\depth
-      \bf@newdimen\totalheight
-      \bf@newdimen\width
-      \height=#2\unitlength
-      \depth=0pt%
-      \totalheight=#2\unitlength
-      \width=#1\unitlength
-      \def\widthunits{#1}%
-      \def\heightunits{#2}%
+      \bf@set@user@dimens{#1}{#2}%
       \bf@boxformatting{#3\par}}}}%
 %    \end{macrocode}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
 %   Next, we draw each line individually.  I suppose we could make a special
 %   case for ``all lines'' and use a |\framebox| above, but the following
 %   works just fine.
@@ -2289,8 +2484,76 @@
     \inc@bytefield@height{\unitlength * \real{#2}}%
     \global\counting@wordsfalse
   \fi
-  \ignorespaces}
+}
 %    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bf@invoke@per@word}
+% Invoke \cs{bf@per@word} once per word, passing it the (0-indexed) word
+% number and total number of words.
+%    \begin{macrocode}
+\newcommand{\bf@invoke@per@word}[1]{%
+  \begin{picture}(0,0)%
+    \@tempcnta=0
+    \@tempdima=#1\bf@bitheight
+%    \end{macrocode}
+% Make various useful dimensions available to \cs{bf@per@word}.
+%    \begin{macrocode}
+    \bf@set@user@dimens{\strip@pt\units@wide}{\strip@pt\units@tall}%
+    \loop
+      \advance\@tempdima by -\bf@bitheight
+      \bgroup
+        \put(-\strip@pt\units@wide, \strip@pt\@tempdima){%
+          \expandafter\bf@per@word\expandafter{\the\@tempcnta}{#1}%
+        }%
+      \egroup
+      \advance\@tempcnta by 1\relax
+      \ifnum#1>\@tempcnta
+    \repeat
+  \end{picture}%
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bf@set@user@dimens}
+% \mbox{}\vspace*{-1ex}
+% \begin{macro}{\width}
+% \usermacro
+% \begin{macro}{\height}
+% \usermacro
+% \begin{macro}{\depth}
+% \usermacro
+% \begin{macro}{\totalheight}
+% \usermacro
+% \begin{macro}{\widthunits}
+% \usermacro
+% \begin{macro}{\heightunits}
+% \usermacro
+% Given a width in bits~(|#1|) and a height in words~(|#2|), make a
+% number of box dimensions available to the author: \cs{width},
+% \cs{height}, \cs{depth}, \cs{totalheight}.  Additionally, make the
+% arguments available to the author via the \cs{widthunits} and
+% \cs{heightunits} macros.
+%    \begin{macrocode}
+\newcommand{\bf@set@user@dimens}[2]{%
+  \bf@newdimen\width
+  \bf@newdimen\height
+  \bf@newdimen\depth
+  \bf@newdimen\totalheight
+  \width=#1\unitlength
+  \height=#2\unitlength
+  \depth=0pt%
+  \totalheight=#2\unitlength
+  \def\widthunits{#1}%
+  \def\heightunits{#2}%
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
 % \end{macro}
 %
 % \begin{macro}{\bitboxes}
@@ -2307,7 +2570,9 @@
 % command omits interior left and right lines.
 %    \begin{macrocode}
 \DeclareRobustCommand{\bitboxes}{%
-  \@ifstar\bf@bitboxes@star\bf@bitboxes@no@star
+  \@ifstar
+      {\bf@call@box@cmd{\bf@bitboxes@star}}%
+      {\bf@call@box@cmd{\bf@bitboxes@no@star}}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2323,31 +2588,74 @@
 % \end{macro}
 %
 % \begin{macro}{\bf@bitboxes@no@star}
-% Implement the unstarred version of |\bitboxes|.
+% Implement the unstarred version of \cs{bitboxes}.  This macro simply
+% expands its text argument into a list of tokens followed by \cs{relax}
+% then invokes \cs{bf@bitboxes@no@star@i}.
 %    \begin{macrocode}
-\newcommand{\bf@bitboxes@no@star}[3][lrtb]{%
-%    \end{macrocode}
-% \begin{macro}{\bf@bitboxes@no@star@i}
-% Define a helper macro that walks the final argument of
-% |\bf@bitboxes@no@star| token-by-token.
-%    \begin{macrocode}
-  \def\bf@bitboxes@no@star@i##1{%
-%    \end{macrocode}
-% \begin{macro}{\bf@bitboxes@arg}
-% \begin{macro}{\next}
-% Store the current argument token in |\bf@bitboxes@arg| for use with |\ifx|.
-%    \begin{macrocode}
-    \def\bf@bitboxes@arg{##1}%
-    \ifx\bf@bitboxes@arg\bf@relax
-      \let\next=\relax
-    \else
-      \bitbox[#1]{#2}{##1}%
-      \let\next=\bf@bitboxes@no@star@i
-    \fi
-    \next
-  }%
-  \bf@bitboxes@no@star@i#3\relax
+\def\bf@bitboxes@no@star{%
+  \expandafter\bf@bitboxes@no@star@i\bf@call@box@arg@iv\relax
   \ignorespaces
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bf@bitboxes@no@star@i}
+% Walk the subsequent tokens one-by-one until \cs{relax} is encountered.
+% For each token, invoke \cs{bf@bitbox} (the internal version of
+% \cs{bitbox} for which \cs{bf@call@box@arg@}\meta{number} are all
+% defined.
+%    \begin{macrocode}
+\def\bf@bitboxes@no@star@i#1{%
+  \def\bf@call@box@arg@iv{#1}%
+  \ifx\bf@call@box@arg@iv\bf@relax
+    \let\next=\relax
+  \else
+    \bf@bitbox
+    \let\next=\bf@bitboxes@no@star@i
+  \fi
+  \next
+}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bf@bitboxes@star}
+% \begin{macro}{\bf@bitboxes@sides}
+% Implement the starred version of \cs{bitboxes}.  This macro simply
+% stores the original \meta{sides} argument in \cs{bf@bitboxes@sides},
+% expands its text argument into a list of tokens followed by two
+% \cs{relax}es, and invokes \cs{bf@bitboxes@star@i}.
+%    \begin{macrocode}
+\def\bf@bitboxes@star{%
+  \edef\bf@bitboxes@sides{\bf@call@box@arg@i}%
+  \expandafter\bf@bitboxes@star@i\bf@call@box@arg@iv\relax\relax
+  \ignorespaces
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\bf@bitboxes@star@i}
+% \begin{macro}{\bf@call@box@arg@iv}
+% \begin{macro}{\bf@bitboxes@arg@ii}
+% \begin{macro}{\next}
+% Process the first token in the text argument passed to \cs{bitboxes*}.
+% If it's also the last token (indicated by its being followed by
+% \cs{relax}), draw an ordinary bit box with all sides present.  If it's
+% not the last token, draw a bit box with the right side suppressed and
+% invoke \cs{bf@bitboxes@star@ii} on the remaining tokens.
+%    \begin{macrocode}
+\def\bf@bitboxes@star@i#1#2{%
+  \def\bf@call@box@arg@iv{#1}%
+  \def\bf@bitboxes@arg@ii{#2}%
+  \ifx\bf@bitboxes@arg@ii\bf@relax
+    \bf@bitbox
+    \let\next=\relax
+  \else
+    \edef\bf@call@box@arg@i{\bf@bitboxes@sides R}%
+    \bf@bitbox
+    \def\next{\bf@bitboxes@star@ii{#2}}%
+  \fi
+  \next
 }
 %    \end{macrocode}
 % \end{macro}
@@ -2355,80 +2663,39 @@
 % \end{macro}
 % \end{macro}
 %
-% \begin{macro}{\bf@bitboxes@star}
-% Implement the starred version of |\bitboxes|.
-%    \begin{macrocode}
-\newcommand{\bf@bitboxes@star}[3][lrtb]{%
-%    \end{macrocode}
-% \begin{macro}{\bf@bitboxes@star@i}
-% If the argument to |\bitboxes*| contains a single (or no) token,
-% simply pass control to |\bitbox| and stop.  Otherwise, suppress the
-% box's right border by appending ``|R|'' to |\bitboxes*|'s
-% argument~|#1| and proceeding with the remaining tokens in~|#3|.
-%    \begin{macrocode}
-  \def\bf@bitboxes@star@i##1##2{%
-%    \end{macrocode}
-% \begin{macro}{\bf@bitboxes@arg}
-% \begin{macro}{\next}
-% Store the current argument token in |\bf@bitboxes@arg| for use with |\ifx|.
-%    \begin{macrocode}
-    \def\bf@bitboxes@arg{##2}%
-    \ifx\bf@bitboxes@arg\bf@relax
-      \bitbox[#1]{#2}{##1}%
-      \let\next=\relax
-    \else
-      \bitbox[#1R]{#2}{##1}%
-      \def\next{\bf@bitboxes@star@ii{##2}}%
-    \fi
-    \next
-  }%
-%    \end{macrocode}
 % \begin{macro}{\bf@bitboxes@star@ii}
-% Process all tokens in |\bitboxes*|'s argument |#3| following the first
-% argument.  For each token, produce a box with the left side suppressed
-% using~``|L|''.
-%    \begin{macrocode}
-  \def\bf@bitboxes@star@ii##1##2{%
-%    \end{macrocode}
-% \begin{macro}{\bf@bitboxes@arg@i}
+% \begin{macro}{\bf@call@box@arg@iv}
 % \begin{macro}{\bf@bitboxes@arg@ii}
-% \begin{macro}{\bf@bitboxes@sides}
 % \begin{macro}{\next}
-% Store the next two argument tokens in |\bf@bitboxes@arg@i| and
-% |\bf@bitboxes@arg@i| for use with |\ifx|.  We use those to set
-% |\bf@bitboxes@sides| to |\bitbox*|'s argument~|#1| with the left side
-% and, for the final token, the right side suppressed.
+% Process the second and subsequent tokens in the text argument passed
+% to \cs{bitboxes*}.  If the next token in the stream is the final one
+% (indicated by its being followed by \cs{relax}), draw a bit box with
+% the left side suppressed.  If it's not the final token, draw a bit box
+% with both the left and right sides suppressed and invoke itself
+% recursively on the remaining tokens.
 %    \begin{macrocode}
-    \def\bf@bitboxes@arg@i{##1}%
-    \def\bf@bitboxes@arg@ii{##2}%
-    \ifx\bf@bitboxes@arg@ii\bf@relax
-      \def\bf@bitboxes@sides{#1L}%
-    \else
-      \def\bf@bitboxes@sides{#1LR}%
-    \fi
-    \ifx\bf@bitboxes@arg@i\bf@relax
-      \let\next=\relax
-    \else
-      \expandafter\bitbox\expandafter[\bf@bitboxes@sides]{#2}{##1}%
-      \def\next{\bf@bitboxes@star@ii{##2}}%
-    \fi
-    \next
-  }%
-%    \end{macrocode}
-%    \begin{macrocode}
-  \bf@bitboxes@star@i#3\relax\relax
-  \ignorespaces
+\def\bf@bitboxes@star@ii#1#2{%
+  \def\bf@call@box@arg@iv{#1}%
+  \def\bf@bitboxes@arg@ii{#2}%
+  \ifx\bf@bitboxes@arg@ii\bf@relax
+    \edef\bf@call@box@arg@i{\bf@bitboxes@sides L}%
+  \else
+    \edef\bf@call@box@arg@i{\bf@bitboxes@sides LR}%
+  \fi
+  \ifx\bf@call@box@arg@iv\bf@relax
+    \let\next=\relax
+  \else
+    \bf@bitbox
+    \def\next{\bf@bitboxes@star@ii{#2}}%
+  \fi
+  \next
 }
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
 % \end{macro}
 % \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
-% \end{macro}
+%
 %
 % \subsubsection{Parsing arguments}
 %
@@ -2465,7 +2732,8 @@
   \bitbox@bottomfalse
   \bitbox@leftfalse
   \bitbox@rightfalse
-  \bf@parse@bitbox@sides#1X}
+  \bf@parse@bitbox@sides#1X%
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2511,7 +2779,8 @@
       \fi
     \fi
     \expandafter\bf@parse@bitbox@sides
-  \fi}
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2547,7 +2816,8 @@
   \ifcounting@words
     \inc@bytefield@height{\unitlength * \real{\num@tall}}%
     \global\counting@wordsfalse
-  \fi}
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2599,7 +2869,8 @@
     \inc@bytefield@height{\unitlength * \real{\strip@pt\units@tall}}%
     \global\counting@wordsfalse
   \fi
-  \ignorespaces}
+  \ignorespaces
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2616,7 +2887,8 @@
   \else
     \bf@parse@range#1-#1-#1\relax
     \expandafter\bf@parse@range@list
-  \fi}
+  \fi
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2659,7 +2931,8 @@
         \makebox(\strip@pt\bf@bitwidth,\strip@pt\units@tall){%
           \bf@bitformatting{\theheader@val}}}
       \addtocounter{header@val}{1}
-  \repeat}
+  \repeat
+}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2770,6 +3043,17 @@
 % \end{macro}
 % \end{macro}
 %
+% \begin{macro}{\bf@leftcurlystyle}
+% \begin{macro}{\bf@rightcurlystyle}
+% Define the default formatting for left and right curly braces as ``do
+% nothing special''.
+%    \begin{macrocode}
+\let\bf@leftcurlystyle=\relax
+\let\bf@rightcurlystyle=\relax
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
 % \begin{macro}{\curly@box}
 % Define a box in which to temporarily store formatted curly braces.
 % \changes{v1.2}{2004/06/14}{Bug fix: Defined \cs{curly@box} globally
@@ -2801,11 +3085,13 @@
     \setlength{\curly@shift}{\half@curly@height + 0.5\curly@shift}%
     \global\sbox{#1}{\raisebox{\curly@shift}{%
       $\xdef\old@axis{\the\fontdimen22\textfont2}$%
-      $\fontdimen22\textfont2=0pt%
-       \left.
-       \vrule height\half@curly@height
-              width 0pt
-              depth\half@curly@height\right\bf@rightcurly$%
+      \bf@rightcurlystyle{%
+        $\fontdimen22\textfont2=0pt%
+         \left.
+         \vrule height\half@curly@height
+                width 0pt
+                depth\half@curly@height\right\bf@rightcurly$%
+      }%
       $\fontdimen22\textfont2=\old@axis$}}%
   \endgroup
 }
@@ -2834,11 +3120,13 @@
     \setlength{\curly@shift}{\half@curly@height + 0.5\curly@shift}%
     \global\sbox{#1}{\raisebox{\curly@shift}{%
       $\xdef\old@axis{\the\fontdimen22\textfont2}$%
-      $\fontdimen22\textfont2=0pt%
-       \left\bf@leftcurly
-       \vrule height\half@curly@height
-              width 0pt
-              depth\half@curly@height\right.$%
+      \bf@leftcurlystyle{%
+        $\fontdimen22\textfont2=0pt%
+         \left\bf@leftcurly
+         \vrule height\half@curly@height
+                width 0pt
+                depth\half@curly@height\right.$%
+      }%
       $\fontdimen22\textfont2=\old@axis$}}%
   \endgroup
 }
@@ -2873,12 +3161,17 @@
 %
 % \begin{environment}{rightwordgroup}
 % \usermacro
-% Label the words defined between |\begin{rightwordgroup}| and |\end{rightwordgroup}|
-% on the right side of the bit field.
-% The argument is the text of the label.  The label is typeset to the
-% right of a large curly brace, which groups the words together.
+% Label the words defined between |\begin{rightwordgroup}| and
+% |\end{rightwordgroup}| on the right side of the bit field.  The first,
+% optional, argument is a list of parameters, as defined in
+% Section~\ref{sec:options}.  The second, mandatory, argument is the
+% text of the label.  The label is typeset to the right of a large curly
+% brace, which groups the words together.
+% \changes{v2.6}{2020/10/29}{Suppress spaces following the
+%   \protect\cs{end}\protect\texttt{\{rightwordgroup\}}}
+% \changes{v2.6}{2020/10/31}{Accept key/value options}
 %    \begin{macrocode}
-\newenvironment{rightwordgroup}[1]{%
+\newenvironment{rightwordgroup}[2][]{%
 %    \end{macrocode}
 % We begin by ending the group that |\begin{rightwordgroup}| created.  This
 % lets the |rightwordgroup| environment span rows (because we're technically
@@ -2887,21 +3180,25 @@
   \endgroup
 %    \end{macrocode}
 % \begin{macro}{\wordlabelr@start}
+% \begin{macro}{\wordlabelr@params}
 % \begin{macro}{\wordlabelr@text}
-% |\begin{rightwordgroup}| merely stores the starting height in |\wordlabelr@start|
-% and the user-supplied text in |\wordlabelr@text|.  |\end{rightwordgroup}|
-% does most of the work.
+% |\begin{rightwordgroup}| merely stores the starting height in
+% |\wordlabelr@start| and the user-supplied text in |\wordlabelr@text|.
+% |\end{rightwordgroup}| does most of the work.
 %    \begin{macrocode}
   \global\wordlabelr@start=\bytefield@height
-  \gdef\wordlabelr@text{#1}%
+  \gdef\wordlabelr@params{#1}%
+  \gdef\wordlabelr@text{#2}%
   \ignorespaces
 }{%
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
+% \end{macro}
 % \begin{macro}{\wordlabelr@end}
-% Because we already ended the group that |\begin{rightwordgroup}| created
-% we now have to begin a group for |\end{rightwordgroup}| to end.
+% Because we already ended the group that |\begin{rightwordgroup}|
+% created we now have to begin a group for |\end{rightwordgroup}| to
+% end.
 %    \begin{macrocode}
   \begingroup
   \global\wordlabelr@end=\bytefield@height
@@ -2917,23 +3214,32 @@
 %    \begin{macrocode}
   \gdef\show@wordlabelr{%
     \sbox{\word@label@box}{%
-      \begin{tabular}[b]{@{}l@{}}\wordlabelr@text\end{tabular}}%
+      \begin{tabular}[b]{@{}l@{}}\wordlabelr@text\end{tabular}%
+    }%
     \settowidth{\label@box@width}{\usebox{\word@label@box}}%
     \setlength{\label@box@height}{\wordlabelr@end-\wordlabelr@start}%
+%    \end{macrocode}
+% Evaluate any parameters passed to |\begin{rightwordgroup}| right
+% before we render the curly brace.
+%    \begin{macrocode}
+    \expandafter\bf@bytefieldsetup\expandafter{\wordlabelr@params}%
     \store@rcurly{\curly@box}{\label@box@height}%
     \bf@newdimen\total@box@width
     \setlength{\total@box@width}{%
       \bf@rightcurlyspace +
       \widthof{\usebox{\curly@box}} +
       \bf@rightlabelspace +
-      \label@box@width}%
+      \label@box@width
+    }%
     \begin{picture}(\strip@pt\total@box@width,0)
       \put(0,0){%
         \hspace*{\bf@rightcurlyspace}%
         \usebox{\curly@box}%
         \hspace*{\bf@rightlabelspace}%
         \makebox(\strip@pt\label@box@width,\strip@pt\label@box@height){%
-          \usebox{\word@label@box}}}
+          \usebox{\word@label@box}%
+        }%
+      }%
     \end{picture}%
 %    \end{macrocode}
 % The last thing |\show@wordlabelr| does is redefine itself back to a no-op.
@@ -2948,7 +3254,7 @@
 % |\begin|.
 %    \begin{macrocode}
   \def\@currenvir{rightwordgroup}%
-  \ignorespaces
+  \ignorespacesafterend
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3012,23 +3318,26 @@
 % there will eventually be enough space to accomodate the label, we know
 % that the label won't overlap the bit field or extend beyond the bit-field
 % boundaries.
+% \changes{v2.6}{2020/10/29}{Suppress spaces following the
+%   \protect\cs{end}\protect\texttt{\{leftwordgroup\}}}
+% \changes{v2.6}{2020/10/31}{Accept key/value options}
 %    \begin{macrocode}
-\newenvironment{leftwordgroup}[1]{%
-%    \end{macrocode}
-% We begin by ending the group that |\begin{rightwordgroup}| created.  This
-% lets the |leftwordgroup| environment span rows (because we're technically
-% no longer within the environment).
-%    \begin{macrocode}
-  \endgroup
+\newenvironment{leftwordgroup}[2][]{%
 %    \end{macrocode}
 % \begin{macro}{\wordlabell@start}
+% \begin{macro}{\wordlabell@params}
 % \begin{macro}{\wordlabell@text}
-% We store the starting height and label text, which are needed by the
-% |\end{leftwordgroup}|.
+% We store the starting height, optional parameters (see
+% Section~\ref{sec:options}), and label text, all of which are needed by
+% the |\end{leftwordgroup}|.  We immediately parse the parameters
+% because they may affect the \cs{store@lcurly} invocation below.
 %    \begin{macrocode}
   \global\wordlabell@start=\bytefield@height
-  \gdef\wordlabell@text{#1}%
+  \gdef\wordlabell@params{#1}%
+  \gdef\wordlabell@text{#2}%
+  \bf@bytefieldsetup{#1}%
 %    \end{macrocode}
+% \end{macro}
 % \end{macro}
 % \end{macro}
 % Next, we typeset a draft version of the label into |\word@label@box|,
@@ -3061,7 +3370,14 @@
 %    \begin{macrocode}
   \gdef\make@lspace{%
     \hspace*{\total@lbox@width}%
-    \gdef\make@lspace{}}%
+    \gdef\make@lspace{}%
+  }%
+%    \end{macrocode}
+% We now end the group that |\begin{rightwordgroup}| created.  This lets
+% the |leftwordgroup| environment span rows (because we're technically
+% no longer within the environment).
+%    \begin{macrocode}
+  \endgroup
   \ignorespaces
 }{%
 %    \end{macrocode}
@@ -3080,6 +3396,10 @@
 % that we typeset the entire label in the second column, but in a $0
 % \times 0$ |picture| environment and with a negative horizontal offset
 % (|\starting@point|), thereby making it overlap the first column.
+% Before typesetting the curly brace we re-parse the optional parameters
+% because we're in a new group from the one in which we parsed them
+% before, and the parameters can affect the second \cs{store@lcurly}
+% invocation just they could have affected the first.
 %    \begin{macrocode}
   \global\wordlabell@end=\bytefield@height
   \bf@newdimen\starting@point
@@ -3089,6 +3409,7 @@
     \begin{tabular}[b]{@{}l@{}}\wordlabell@text\end{tabular}}%
   \settowidth{\label@box@width}{\usebox{\word@label@box}}%
   \setlength{\label@box@height}{\wordlabell@end-\wordlabell@start}%
+  \expandafter\bf@bytefieldsetup\expandafter{\wordlabell@params}%
   \store@lcurly{\curly@box}{\label@box@height}%
   \begin{picture}(0,0)
     \put(\strip@pt\starting@point,0){%
@@ -3106,7 +3427,8 @@
 % |\begin|.
 %    \begin{macrocode}
   \def\@currenvir{leftwordgroup}%
-  \ignorespaces}
+  \ignorespacesafterend
+}
 %    \end{macrocode}
 % \end{macro}
 % \end{environment}
@@ -3321,6 +3643,8 @@
 %
 % \begin{macro}{\KV@bytefield@leftcurly}
 % \begin{macro}{\KV@bytefield@rightcurly}
+% \begin{macro}{\bf@leftcurly}
+% \begin{macro}{\bf@rightcurly}
 % Specify the symbol to use for bracketing a left or right word group.
 % This must be an extensible math delimiter (i.e.,~something that can
 % immediately follow |\left| or |\right| in math mode).
@@ -3330,10 +3654,14 @@
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
+% \end{macro}
+% \end{macro}
 %
 % \begin{macro}{\KV@bytefield@leftcurlyspace}
 % \begin{macro}{\KV@bytefield@rightcurlyspace}
 % \begin{macro}{\KV@bytefield@curlyspace}
+% \begin{macro}{\bf@leftcurlyspace}
+% \begin{macro}{\bf@rightcurlyspace}
 % Specify the amount of space between the bit fields in a word group and
 % the adjacent left or right curly brace.  The \optname{curlyspace}
 % option is a shortcut that puts the same space before both left and
@@ -3349,10 +3677,14 @@
 % \end{macro}
 % \end{macro}
 % \end{macro}
+% \end{macro}
+% \end{macro}
 %
 % \begin{macro}{\KV@bytefield@leftlabelspace}
 % \begin{macro}{\KV@bytefield@rightlabelspace}
 % \begin{macro}{\KV@bytefield@labelspace}
+% \begin{macro}{\bf@leftlabelspace}
+% \begin{macro}{\bf@rightlabelspace}
 % Specify the amount of space between a left or right word group's curly
 % brace and the associated label text.  The |labelspace| option is a
 % shortcut that puts the same space after both left and right curly
@@ -3368,10 +3700,14 @@
 % \end{macro}
 % \end{macro}
 % \end{macro}
+% \end{macro}
+% \end{macro}
 %
 % \begin{macro}{\KV@bytefield@leftcurlyshrinkage}
 % \begin{macro}{\KV@bytefield@rightcurlyshrinkage}
 % \begin{macro}{\KV@bytefield@curlyshrinkage}
+% \begin{macro}{\bf@leftcurlyshrinkage}
+% \begin{macro}{\bf@rightcurlyshrinkage}
 % Specify the number of points by which to reduce the height of a curly
 % brace (left, right, or both) so its ends don't overlap whatever's
 % above or below it.
@@ -3383,6 +3719,30 @@
   \def\bf@rightcurlyshrinkage{#1}%
 }
 %    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\KV@bytefield@leftcurlystyle}
+% \begin{macro}{\KV@bytefield@rightcurlystyle}
+% \begin{macro}{\KV@bytefieldcurlystyle}
+% \begin{macro}{\bf@leftcurlystyle}
+% \begin{macro}{\bf@rightcurlystyle}
+% Specify a macro that takes either zero or one argument and that
+% precedes the text that draws a left curly brace, right curly brace, or
+% either curly brace.
+%    \begin{macrocode}
+\define@key{bytefield}{leftcurlystyle}{\def\bf@leftcurlystyle{#1}}
+\define@key{bytefield}{rightcurlystyle}{\def\bf@rightcurlystyle{#1}}
+\define@key{bytefield}{curlystyle}{%
+  \def\bf@leftcurlystyle{#1}%
+  \def\bf@rightcurlystyle{#1}%
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
 % \end{macro}
 % \end{macro}
 % \end{macro}
@@ -3423,6 +3783,26 @@
 %    \begin{macrocode}
 \define@key{bytefield}{lsb}{\def\bf@first@bit{#1}}
 %    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bf@bgcolor}
+% \begin{macro}{\KV@bytefield@bgcolor}
+% Specify a background color for a bit box or word box.
+%    \begin{macrocode}
+\define@key{bytefield}{bgcolor}{\def\bf@bgcolor{#1}}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\bf@per@word}
+% \begin{macro}{\KV@bytefield@per@word}
+% Specify a macro to invoke for each word of a word box.  The macro must
+% take two arguments: the word number (0-indexed) and the total number
+% of words.
+%    \begin{macrocode}
+\define@key{bytefield}{perword}{\def\bf@per@word{#1}}
+%    \end{macrocode}
+% \end{macro}
 % \end{macro}
 %
 % \begin{macro}{\bytefieldsetup}

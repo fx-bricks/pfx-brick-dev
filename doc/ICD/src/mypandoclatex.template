@@ -27,6 +27,9 @@
 \bytefieldsetup{
   boxformatting=\ttfamily\color[rgb]{0.13,0.29,0.53}\bfseries\centering
 }
+\newcommand{\passthrough}[1]{#1}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \usepackage{fixltx2e} % provides \textsubscript
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -251,7 +254,7 @@ $endif$
   {\small www.fxbricks.com }
 	\vspace{0.1\baselineskip} % Whitespace under the publisher logo
 
-  {\small \textcopyright \enskip 2019 Fx Bricks Inc., All rights reserved}
+  {\small \textcopyright \enskip 2020 Fx Bricks Inc., All rights reserved}
 	\vspace{0.1\baselineskip} % Whitespace under the publisher logo
 
 \end{titlepage}
