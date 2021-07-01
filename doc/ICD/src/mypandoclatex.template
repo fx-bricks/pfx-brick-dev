@@ -76,23 +76,23 @@ $endif$
 $if(listings)$
 \usepackage{listings}
 \lstdefinelanguage{pfx}{
-    morekeywords={light, motor, sound, wait, ir, repeat, action},
-    morekeywords=[2]{play, beep, button, servo, stop, fade, all, on, off, flash, loop, left, right, up, down, ch, speed, fx, vol, bass, treble, bright, joy},
-    otherkeywords={0,1,2,3,4,5,6,7,8,9},
-    morekeywords=[3]{0,1,2,3,4,5,6,7,8,9},
+    morekeywords={acc, play, beep, button, servo, stop, fade, all, on, off, flash, loop, left, right, up, down, ch, speed, fx, vol, bass, treble, bright, joy},
+    morekeywords=[2]{light, motor, sound, wait, ir, repeat, action, set},
     otherkeywords={),(,\<,\>},
-    morekeywords=[4]{(,),\<,\>,channels, parameters, commands, command, id, value, ontime, offtime, fileID, time},
+    morekeywords={0,1,2,3,4,5,6,7,8,9},
+    morekeywords=[3]{0,1,2,3,4,5,6,7,8,9},
+    morekeywords=[4]{(,),\<,\>,channels, parameters, commands, command, id, value, ontime, offtime, fileID, time, events, var},
     sensitive = true,
     morecomment=[l]{\#},
     morecomment=[l]{//},
     morestring=[b]",
     keywordstyle=\ttfamily\color[rgb]{0.13,0.29,0.53}\bfseries,
     keywordstyle=[2]\ttfamily\color[rgb]{0.53,0.13,0.29}\bfseries,
-    keywordstyle=[3]\ttfamily\color[rgb]{0.0,0.5,0.29}\bfseries,
+    keywordstyle=[3]\ttfamily\color[rgb]{0.0,0.0,0.0}\bfseries,
     keywordstyle=[4]\ttfamily\color[rgb]{0.0,0.0,0.0}\bfseries\itshape,
     stringstyle=\ttfamily\color[rgb]{0.31,0.60,0.02},
     commentstyle=\ttfamily\color[rgb]{0.56,0.35,0.01}\itshape,
-    numberstyle=\footnotesize,
+    numberstyle=\ttfamily\color[rgb]{0.0,0.0,0.0},
     backgroundcolor=\color[RGB]{248,248,248},
     showspaces=false,
     showstringspaces=false,
@@ -254,7 +254,7 @@ $endif$
   {\small www.fxbricks.com }
 	\vspace{0.1\baselineskip} % Whitespace under the publisher logo
 
-  {\small \textcopyright \enskip 2020 Fx Bricks Inc., All rights reserved}
+  {\small \textcopyright \enskip 2021 Fx Bricks Inc., All rights reserved}
 	\vspace{0.1\baselineskip} % Whitespace under the publisher logo
 
 \end{titlepage}

@@ -1,6 +1,6 @@
 ---
-title: PFx Brick USB & Bluetooth LE Host Interface Control Document Revision 3.36
-date: Dec 8, 2020
+title: PFx Brick USB & Bluetooth LE Host Interface Control Document Revision 3.38
+date: Jun 28, 2021
 author: Fx Bricks
 toc: yes
 revision: 3.38
@@ -153,6 +153,7 @@ Changes made to each version of this document are summarized in the table below.
   3.35  & Deprecated the \lstinline|PFX_CMD_GET_AUDIO_LUT_ENTRY, PFX_CMD_GET_AUDIO_CAPACITY| messages \\
         & Added new \lstinline|PFX_CMD_FILE_DIR| request type \lstinline|PFX_DIR_REQ_SET_ATTR_MASKED_ID| \\
         & Expanded the definition of the file "User Attributes" field to tag files for use with indexed motor sound samples \\
+        & Added new file attribute for PFX file extensions (representing scripts) \\
   \hline
 \end{tabular}
 \pagebreak
@@ -196,6 +197,13 @@ Changes made to each version of this document are summarized in the table below.
   Rev & Change Notes  \\
   \hline
   3.38  & Added new file attributes for multiple gated playback sound files. \\
+        & Added reserved file IDs as an alternative mechanism for marking special files for indexed playback \\
+        & Added new \lstinline|EVT_BUTTON_PRESS|, \lstinline|EVT_BUTTON_LONGPRESS|, \lstinline|EVT_BUTTON_DOWN|, and \lstinline|EVT_BUTTON_UP| events which are triggered by an attached touchLAB accessory. \\
+        & Added new scripting language keywords \lstinline|set| and \lstinline|acc|. Added support for variables, nested loops, and wait events for pushbuttons. \\
+        & Added new sound events \lstinline|EVT_SOUND_FILE_SEEK| and \lstinline|EVT_SOUND_FILE_SCRUB| \\
+        & Added new request type for \lstinline|PFX_CMD_FILE_DIR| command message: \lstinline|PFX_DIR_REQ_CHANGE_FILE_ID| \\
+        & Added new configuration values: \lstinline|AccelRateThr|, \lstinline|DecelRateThr|, \lstinline|BrakeRateThr|, \lstinline|BrakeSpeed| for use with indexed playback sound schemes.  Corresponding changes to \lstinline|PFX_CMD_GET_CONFIG| and \lstinline|PFX_CMD_SET_CONFIG| \\
+        & Changed data returned from \lstinline|PFX_CMD_GET_CURRENT_STATE| \\
   \hline
 \end{tabular}
 \pagebreak
@@ -690,8 +698,13 @@ Retrieves global configuration data from the PFx Brick.
   \bitbox{1}{Notch Count} & \bitbox{1}{Notch 1-2 Bound} & \bitbox{1}{Notch 2-3 Bound} & \bitbox{1}{Notch 3-4 Bound} & \bitbox{1}{Notch 4-5 Bound} & \bitbox{1}{Notch 5-6 Bound} & \bitbox{1}{Notch 6-7 Bound} & \bitbox{1}{Notch 7-8 Bound} \\
 \end{bytefield}
 
-\begin{bytefield}[endianness=little,bitwidth=0.0527\linewidth]{11}
-  \bitheader[lsb=15]{15-25} \\
+\begin{bytefield}[bitwidth=\widthof{BBBIRIGHTNESS~},endianness=little]{4}
+  \bitheader[lsb=15]{15-18} \\
+  \bitbox{1}{Rapid Accel Thr} & \bitbox{1}{Rapid Decel Thr} & \bitbox{1}{Brake Rate Thr} & \bitbox{1}{Brake Speed Thr} \\
+\end{bytefield}
+
+\begin{bytefield}[endianness=little,bitwidth=\widthof{BrigHTNESS~}]{7}
+  \bitheader[lsb=19]{19-25} \\
   \wordbox{1}{Reserved}\\
 \end{bytefield}
 
@@ -824,6 +837,7 @@ Audio DRC     :  0 = Automatic audio Dynamic Range Control (DRC) off
 \pagebreak
 
 **Motor Configuration**
+
 Each motor output on the PFx Brick can be customized by the user for different motor speed and momentum behaviour.  These settings apply to each specific motor output connector channel on the PFx Brick.  Up to 4x motor channels (A,B,C,D) can be configured; however, the initial version of the PFx Brick has only 2x motor channels fitted (A & B).  The settings for channels C & D are placeholders for future 4x channel PFx Bricks.
 
 The motor configuration byte is defined as follows:
@@ -885,8 +899,13 @@ Overwrites the PFx Brick global configuration data.  The PFx Brick will store th
   \bitbox{1}{Notch Count} & \bitbox{1}{Notch 1-2 Bound} & \bitbox{1}{Notch 2-3 Bound} & \bitbox{1}{Notch 3-4 Bound} & \bitbox{1}{Notch 4-5 Bound} & \bitbox{1}{Notch 5-6 Bound} & \bitbox{1}{Notch 6-7 Bound} & \bitbox{1}{Notch 7-8 Bound} \\
 \end{bytefield}
 
-\begin{bytefield}[endianness=little,bitwidth=0.0527\linewidth]{11}
-  \bitheader[lsb=9]{9-19} \\
+\begin{bytefield}[bitwidth=\widthof{BBBIRIGHTNESS~},endianness=little]{4}
+  \bitheader[lsb=9]{9-12} \\
+  \bitbox{1}{Rapid Accel Thr} & \bitbox{1}{Rapid Decel Thr} & \bitbox{1}{Brake Rate Thr} & \bitbox{1}{Brake Speed Thr} \\
+\end{bytefield}
+
+\begin{bytefield}[endianness=little,bitwidth=\widthof{brightness~}]{7}
+  \bitheader[lsb=13]{13-19} \\
   \wordbox{1}{Reserved}\\
 \end{bytefield}
 
@@ -971,6 +990,12 @@ This message asks the PFx Brick to report its current internal operating state. 
   \bitheader[lsb=3]{3-10} \\
   \footnotesize
   \bitbox{1}{Motor A direction} & \bitbox{1}{Motor A target speed} & \bitbox{1}{Motor A current speed} & \bitbox{1}{Motor A PWM speed} & \bitbox{1}{Motor B direction} & \bitbox{1}{Motor B target speed} & \bitbox{1}{Motor B current speed} & \bitbox{1}{Motor B PWM speed}\\
+\end{bytefield}
+
+\begin{bytefield}[bitwidth=\widthof{PWMSpeed~},endianness=little]{8}
+  \bitheader[lsb=11]{11-18} \\
+  \footnotesize
+  \bitbox{1}{Motor Ptr} & \bitbox{1}{Motor PWM Ptr} & \bitbox{1}{Motor Rate Ptr} & \bitbox{1}{Change Dir State} & \bitbox{1}{Set Off State} & \bitbox{1}{Rapid Accel State} & \bitbox{1}{Rapid Decel State} & \bitbox{1}{Brake State}\\
 \end{bytefield}
 
 \begin{bytefield}[bitwidth=\widthof{PWMSpeed~},endianness=little]{8}
@@ -1481,22 +1506,27 @@ The PFX Encrypted Firmware file is then written as follows:
   \bitheader{0-7} \\
   \bitbox{4}{Byte Count} & \bitbox{4}{CRC32}\\
 \end{bytefield}
+
 \begin{bytefield}[bitwidth=\widthof{FILE~},endianness=little]{8}
   \bitheader[lsb=8]{8-15} \\
   \bitbox{4}{IVT Start} & \bitbox{4}{IVT Length}\\
 \end{bytefield}
+
 \begin{bytefield}[bitwidth=\widthof{FILE~},endianness=little]{8}
   \bitheader[lsb=16]{16-23} \\
   \bitbox{4}{App Start} & \bitbox{4}{App Length}\\
 \end{bytefield}
+
 \begin{bytefield}[bitwidth=\widthof{FILE~},endianness=little]{8}
   \bitheader[lsb=24]{24-31} \\
   \bitbox{4}{Cfg Start} & \bitbox{4}{Cfg Length}\\
 \end{bytefield}
+
 \begin{bytefield}[bitwidth=\widthof{FILE~},endianness=little]{4}
   \bitheader[lsb=32]{32-35} \\
   \bitbox{4}{Reset Vector} \\
 \end{bytefield}
+
 \begin{bytefield}[bitwidth=\widthof{FILE~},endianness=little]{8}
   \bitheader[lsb=36]{36-43} \\
   \bitbox{8}{Encrypted data bytes}\\
@@ -1920,6 +1950,7 @@ The `Request` byte can be specified as follows:
   0x0B & \lstinline|PFX_DIR_REQ_GET_NAMED_FILE_ID|  & Get File ID for file name  \\
   0x0C & \lstinline|PFX_DIR_REQ_GET_SMALL_DIR_ID|   & Get compact file info of File ID  \\
   0x0D & \lstinline|PFX_DIR_REQ_GET_SMALL_DIR_IDX|  & Get compact file info at index  \\
+  0x0E & \lstinline|PFX_DIR_REQ_CHANGE_FILE_ID|     & Change File ID  \\
   \hline
 \end{tabular}
 
@@ -1934,6 +1965,8 @@ The `Request` byte can be specified as follows:
   \bitheader{0-3} \\
   \bitbox{1}{0xC5} & \bitbox{1}{Request} & \bitbox{1}{Status} & \bitbox{2}{File Count[15:0]} \\
 \end{bytefield}
+
+\pagebreak
 
 **Request 0x01 - Get Free Space / Capacity**
 
@@ -1990,7 +2023,7 @@ Changes the `Attributes` field of the file directory entry.  The `Attributes[15:
 
 Changes the `Attributes` field of the file directory entry.  The `Attributes[15:0]` data bytes should be contained in bytes 3 and 4 of the host command packet and a bit mask should be contained in bytes 5 and 6.  The only bits that are changed in the `Attributes` field are the bits specified with the bit mask.  This allows non-destructive modification of attributes by only specifying the bits that require changing.  For example a command to modify the file type of file ID `0x77` to WAV would be as follows: `0x45 0x0A 0x77 0x00 0x00 0xFF 0x00`, i.e. only `User Attributes[15:8]` is set to `0x00` because of the bit mask `0xFF00`.
 
-\medskip
+\pagebreak
 
 **Request 0x07 - Set UserData1 with ID**
 
@@ -1998,7 +2031,7 @@ Changes the `Attributes` field of the file directory entry.  The `Attributes[15:
 
 Changes the `UserData1/2` fields of the file directory entry.  The `UserData1/2[31:0]` data bytes should be contained in bytes 3 to 6 of the host command packet.
 
-\pagebreak
+\medskip
 
 **Request 0x09 - Compute CRC32 with ID**
 
@@ -2038,6 +2071,12 @@ This message returns two consecutive file directory entries in a compact form wi
   \bitheader[lsb=40]{40-62} \\
   \bitbox{23}{Left justified 23 character file name 2 UTF8 encoded} \\
 \end{bytefield}
+
+\pagebreak
+
+**Request 0x0E - Change File ID**
+
+This message changes the file ID of an existing file.  Byte 2 is file ID to change and byte 3 contains the new file ID.
 
 \bigskip
 
@@ -2654,21 +2693,23 @@ The script syntax uses case sensitive keyword commands and specifiers.  There ar
 The primary keyword commands are as follows:
 
 ~~~
+ir parameters
 light channels commands
 motor channels commands
-sound commands
-ir parameters
-wait parameters
 repeat
 run
+set
+sound commands
 stop
+wait parameters
 ~~~
 
 The secondary command and parameter keywords are as follows:
 
 ~~~
-play, fade, all, on, off, flash, loop, left, right, up, down,
-ch, speed, fx, vol, bass, treble, bright, joy, beep, button
+acc, all, bass, beep, bright, button, ch, down, fade, flash,
+fx, joy, left, loop, off, on, play, right, servo, speed,
+treble, up, vol
 ~~~
 
 \pagebreak
@@ -2702,6 +2743,36 @@ Some commands also support the use of strings--typically for specifying items su
 "This is a string"
 ~~~
 
+\pagebreak
+
+### Variables
+
+There are 6 fixed name variables which act like storage registers named \lstinline|$A|, \lstinline|$B|, \lstinline|$C|, \lstinline|$D|, \lstinline|$E|, and \lstinline|$F|.  The preceding dollar sign (\lstinline|$|) is required and the variable names must be uppercase.
+
+Variables are assigned values with the \lstinline|set| keyword, the variable name followed by an equals sign (\lstinline|=|) and the value to assign.  Variables can be assigned any numeric value or string.
+
+~~~
+set $A = 50
+motor a speed $A
+set $B = "Beep1.wav"
+sound play $B
+~~~
+
+### Repeat Loops
+
+A block of script code can be repeated a specified number of times using the \lstinline|repeat| keyword.  The code block must be encapsulated in curly braces \lstinline|{ }|.  The opening brace \lstinline|{| must appear on the same line as the \lstinline|repeat| keyword and the closing brace \lstinline|}| must appear on a line by itself to mark the end of the code block.
+
+Repeated code blocks can be nested up to four levels.
+
+~~~
+repeat 5 {
+  light 1 fx 1
+  repeat 3 {
+    light 2 fx 1
+    wait 2.0
+  }
+}
+~~~
 
 \pagebreak
 
@@ -2727,12 +2798,6 @@ Some commands also support the use of strings--typically for specifying items su
 \lstinline|fx <id> [parameters]| - performs light action \lstinline|<id>| as \lstinline|LIGHT_FX_ID| with specified parameters \\
 if \lstinline|channels| = \lstinline|all| then \lstinline|<id>| is a combo id \\
 \\
-\lstinline|light 1 on| \\
-\lstinline|light [1,4,8] off fade 0.5| \\
-\lstinline|light [2,4] flash 0.1 0.4 fade 0.1| \\
-\lstinline|light all bright 128| \\
-\lstinline|light [6,7] fx 0x0C [1,0,3,0,0]| \\
-\\
 \hline
 \\
 \bfseries{Sound Commands} \\
@@ -2754,12 +2819,6 @@ specified parameters \\
 \lstinline|fileID| can be specified either as a numeric \\
 file ID or string containing the filename.\\
 \\
-\lstinline|sound play 3 loop 5| \\
-\lstinline|sound play "Siren1.wav"| \\
-\lstinline|sound vol 160| \\
-\lstinline|sound treble -6| \\
-\lstinline|sound fx 9 0x04 0 0| \\
-\\
 \hline
 }
 \end{tabular}
@@ -2779,12 +2838,8 @@ enclosed with \Verb|[]| parenthesis, or the keyword \lstinline|all| \\
 \lstinline|stop| - stop motor channel(s) \\
 \lstinline|speed <value>| - motor speed (-255 to 255), +speed is forward, -speed is reverse direction \\
 \lstinline|servo <value>| - servo motor angle (-90 to 90) \\
+\lstinline|acc <value>| - optional acceleration/deceleration (0 to 15) \\
 \lstinline|fx <id> [parameters]| - performs motor action \lstinline|<id>| as \lstinline|MOTOR_FX_ID| with specified parameters \\
-\\
-\lstinline|motor all stop| \\
-\lstinline|motor a speed -50| \\
-\lstinline|motor 2 servo 45| \\
-\lstinline|motor 1 fx 0x07 0x03 0| \\
 \\
 \hline
 \\
@@ -2795,28 +2850,31 @@ enclosed with \Verb|[]| parenthesis, or the keyword \lstinline|all| \\
 \\
 \hline
 \\
+\bfseries{Set Command} \\
+\\
+\lstinline|set <var> = <value>|  \\
+assigns any of the 6 variables \lstinline|$A|, \lstinline|$B|, \lstinline|$C|, \lstinline|$D|, \lstinline|$E|, or \lstinline|$F| to a numeric or string value. \\
+\\
+\hline
+\\
 \bfseries{Execution Control} \\
 \\
 Delay execution and wait for event to resume: \\
 \lstinline|wait <time>| - pause (0.05 to unlimited sec) \\
 \lstinline|wait sound fileID| - pause execution until sound file \lstinline|fileID| has stopped playing \\
+\lstinline|wait button| - wait for a push button event \\
 \lstinline|wait ir parameters| - pause execution until IR event has been received \\
 where \lstinline|parameters| can be any combination of: \\
 \lstinline|joy| - joystick remote, \lstinline|speed| - speed remote, \lstinline|up,down,left,right,button| - remote actions \\
 \lstinline|ch <value>| - IR channel \\
 \\
-Redirect execution to same or different script: \\
+Repeat Loops: \\
 \lstinline|repeat| - repeat execution of current script \\
+\lstinline|repeat <value> \{ ... \}| - repeat execution of encapsulated code block \\
+\\
+Redirect execution to same or different script: \\
 \lstinline|run fileID| - execute script with \lstinline|fileID| \\
 \lstinline|stop| - stops the script at the current line \\
-\\
-\lstinline|wait 3.0| \\
-\lstinline|wait sound 5| \\
-\lstinline|wait ir joy left up| \\
-\lstinline|wait ir speed ch 4 left button| \\
-\lstinline|stop| \\
-\lstinline|run 3| \\
-\lstinline|run "MyScript.txt"| \\
 \\
 \hline
 } \\
@@ -2879,6 +2937,35 @@ repeat
 
 \pagebreak
 
+~~~
+#
+# Using loops to make lighting effects
+#
+
+light all off
+# store delay interval in A
+set $A = 0.2
+# store repeat count in B
+set $B = 4
+
+# This light sequence will be repeated 5 times:
+# light 1 will toggle followed by 4 toggles of light 2
+repeat 5 {
+  light 1 on
+  wait $A
+  light 1 off
+  wait $A
+  repeat $B {
+    light 2 on
+    wait $A
+    light 2 off
+    wait $A
+  }
+}
+~~~
+
+\pagebreak
+
 \lstset{language=}
 
 # Event/Action Data Structures
@@ -2932,6 +3019,7 @@ Following the Power Functions IR remote events, there are special event LUT entr
   Address & Event ID & MNEMONIC & Description \\
   \hline
   0x38 & 0x0E & \lstinline|EVT_TEST_EVENT|      & Used for testing actions sent by a USB connected host \\
+  \hline
   0x3C & 0x0F & \lstinline|EVT_STARTUP_EVENT1|  & Used for storing start-up actions performed after power on \\
   0x3D & 0x0F & \lstinline|EVT_STARTUP_EVENT2|  &   \\
   0x3E & 0x0F & \lstinline|EVT_STARTUP_EVENT3|  &   \\
@@ -2940,6 +3028,11 @@ Following the Power Functions IR remote events, there are special event LUT entr
   0x41 & 0x10 & \lstinline|EVT_STARTUP_EVENT6|  &   \\
   0x42 & 0x10 & \lstinline|EVT_STARTUP_EVENT7|  &   \\
   0x43 & 0x10 & \lstinline|EVT_STARTUP_EVENT8|  &   \\
+  \hline
+  0x44 & 0x11 & \lstinline|EVT_BUTTON_PRESS|  &  Used for defining push button actions from a touchLAB \\
+  0x45 & 0x11 & \lstinline|EVT_BUTTON_LONGPRESS|  &   \\
+  0x46 & 0x11 & \lstinline|EVT_BUTTON_DOWN|  &   \\
+  0x47 & 0x11 & \lstinline|EVT_BUTTON_UP|  &   \\
   \hline
 \end{tabular}
 \medskip
@@ -4317,6 +4410,8 @@ Sound effects are actions to playback a specific sound "file" stored in flash me
   0x0B & \lstinline|SOUNDFX_STOP|                      & Stop playback of specified sound file  \\
   0x0C & \lstinline|SOUNDFX_PLAY_IDX_MOTOR|          & Play sound files automatically indexed by motor speed. Allows for realistic simulation of engine sounds stored in audio files. \\
   0x0D & \lstinline|SOUNDFX_PLAY_RAND|                & Play sound file at randomly defined time intervals \\
+  0x0E & \lstinline|SOUNDFX_FILE_SEEK|                & Set the sound file pointer to an absolute time position in currently playing file.  \\
+  0x0F & \lstinline|SOUNDFX_FILE_SCRUB|               & Set the sound file pointer with a relative time offset in the currently playing file. \\
   \hline
 \end{tabular}
 
@@ -4358,6 +4453,10 @@ Using this scheme, the sound files that can be specified for motor speed indexed
   \hline
   File         & User Attributes[7:0] & Loop Type & Loop Index & Description \\
   \hline
+  Gated 1 Loop & X001 00XX [0x10]  & 00 & 100 & Gated playback file 1 \\
+  Gated 2 Loop & X001 01XX [0x14]  & 00 & 101 & Gated playback file 2 \\
+  Gated 3 Loop & X001 10XX [0x18]  & 00 & 110 & Gated playback file 3 \\
+  Gated 4 Loop & X001 11XX [0x1C]  & 00 & 111 & Gated playback file 4 \\
   Notch 1 Loop & X010 00XX [0x20]  & 01 & 000 & Loop for minimum speed \\
   Notch 2 Loop & X010 01XX [0x24]  & 01 & 001 & Loop for speed notch 2 \\
   Notch 3 Loop & X010 10XX [0x28]  & 01 & 010 & Loop for speed notch 3 \\
@@ -4392,6 +4491,75 @@ The process of preparing the PFx Brick for this sound effect can be summarized a
 3. Load all of the desired audio files corresponding to the motor speed loops on to the PFx Brick file system.
 4. Use the `PFX_CMD_FILE_DIR` command with a request type of `0x0A` (set masked attributes with ID) to set attributes of each file.  For example, to configure a file with ID 0x55 to be a loop file for notch 7, then the `PFX_CMD_FILE_DIR` command is as follows: `0x45 0x0A 0x55 0x00 0x38 0x00 0x7C`  The 0x007C is convenient mask so that only bits associated with the Loop Type and Loop Index are set, i.e. 0x0038.
 
+### Reserved File IDs
+
+Automated sound playback modes such as `SOUNDFX_PLAY_IDX_MOTOR` and `SOUNDFX_PLAY_GATED_MOTOR` rely on the lower byte of the `User Attributes` field to designate files for a particular purpose, e.g. a startup sound, idle loop, etc.  Since the capacity of the bits in the `User Attributes` field is becoming exhausted for this purpose, an additional method of designating files is implemented by using the actual `File ID` in the file system.  A block of `File ID` values will be reserved to designate files for specialized audio playback modes.  This method is optional and maintains backward compatibility with using the `User Attributes` field.  In the case where both methods are used, the `File ID` will take priority.  The table below shows the reserved `File ID` values and their corresponding purpose.
+
+\medskip
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{ | l | l | l | }
+  \hline
+  File         & Reserved File ID  & Description \\
+  \hline
+  Gated Notch 1 Loop 1 & 0xD0  & Gated playback loop 1 in notch 1 \\
+  Gated Notch 1 Loop 2 & 0xD1  & Gated playback loop 2 in notch 1 \\
+  Gated Notch 1 Loop 3 & 0xD2  & Gated playback loop 3 in notch 1 \\
+  Gated Notch 1 Loop 4 & 0xD3  & Gated playback loop 4 in notch 1 \\
+  Gated Notch 2 Loop 1 & 0xD4  & Gated playback loop 1 in notch 2 \\
+  Gated Notch 2 Loop 2 & 0xD5  & Gated playback loop 2 in notch 2 \\
+  Gated Notch 2 Loop 3 & 0xD6  & Gated playback loop 3 in notch 2 \\
+  Gated Notch 2 Loop 4 & 0xD7  & Gated playback loop 4 in notch 2 \\
+  Gated Notch 3 Loop 1 & 0xD8  & Gated playback loop 1 in notch 3 \\
+  Gated Notch 3 Loop 2 & 0xD9  & Gated playback loop 2 in notch 3 \\
+  Gated Notch 3 Loop 3 & 0xDA  & Gated playback loop 3 in notch 3 \\
+  Gated Notch 3 Loop 4 & 0xDB  & Gated playback loop 4 in notch 3 \\
+  Gated Notch 4 Loop 1 & 0xDC  & Gated playback loop 1 in notch 4 \\
+  Gated Notch 4 Loop 2 & 0xDD  & Gated playback loop 2 in notch 4 \\
+  Gated Notch 4 Loop 3 & 0xDE  & Gated playback loop 3 in notch 4 \\
+  Gated Notch 4 Loop 4 & 0xDF  & Gated playback loop 4 in notch 4 \\
+  \hline
+\end{tabular}
+
+\pagebreak
+
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{ | l | l | l | }
+  \hline
+  File         & Reserved File ID  & Description \\
+  \hline
+  Notch 1 Loop & 0xE0  & Loop for minimum speed \\
+  Notch 2 Loop & 0xE1  & Loop for speed notch 2 \\
+  Notch 3 Loop & 0xE2  & Loop for speed notch 3 \\
+  Notch 4 Loop & 0xE3  & Loop for speed notch 4 \\
+  Notch 5 Loop & 0xE4  & Loop for speed notch 5 \\
+  Notch 6 Loop & 0xE5  & Loop for speed notch 6 \\
+  Notch 7 Loop & 0xE6  & Loop for speed notch 7 \\
+  Notch 8 Loop & 0xE7  & Loop for speed notch 8 \\
+  Accel 1-2    & 0xE8  & Sound transition from notch 1 to 2 \\
+  Accel 2-3    & 0xE9  & Sound transition from notch 2 to 3 \\
+  Accel 3-4    & 0xEA  & Sound transition from notch 3 to 4 \\
+  Accel 4-5    & 0xEB  & Sound transition from notch 4 to 5 \\
+  Accel 5-6    & 0xEC  & Sound transition from notch 5 to 6 \\
+  Accel 6-7    & 0xED  & Sound transition from notch 6 to 7 \\
+  Accel 7-8    & 0xEE  & Sound transition from notch 7 to 8 \\
+  Startup      & 0xEF  & Startup sound \\
+  Decel 2-1    & 0xF0  & Sound transition from notch 2 to 1 \\
+  Decel 3-2    & 0xF1  & Sound transition from notch 3 to 2 \\
+  Decel 4-3    & 0xF2  & Sound transition from notch 4 to 3 \\
+  Decel 5-4    & 0xF3  & Sound transition from notch 5 to 4 \\
+  Decel 6-5    & 0xF4  & Sound transition from notch 6 to 5 \\
+  Decel 7-6    & 0xF5  & Sound transition from notch 7 to 6 \\
+  Decel 8-7    & 0xF6  & Sound transition from notch 8 to 7 \\
+  Shutdown     & 0xF7  & Shutdown sound \\
+  Horn Sound 1       & 0xF8  & Horn sound file 1  \\
+  Horn Sound 2       & 0xF9  & Horn sound file 2  \\
+  Change Direction    & 0xFA  & Triggerd when motor direction changed \\
+  Set Off from Stop & 0xFB  & Triggered when starting off from stop \\
+  Rapid Accel Loop & 0xFC  & Triggered with rapid acceleration \\
+  Rapid Decel Loop & 0xFD  & Triggered when rapid deceleration \\
+  Brake to Stop & 0xFE  & Triggered with rapid deceleration below a certain speed \\
+  \hline
+\end{tabular}
 
 \pagebreak
 
@@ -4426,6 +4594,8 @@ Some sound f/x actions have associated parameters and are encoded as follows:
   0x0B & \lstinline|SOUNDFX_STOP|                      &                             &                             \\
   0x0C & \lstinline|SOUNDFX_PLAY_IDX_MOTOR|           & \lstinline|MOTOR_OUTPUT| & \lstinline|IDX_OPTIONS| \\
   0x0D & \lstinline|SOUNDFX_PLAY_RAND|                & \lstinline|PROBABILITY|   &  \\
+  0x0E & \lstinline|SOUNDFX_FILE_SEEK|                & \lstinline|TIME_MSB|   & \lstinline|TIME_LSB| \\
+  0x0F & \lstinline|SOUNDFX_FILE_SCRUB|               & \lstinline|TIME_MSB|   & \lstinline|TIME_LSB|  \\
   \hline
 \end{tabular}
 
@@ -4520,6 +4690,20 @@ The `PROBABILITY` parameter specifies the approximate probability of playing a s
 0x1 = occasional
 0x2 = often
 0x3 = very often
+```
+
+#### `TIME_MSB` `TIME_LSB`
+
+The `TIME_MSB` and `TIME_LSB` values represent a 16 bit two's-complement time value in units of 100 ms per LSB.  For the `EVT_SOUNDFX_FILE_SEEK` action this represents an absolute time position in the file.  For the `EVT_SOUNDFX_FILE_SCRUB` action, this represents a relative time offset from the current playback position. Therefore the complete range of values that can be represented are:
+
+```
+0x7FFF = 3276.7 sec
+0x000A = 1.0 sec
+0x0001 = 0.1 sec
+0x0000 = 0 sec
+0xFFFF = -0.1 sec
+0xFFF6 = -1.0 sec
+0x8000 = -3276.8 sec
 ```
 
 \pagebreak
@@ -4683,8 +4867,8 @@ The upper byte stores the `File Format` identifier.  Rather than using a typical
   0x01 & FLAC &  0x11 & HEX  \\
   0x02 & MP3  &  0x20 & ZIP \\
   0x03 & OGG  &  0x21 & GZ \\
-  0x04 & AU   &  0x50 & IMG \\
-  0x05 & GSM  &       &  \\
+  0x04 & AU   &  0x30 & PFX \\
+  0x05 & GSM  &  0x50 & IMG   \\
   \hline
 \end{tabular}
 \normalsize
