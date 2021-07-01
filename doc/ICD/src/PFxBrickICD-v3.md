@@ -1,6 +1,6 @@
 ---
 title: PFx Brick USB & Bluetooth LE Host Interface Control Document Revision 3.38
-date: Jun 28, 2021
+date: Jul 1, 2021
 author: Fx Bricks
 toc: yes
 revision: 3.38
@@ -202,7 +202,7 @@ Changes made to each version of this document are summarized in the table below.
         & Added new scripting language keywords \lstinline|set| and \lstinline|acc|. Added support for variables, nested loops, and wait events for pushbuttons. \\
         & Added new sound events \lstinline|EVT_SOUND_FILE_SEEK| and \lstinline|EVT_SOUND_FILE_SCRUB| \\
         & Added new request type for \lstinline|PFX_CMD_FILE_DIR| command message: \lstinline|PFX_DIR_REQ_CHANGE_FILE_ID| \\
-        & Added new configuration values: \lstinline|AccelRateThr|, \lstinline|DecelRateThr|, \lstinline|BrakeRateThr|, \lstinline|BrakeSpeed| for use with indexed playback sound schemes.  Corresponding changes to \lstinline|PFX_CMD_GET_CONFIG| and \lstinline|PFX_CMD_SET_CONFIG| \\
+        & Added new configuration values: \lstinline|Rapid Accel Thr|, \lstinline|Rapid Decel  Thr|, \lstinline|Brake Rate Thr|, \lstinline|Brake Speed Thr| for use with indexed playback sound schemes.  Corresponding changes to \lstinline|PFX_CMD_GET_CONFIG| and \lstinline|PFX_CMD_SET_CONFIG| \\
         & Changed data returned from \lstinline|PFX_CMD_GET_CURRENT_STATE| \\
   \hline
 \end{tabular}
@@ -4426,11 +4426,16 @@ Sound effects are actions to playback a specific sound "file" stored in flash me
 
 The `SOUND_FILE_ID` is the file ID of a sound file stored in the PFx Brick file system.
 
+\pagebreak
 ### Sound F/X Notes
 
 #### Indexed Motor/Engine Sounds (SOUNDFX_PLAY_IDX_MOTOR)
 
-One of the more sophisticated sound playback behaviours for the PFx Brick is the automatic playback of sound files to simulate engines, motors, prime-movers, etc.  This requires specially prepared sound files which can be reliably looped and/or sequentially played without gaps and acoustically transition smoothly.
+One of the more sophisticated sound playback behaviours for the PFx Brick is the automatic playback of sound files to simulate engines, motors, prime-movers, etc.  This requires specially prepared sound files which can be reliably looped and/or sequentially played without gaps and acoustically transition smoothly.  The playback of sound files is automatically scheduled by the PFx Brick depending on the motor speed.  A summary of this playback sound schedule can be found in the diagram below.
+
+ \includegraphics[width=16cm]{./SoundLoopSchedule.png}
+
+\pagebreak
 
 A motor sound will typically have different acoustic properties depending on the speed or load of the motor.  For example, as a motor increases or decrease speed or rpm, its pitch will increase/decrease proportionally to its speed.  In order to simulate the sound of the motor, the PFx Brick can loop up to 8 different sound file loops representing the sound of the motor at each speed or power level called "notches".  In the PFx Brick configuration, the number of power notches can be specified as well as the speed level between each notch.  Details of this configuration can be found in the `PFX_CMD_SET_CONFIG` section.
 
@@ -4493,7 +4498,7 @@ The process of preparing the PFx Brick for this sound effect can be summarized a
 
 ### Reserved File IDs
 
-Automated sound playback modes such as `SOUNDFX_PLAY_IDX_MOTOR` and `SOUNDFX_PLAY_GATED_MOTOR` rely on the lower byte of the `User Attributes` field to designate files for a particular purpose, e.g. a startup sound, idle loop, etc.  Since the capacity of the bits in the `User Attributes` field is becoming exhausted for this purpose, an additional method of designating files is implemented by using the actual `File ID` in the file system.  A block of `File ID` values will be reserved to designate files for specialized audio playback modes.  This method is optional and maintains backward compatibility with using the `User Attributes` field.  In the case where both methods are used, the `File ID` will take priority.  The table below shows the reserved `File ID` values and their corresponding purpose.
+Automated sound playback modes such as `SOUNDFX_PLAY_IDX_MOTOR` and `SOUNDFX_PLAY_GATED_MOTOR` rely on the lower byte of the `User Attributes` field to designate files for a particular purpose, e.g. a startup sound, idle loop, etc.  Since the capacity of the bits in the `User Attributes` field is becoming exhausted for this purpose, an additional method of designating files is implemented by using the actual `File ID` in the file system.  A block of `File ID` values will be reserved to designate files for specialized audio playback modes.  This method is optional and maintains backward compatibility with using the `User Attributes` field.  In the case where both methods are used, the `User Attributes` will take priority.  The table below shows the reserved `File ID` values and their corresponding purpose.
 
 \medskip
 \renewcommand{\arraystretch}{1.5}
@@ -4525,7 +4530,7 @@ Automated sound playback modes such as `SOUNDFX_PLAY_IDX_MOTOR` and `SOUNDFX_PLA
 \renewcommand{\arraystretch}{1.5}
 \begin{tabular}{ | l | l | l | }
   \hline
-  File         & Reserved File ID  & Description \\
+  File         & Reserved File ID & Description \\
   \hline
   Notch 1 Loop & 0xE0  & Loop for minimum speed \\
   Notch 2 Loop & 0xE1  & Loop for speed notch 2 \\
@@ -4551,19 +4556,49 @@ Automated sound playback modes such as `SOUNDFX_PLAY_IDX_MOTOR` and `SOUNDFX_PLA
   Decel 7-6    & 0xF5  & Sound transition from notch 7 to 6 \\
   Decel 8-7    & 0xF6  & Sound transition from notch 8 to 7 \\
   Shutdown     & 0xF7  & Shutdown sound \\
-  Horn Sound 1       & 0xF8  & Horn sound file 1  \\
-  Horn Sound 2       & 0xF9  & Horn sound file 2  \\
-  Change Direction    & 0xFA  & Triggerd when motor direction changed \\
-  Set Off from Stop & 0xFB  & Triggered when starting off from stop \\
-  Rapid Accel Loop & 0xFC  & Triggered with rapid acceleration \\
-  Rapid Decel Loop & 0xFD  & Triggered when rapid deceleration \\
-  Brake to Stop & 0xFE  & Triggered with rapid deceleration below a certain speed \\
   \hline
 \end{tabular}
 
 \pagebreak
 
+### Optional Triggered Sounds
 
+The automated sound playback `SOUNDFX_PLAY_IDX_MOTOR` mode has 5x optional event triggered sounds that will play when certain motor speed criteria are satisfied.  These are summarized in the table below:
+
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{ | l | l | l | }
+  \hline
+  File         & Reserved File ID & Description \\
+  \hline
+  Change Direction  & 0xFA  & Triggered when motor direction changed \\
+  Set Off from Stop & 0xFB  & Triggered when starting off from stop \\
+  Rapid Accel Loop  & 0xFC  & Triggered with rapid acceleration \\
+  Rapid Decel Loop  & 0xFD  & Triggered with rapid deceleration \\
+  Brake to Stop     & 0xFE  & Triggered with rapid deceleration below a certain speed \\
+  \hline
+\end{tabular}
+
+#### Change Direction
+
+This sound is triggered when the motor direction is changed.  A file with file ID `0xFA` will automatically playback one time after a change in motor direction.
+
+#### Set Off from Stop
+
+This sound is triggered immediately after the motor speed is increased from a stopped (speed=0) state.  A file with file ID `0xFB` will automatically playback one time after the speed increases from rest in any direction.
+
+#### Rapid Acceleration
+
+This sound is triggered when the motor acceleration exceeds a predefined threshold set in the PFx Brick configuration value `Rapid Accel Thr` (see `PFX_CMD_SET_CONFIG`).  This sound effect may or may not playback depending on how fast the motor speed is increasing.  This can be useful for simulating turbo charged prime movers whereby the whining sound of the turbo charger can be played on top of the prime mover sound for enhanced simulation of enhanced load.  A file with file ID `0xFC` will automatically loop/repeat playback until the motor acceleration reaches zero, i.e. constant speed.
+
+#### Rapid Deceleration
+
+This sound is triggered when the motor deceleration exceeds a predefined threshold set in the PFx Brick configuration value `Rapid Decel Thr` (see `PFX_CMD_SET_CONFIG`).  This sound effect may or may not playback depending on how fast the motor speed is increasing.  This can be useful for simulating dynamic brake systems which activate to slow down a locomotive prior to the main braking system.  A file with file ID `0xFD` will automatically loop/repeat playback until the motor acceleration reaches zero, i.e. constant speed.
+
+#### Brake to Stop
+
+This sound is triggered when both the motor deceleration exceeds a threshold (`Brake Rate Thr`) and the motor speed is below a threshold (`Brake Speed Thr`) (see `PFX_CMD_SET_CONFIG`).  This sound effect can simulated the sound of brake squeal sounds during the final phase of a locomotive or vehicle stopping.  A file with file ID `0xFE` will automatically loop/repeat playback until the motor speed reached zero speed/stopped.  
+
+\pagebreak
 
 ### `SOUND_PARAMx`
 
