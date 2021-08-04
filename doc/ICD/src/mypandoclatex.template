@@ -76,12 +76,12 @@ $endif$
 $if(listings)$
 \usepackage{listings}
 \lstdefinelanguage{pfx}{
-    morekeywords={acc, play, beep, button, servo, stop, fade, all, on, off, flash, loop, left, right, up, down, ch, speed, fx, vol, bass, treble, bright, joy},
-    morekeywords=[2]{light, motor, sound, wait, ir, repeat, action, set},
+    morekeywords={accel, acc, all, bass, beep, ble, bright, button, ch, changedir, config, connect, decel, disconnect, down, fade, file, flash, fx, gated, invert, joy, left, loop, long, off, on, play, rate, right, servo, shutdown, speed, startup, thr, treble, up, vol},
+    morekeywords=[2]{light, motor, sound, wait, ir, repeat, action, set, run, event},
     otherkeywords={),(,\<,\>},
     morekeywords={0,1,2,3,4,5,6,7,8,9},
     morekeywords=[3]{0,1,2,3,4,5,6,7,8,9},
-    morekeywords=[4]{(,),\<,\>,channels, parameters, commands, command, id, value, ontime, offtime, fileID, time, events, var},
+    morekeywords=[4]{(,),\<,\>, channels, chan, parameter, notch, address, parameters, commands, command, id, value, ontime, offtime, fileID, time, events, var, type},
     sensitive = true,
     morecomment=[l]{\#},
     morecomment=[l]{//},

@@ -1,6 +1,6 @@
 ---
 title: PFx Brick USB & Bluetooth LE Host Interface Control Document Revision 3.38
-date: Jul 1, 2021
+date: Aug 1, 2021
 author: Fx Bricks
 toc: yes
 revision: 3.38
@@ -199,11 +199,14 @@ Changes made to each version of this document are summarized in the table below.
   3.38  & Added new file attributes for multiple gated playback sound files. \\
         & Added reserved file IDs as an alternative mechanism for marking special files for indexed playback \\
         & Added new \lstinline|EVT_BUTTON_PRESS|, \lstinline|EVT_BUTTON_LONGPRESS|, \lstinline|EVT_BUTTON_DOWN|, and \lstinline|EVT_BUTTON_UP| events which are triggered by an attached touchLAB accessory. \\
-        & Added new scripting language keywords \lstinline|set| and \lstinline|acc|. Added support for variables, nested loops, and wait events for pushbuttons. \\
+        & Added new \lstinline|EVT_BLE_CONNECT|, \lstinline|EVT_BLE_DISCONNECT|, \lstinline|EVT_USB_CONNECT|, and \lstinline|EVT_USB_DISCONNECT| events. \\
+        & Added new scripting language keywords \lstinline|set|, \lstinline|event|. Added support for variables, nested loops, and wait events for pushbuttons, setting of configuration values and event actions. \\
         & Added new sound events \lstinline|EVT_SOUND_FILE_SEEK| and \lstinline|EVT_SOUND_FILE_SCRUB| \\
         & Added new request type for \lstinline|PFX_CMD_FILE_DIR| command message: \lstinline|PFX_DIR_REQ_CHANGE_FILE_ID| \\
         & Added new configuration values: \lstinline|Rapid Accel Thr|, \lstinline|Rapid Decel  Thr|, \lstinline|Brake Rate Thr|, \lstinline|Brake Speed Thr| for use with indexed playback sound schemes.  Corresponding changes to \lstinline|PFX_CMD_GET_CONFIG| and \lstinline|PFX_CMD_SET_CONFIG| \\
         & Changed data returned from \lstinline|PFX_CMD_GET_CURRENT_STATE| \\
+        & Added new definitions for \lstinline|SOURCE2| light parameter: 0x40 = Button State, 0x80 = Gated Motor Playback Trigger \\
+        & Added special script filename \lstinline|startup.pfx| which auto executes after power on or reset. \\
   \hline
 \end{tabular}
 \pagebreak
@@ -749,6 +752,10 @@ Retrieves global configuration data from the PFx Brick.
 
 These bytes were formally reserved and are now used to represent individual startup brightness values for each light channel.  This includes 8x brightness values for the dedicated light output ports and 2x brightness values for lights attached to the PF Motor channel connectors A and B.  Setting individual brightness values is optional.  Normally, all channels are set to the master `Default Brightness` value in byte 63.  However, if `Default Brightness` is set to zero (0x00), then the individual brightness values for each channel will apply.  Having individual default brightness control is useful for situations where relative brightness for each light output is mismatched due to installation, colour, electrical resistance, etc.
 
+**Rapid Accel Thr, Rapid Decel Thr, Brake Rate Thr, Brake Speed Thr**
+
+These values are used for motor indexed playback of sound effects.  These values correspond to either acceleration or speed thresholds which trigger the automated playback of a sound effect.  The `Rapid Accel Thr` value specifies the acceleration rate which triggers a sound representing rapid acceleration (e.g. a turbo charger whine sound during heavy acceleration).  The `Rapid Decel Thr` value specifies a sound triggered by rapid deceleration (e.g. the sound of dynamic brakes on a locomotive).  The `Brake Rate Thr` in combination with te `Brake Speed Thr` value correspond to the acceleration and minimum speed which will trigger playback of a braking sound effect. 
+
 **Notch Count**
 
 The `Notch Count` value specifies how many power "notches" or levels are to be used for simulated engine sound Fx which are indexed by motor speed.  This value is only relevant when used with the `SOUND_FX_PLAY_IDX_MOTOR` sound Fx.  When this sound Fx is used, up to 8 distinct power levels or notches can be represented by sound files.  The selection of a power notch is defined by a desired motor channel's speed.  The boundaries between adjacent power notches represent a monotonically changing motor speed.  The `Notch 1-2 Bound` represents the motor speed which defines boundary between power notch 1 and 2 and so on.  Typically, Notch 1 represents "idle" or minimum motor speed and `Notch Count` represents maximum motor speed.  Typically the boundaries between power notches represent evenly spaced intervals of motor speed.
@@ -944,6 +951,8 @@ Overwrites the PFx Brick global configuration data.  The PFx Brick will store th
   \bitbox{1}{Default Volume} & \bitbox{1}{Default Brightness} \\
 \end{bytefield}
 
+\pagebreak
+
 \begin{bytefield}[bitwidth=\widthof{BrigHTNESS~},endianness=little]{6}
   \bitheader[lsb=54]{54-59} \\
   \bitbox{1}{Light Ch 1 Brightness} & \bitbox{1}{Light Ch 2 Brightness} & \bitbox{1}{Light Ch 3 Brightness} & \bitbox{1}{Light Ch 4 Brightness} & \bitbox{1}{Light Ch 5 Brightness} & \bitbox{1}{Light Ch 6 Brightness} \\
@@ -954,7 +963,7 @@ Overwrites the PFx Brick global configuration data.  The PFx Brick will store th
   \bitbox{1}{Light Ch 7 Brightness} & \bitbox{1}{Light Ch 8 Brightness} & \bitbox{1}{PF Light A Brightness} & \bitbox{1}{PF Light B Brightness} \\
 \end{bytefield}
 
-\pagebreak
+\medskip
 
 **Device response packet:**
 
@@ -996,12 +1005,6 @@ This message asks the PFx Brick to report its current internal operating state. 
   \bitheader[lsb=11]{11-18} \\
   \footnotesize
   \bitbox{1}{Motor Ptr} & \bitbox{1}{Motor PWM Ptr} & \bitbox{1}{Motor Rate Ptr} & \bitbox{1}{Change Dir State} & \bitbox{1}{Set Off State} & \bitbox{1}{Rapid Accel State} & \bitbox{1}{Rapid Decel State} & \bitbox{1}{Brake State}\\
-\end{bytefield}
-
-\begin{bytefield}[bitwidth=\widthof{PWMSpeed~},endianness=little]{8}
-  \bitheader[lsb=11]{11-18} \\
-  \footnotesize
-  \bitbox{1}{Motor C direction} & \bitbox{1}{Motor C target speed} & \bitbox{1}{Motor C current speed} & \bitbox{1}{Motor C PWM speed} & \bitbox{1}{Motor D direction} & \bitbox{1}{Motor D target speed} & \bitbox{1}{Motor D current speed} & \bitbox{1}{Motor D PWM speed}\\
 \end{bytefield}
 
 \begin{bytefield}[bitwidth=\widthof{CURRENTSPEED~},endianness=little]{2}
@@ -2655,14 +2658,19 @@ Creating script files or making changes to a script must be made on a host PC us
 
 ## Executing Scripts
 
-Script files can be executed in one of two ways:
+Script files can be executed in one of three ways:
 
 1. Using an Event/Action
 2. Using the `PFX_CMD_RUN_SCRIPT` ICD message via USB or BLE.
+3. Automatically after power on or reset if the filename is `startup.pfx`
 
 ### Event/Action Script Execution
 
 The Event/Action data structure `COMMAND` byte (0) can be set to `COMMAND_RUN_SCRIPT` (0x09) and the script file ID can be specified in the `SOUND_FILE_ID` byte (13).  When a IR remote action is configured this way, it will trigger the execution of the specified script file.  Therefore, a simple event from a remote control can trigger a very complex sequence of actions defined by the script.
+
+### `startup.pfx` Automatic Script Execution
+
+If a script file is copied to the PFx Brick file system with the special reserved filename of `startup.pfx`, then it will execute automatically after power on or reset.  This can be useful for assigning special configuration or complex startup action sequences common.  Examples include train locomotive profiles which assign audio files for specific roles, configure motor parameters and configure actions for special lighting effects and sound playback. 
 
 ### ICD Message
 
@@ -2693,6 +2701,7 @@ The script syntax uses case sensitive keyword commands and specifiers.  There ar
 The primary keyword commands are as follows:
 
 ~~~
+event
 ir parameters
 light channels commands
 motor channels commands
@@ -2707,9 +2716,10 @@ wait parameters
 The secondary command and parameter keywords are as follows:
 
 ~~~
-acc, all, bass, beep, bright, button, ch, down, fade, flash,
-fx, joy, left, loop, off, on, play, right, servo, speed,
-treble, up, vol
+acc, all, bass, beep, ble, bright, button, ch, changedir, config,
+connect, decel, disconnect, down, fade, file, flash, fx, gated,
+invert, joy, left, loop, long, off, on, play, rate, right, servo,
+shutdown, speed, startup, thr, treble, up, vol
 ~~~
 
 \pagebreak
@@ -2745,7 +2755,7 @@ Some commands also support the use of strings--typically for specifying items su
 
 \pagebreak
 
-### Variables
+### User Variables
 
 There are 6 fixed name variables which act like storage registers named \lstinline|$A|, \lstinline|$B|, \lstinline|$C|, \lstinline|$D|, \lstinline|$E|, and \lstinline|$F|.  The preceding dollar sign (\lstinline|$|) is required and the variable names must be uppercase.
 
@@ -2773,6 +2783,18 @@ repeat 5 {
   }
 }
 ~~~
+
+### Event Action Configuration
+
+The \lstinline|event| command allows a script to assign actions associated with an event.  The events correspond to the same events in the event LUT.  When a script changes an event LUT entry it is stored in the PFx Brick non-volatile memory and is changed in the same way as using the `PFX_CMD_SET_EVENT_ACTION` host command.  The \lstinline|event| command syntax is as follows:
+
+~~~
+event type {
+  ...
+}
+~~~
+
+The desired actions are enclosed between the braces.  The opening brace must be on the same line as the \lstinline|event| command and the closing brace must be on a line by itself.  Actions specified between the braces are not performed during script execution.  They are stored and only executed when the desired event occurs.  Multiple actions can be associated with an event; however, only one of each type can stored, i.e. only one light, sound, and motor action.
 
 \pagebreak
 
@@ -2813,11 +2835,10 @@ if \lstinline|channels| = \lstinline|all| then \lstinline|<id>| is a combo id \\
 \lstinline|bass <value>| - set bass (-20 to 20) \\
 \lstinline|beep| - short beep sound \\
 \lstinline|treble <value>| - set treble (-20 to 20) \\
-\lstinline|fx fileID <id> [parameters]| - performs sound action \lstinline|<id>| as \lstinline|SOUND_FX_ID| with \\
+\lstinline|fx <id> fileID [parameters]| - performs sound action \lstinline|<id>| as \lstinline|SOUND_FX_ID| with \\
 specified parameters \\
 \\
-\lstinline|fileID| can be specified either as a numeric \\
-file ID or string containing the filename.\\
+\lstinline|fileID| can be specified either as a numeric file ID or string containing the filename.\\
 \\
 \hline
 }
@@ -2852,9 +2873,91 @@ enclosed with \Verb|[]| parenthesis, or the keyword \lstinline|all| \\
 \\
 \bfseries{Set Command} \\
 \\
-\lstinline|set <var> = <value>|  \\
+\lstinline|set var = value|  \\
 assigns any of the 6 variables \lstinline|$A|, \lstinline|$B|, \lstinline|$C|, \lstinline|$D|, \lstinline|$E|, or \lstinline|$F| to a numeric or string value. \\
 \\
+\lstinline|set config parameter = value|  \\
+sets a configuration setting stored in the PFx Brick non volatile memory.  \\
+Resulting behaviour is similar to using the \lstinline|PFX_CMD_SET_CONFIG| ICD command message. \\
+\\
+\lstinline|parameter| can be specified as: \\
+\lstinline|set config bass = value| - audio bass  -20 to +20 \\
+\lstinline|set config treble = value| - audio treble -20 to +20 \\
+\lstinline|set config vol = value| - default audio volume 0 to 255 \\
+\lstinline|set config bright chan = value| - light channel brightness \lstinline|chan|: 1 to 8 \lstinline|value|: 0 to 255 \\
+\lstinline|set config nc = value| - number of notches for motor indexed playback, 1 to 8 \\
+\lstinline|set config nb notch = value| - notch boundary speed \lstinline|notch|: 1 to 8 \lstinline|value|: 0 to 255 \\
+\\
+\lstinline|set config motor chan accel = value| - motor acceleration \lstinline|chan|: a or b \lstinline|value|: 0 to 15 \\
+\lstinline|set config motor chan decel = value| - motor decelerration \lstinline|chan|: a or b \lstinline|value|: 0 to 15 \\
+\lstinline|set config motor chan invert = value| - invert motor polarity \lstinline|chan|: a or b \lstinline|value|: 0 to 1 \\
+\lstinline|set config motor chan v0 = value| - speed curve min \lstinline|chan|: a or b \lstinline|value|: 0 to 255 \\
+\lstinline|set config motor chan v1 = value| - speed curve mid \lstinline|chan|: a or b \lstinline|value|: 0 to 255 \\
+\lstinline|set config motor chan v2 = value| - speed curve max \lstinline|chan|: a or b \lstinline|value|: 0 to 255 \\
+\\
+\lstinline|set config thr accel = value| - Threshold for rapid accel sound 0 to 255 \\
+\lstinline|set config thr decel = value| - Threshold for rapid decel sound 0 to 255 \\
+\lstinline|set config thr rate = value| - Threshold accel for braking sound \\
+\lstinline|set config thr speed = value| - Threshold speed for braking sound 0 to 255 \\
+\\
+\hline
+} \\
+\end{tabular}
+
+\pagebreak
+
+\begin{tabular}{  p{15cm}   }
+\makecell{
+\hline
+\\
+\lstinline|set file type = fileID|  \\
+assigns files used for motor indexed playback and gated playback actions. \\
+\\
+\lstinline|fileID| can be specified with either a numeric file ID or string. \\
+\lstinline|type| can be specified as: \\
+\lstinline|set file speed notch = fileID| - Sound loop at speed notch \lstinline|notch| \\
+\lstinline|set file accel notch = fileID| - Sound loop for accel between notches \lstinline|notch| \\
+\lstinline|set file decel notch = fileID| - Sound loop for decel between notches \lstinline|notch| \\
+\lstinline|set file gated notch = fileID| - Gated sound loops (up to 4x for ea. notch 1 to 4) \\
+\lstinline|notch| can be specified as 11 to 14, 21 to 24, 31 to 34, or 41 to 44 \\
+\\
+\lstinline|set file startup = fileID| - Sound played at startup \\
+\lstinline|set file shutdown = fileID| - Sound played at shutdown \\
+\lstinline|set file changedir = fileID| - Sound played due to direction change \\
+\lstinline|set file thr accel = fileID| - Sound played due to rapid accel \\
+\lstinline|set file thr decel = fileID| - Sound played due to rapid decel \\
+\lstinline|set file brake on = fileID| - Sound played with brake application \\
+\lstinline|set file brake off = fileID| - Sound played at set-off from stop \\
+\\
+\hline
+\\
+\bfseries{Event Command} \\
+\\
+\lstinline|event type \{| \\
+\lstinline|...|\\
+\lstinline|\}| - stores action(s) within encapsulated code block to event \\
+\\
+\lstinline|type| can be specified as: \\
+\lstinline|event address \{| - indexed by address in the even LUT 0x00 to 0x7C \\
+\lstinline|event startup chan \{| - startup event 1 to 8\\
+\lstinline|event ir parameters \{| - IR event defined the same way as \lstinline|ir| command \\
+\lstinline|event button \{| - button press event\\
+\lstinline|event button long \{| - long button press event \\
+\lstinline|event button down \{| - button state transitioned to down \\
+\lstinline|event button up \{| - button state transitioned to up \\
+\lstinline|event ble connect \{| - Bluetooth host session started\\
+\lstinline|event ble disconnect \{| - Bluetooth host session ended\\
+\lstinline|event usb connect \{| - USB host session started\\
+\lstinline|event usb disconnect \{| - USB host session ended\\
+\\
+\hline
+} \\
+\end{tabular}
+
+\pagebreak
+
+\begin{tabular}{  p{15cm}   }
+\makecell{
 \hline
 \\
 \bfseries{Execution Control} \\
@@ -2870,13 +2973,14 @@ where \lstinline|parameters| can be any combination of: \\
 \\
 Repeat Loops: \\
 \lstinline|repeat| - repeat execution of current script \\
-\lstinline|repeat <value> \{ ... \}| - repeat execution of encapsulated code block \\
+\lstinline|repeat <value> \{| \\
+\lstinline|...| \\
+\lstinline|\}| - repeat execution of encapsulated code block \lstinline|value| times \\
 \\
 Redirect execution to same or different script: \\
-\lstinline|run fileID| - execute script with \lstinline|fileID| \\
+\lstinline|run fileID| - execute script with \lstinline|fileID| (numeric or string) \\
 \lstinline|stop| - stops the script at the current line \\
 \\
-\hline
 } \\
 \end{tabular}
 
@@ -2961,6 +3065,28 @@ repeat 5 {
     light 2 off
     wait $A
   }
+}
+~~~
+
+~~~
+#
+# Configuring actions associated with Bluetooth status
+#
+
+# When a remote host connects via Bluetooth
+# - play a sound
+# - disable IR sensor
+event ble connect {
+  sound play "Welcome.wav"
+  ir off
+}
+
+# When a remote host ends Bluetooth session
+# - play a sound
+# - enable IR sensor
+event ble disconnect {
+  sound play "Goodbye.wav"
+  ir on
 }
 ~~~
 
@@ -4286,8 +4412,8 @@ The `SOURCE2` parameter specifies a combination of motor channel states which ca
   0x08 & Motor channel B reverse \\
   0x10 & Motor channel C forward \\
   0x20 & Motor channel C reverse \\
-  0x40 & Motor channel D forward \\
-  0x80 & Motor channel D reverse \\
+  0x40 & Motor channel D forward / touchLAB Button State \\
+  0x80 & Motor channel D reverse / Gated Motor Audio Playback Trigger \\
   \hline
 \end{tabular}
 \normalsize
