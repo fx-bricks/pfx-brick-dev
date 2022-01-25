@@ -1,6 +1,6 @@
 ---
 title: PFx Brick USB & Bluetooth LE Host Interface Control Document Revision 3.38
-date: Aug 1, 2021
+date: Jan 24, 2022
 author: Fx Bricks
 toc: yes
 revision: 3.38
@@ -207,6 +207,7 @@ Changes made to each version of this document are summarized in the table below.
         & Changed data returned from \lstinline|PFX_CMD_GET_CURRENT_STATE| \\
         & Added new definitions for \lstinline|SOURCE2| light parameter: 0x40 = Button State, 0x80 = Gated Motor Playback Trigger \\
         & Added special script filename \lstinline|startup.pfx| which auto executes after power on or reset. \\
+        & Added Jan 2022:  new optional fields \lstinline|ICD Rev Major| and \lstinline|ICD Rev Minor| added to \lstinline|PFX_CMD_SET_CONFIG| \\
   \hline
 \end{tabular}
 \pagebreak
@@ -913,7 +914,7 @@ Overwrites the PFx Brick global configuration data.  The PFx Brick will store th
 
 \begin{bytefield}[endianness=little,bitwidth=\widthof{brightness~}]{7}
   \bitheader[lsb=13]{13-19} \\
-  \wordbox{1}{Reserved}\\
+  \bitbox{5}{Reserved} & \bitbox{1}{ICD Rev Major} & \bitbox{1}{ICD Rev Minor} \\
 \end{bytefield}
 
 \begin{bytefield}[bitwidth=\widthof{BBBIRIGHTNESS~},endianness=little]{5}
@@ -971,6 +972,9 @@ Overwrites the PFx Brick global configuration data.  The PFx Brick will store th
   \bitheader{0} \\
   \bitbox{1}{0x84} \\
 \end{bytefield}
+
+
+The `ICD Rev Major` and `ICD Rev Minor` fields introduced in ICD v.3.38 are optional qualifiers sent by the host to inform the PFx Brick which version of ICD it is compatible with.  This allows older host control apps to safely change the PFx Brick configuration since the PFx Brick would be able to determine which byte values to use and/or ignore corresponding to the presumed version of ICD the host is compatible with.  For example, if both of these bytes are zero, then the PFx Brick will ignore the bytes `Rapid Accel Thr`, `Rapid Decel Thr`, `Brake Rate Thr`, and `Brake Speed Thr` since these were not present in ICD revisions before v.3.38.  Movng forward, other changes to the structure of this message will be accommodated by the PFx Brick based on the optionally specifying the `ICD Rev Major` and `ICD Rev Minor` byte fields.  These fields are BCD encoded with byte 18 representing the major version number and byte 19 representing the minor version number, e.g. v.3.38 would be encoded as 0x03 0x38.
 
 \pagebreak
 
