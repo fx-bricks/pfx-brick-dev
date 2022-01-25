@@ -1,9 +1,9 @@
 ---
-title: PFx Brick USB & Bluetooth LE Host Interface Control Document Revision 3.38
-date: Jan 24, 2022
+title: PFx Brick USB & Bluetooth LE Host Interface Control Document Revision 3.39
+date: Jan 25, 2022
 author: Fx Bricks
 toc: yes
-revision: 3.38
+revision: 3.39
 doc_no: 11 80 17 10001
 ---
 
@@ -207,7 +207,10 @@ Changes made to each version of this document are summarized in the table below.
         & Changed data returned from \lstinline|PFX_CMD_GET_CURRENT_STATE| \\
         & Added new definitions for \lstinline|SOURCE2| light parameter: 0x40 = Button State, 0x80 = Gated Motor Playback Trigger \\
         & Added special script filename \lstinline|startup.pfx| which auto executes after power on or reset. \\
-        & Added Jan 2022:  new optional fields \lstinline|ICD Rev Major| and \lstinline|ICD Rev Minor| added to \lstinline|PFX_CMD_SET_CONFIG| \\
+  \hline
+  3.39  & new optional fields \lstinline|ICD Rev Major| and \lstinline|ICD Rev Minor| added to \lstinline|PFX_CMD_SET_CONFIG| \\
+        & new \lstinline|PFX_CMD_FILE_WRITE_FAST| command message \\
+
   \hline
 \end{tabular}
 \pagebreak
@@ -446,6 +449,7 @@ The following tables show the host CMD bytes grouped by functional category. Als
   0x47 & \lstinline|PFX_CMD_FILE_FORMAT_FS|        & y        &            &  y \\
   0x48 & \lstinline|PFX_CMD_FILE_GET_FS_STATE|    & y        &            &  y \\
   0x4B & \lstinline|PFX_CMD_RUN_SCRIPT|             & y        &            &  y \\
+  0x4C & \lstinline|PFX_CMD_FILE_WRITE_FAST|        & y        &            &  y \\
   \hline
 \end{tabular}
 \normalsize
@@ -1894,7 +1898,7 @@ The `PFX_CMD_FILE_WRITE` command is used to write file data sequentially from th
   \bitbox{1}{0xC3} & \bitbox{1}{Status} \\
 \end{bytefield}
 
-The `nBytes` field specifies up to how many data bytes should be read (valid range is 1-62).
+The `nBytes` field specifies up to how many data bytes should be written (valid range is 1-61).
 
 The returned `Status` byte error code indicates if write operaton was successful.
 
@@ -2229,6 +2233,35 @@ The `Status` byte contains the result code of this command and should nominally 
 If the `File ID` byte is set to 0xFF, then the current running script will be stopped.
 
 \pagebreak
+
+## `PFX_CMD_FILE_WRITE_FAST`
+
+The `PFX_CMD_FILE_WRITE_FAST` command is similar to the `PFX_CMD_FILE_WRITE` command for writing data to a file.  The key difference is that there is no response packet returned by the PFx Brick.  This saves one USB HID transfer cycle and therefore doubles the available transfer bandwidth.  Since there is no feedback from the PFx Brick, the host can verify a file transfer after the file handle is closed by querying the file directory.  USB HID transfers are generally very reliable, thus removing the response packet from every transaction is a worthwhile compromise for the increase in transfer bandwidth.
+
+The other difference compared to the `PFX_CMD_FILE_WRITE` command is that there is no `File ID` specification in the message.  This allows one more byte of payload data per transfer for a modest, yet helpful increase transfer efficiency.
+
+Like the `PFX_CMD_FILE_WRITE` command, each write file operation advances the file pointer by how many file bytes have been written. This ensures consecutive write operations maintain continuity along the file data stream.
+
+\medskip
+
+**Host command packet:**
+
+\begin{bytefield}[bitwidth=\widthof{Unique~},endianness=little]{12}
+  \bitheader{0-11} \\
+  \bitbox{1}{0x4C} & \bitbox{1}{nBytes} & \bitbox{10}{Data Bytes to Write} \\
+  \bitbox[]{12}{$\vdots$ \\[1ex]} \\
+  \bitheader[lsb=52]{52-63} \\
+  \wordbox{1}{Data Bytes to Write} \\
+\end{bytefield}
+
+**Device response packet:**
+
+None
+
+The `nBytes` field specifies up to how many data bytes should be written (valid range is 1-62).
+
+\pagebreak
+
 
 ## `PFX_CMD_STATUS_LED`
 

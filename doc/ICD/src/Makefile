@@ -1,5 +1,5 @@
 
-VERSION = 3.38
+VERSION = 3.39
 # TEMPLATE = thetemplate.tex
 TEMPLATE = mypandoclatex.template
 SOURCE = PFxBrickICD-v3.md
